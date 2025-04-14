@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NewsData, NewsFeed } from "../components/NewsFeed";
 import { useParams } from "react-router-dom";
+import { getGameTitle } from "../utils.ts";
 import TitleBar from "../components/TitleBar";
 
 interface ArcadeNewsAPIData {
@@ -16,23 +17,7 @@ export default function Home() {
     useEffect(() => {
         const fetchNews = async () => {
             setLoading(true);
-            let jsonFile = "news.json";
-            if (gameId) {
-                switch(gameId) {
-                    case "sdvx":
-                        jsonFile = "sdvx_news.json";
-                        break;
-                    case "iidx":
-                        jsonFile = "iidx_news.json";
-                        break;
-                    case "chunithm_jp":
-                        jsonFile = "chunithm_jp_news.json";
-                        break;
-                    default:
-                        jsonFile = "news.json";
-                }
-            }
-            
+            const jsonFile = gameId ? `${gameId}_news.json` : "news.json";
             try {
                 const response = await fetch("https://arcade-news.pinapelz.com/"+`${jsonFile}`);
                 if (!response.ok) {
@@ -60,18 +45,6 @@ export default function Home() {
         );
     }
 
-    // Game-specific title mapping
-    const getGameTitle = () => {
-        if (!gameId) return null;
-        
-        switch(gameId) {
-            case "sdvx": return "SOUND VOLTEX";
-            case "iidx": return "beatmania IIDX";
-            case "chunithm_jp": return "CHUNITHM (JAPAN)";
-            default: return gameId.toUpperCase();
-        }
-    };
-
     return (
         <>
             <TitleBar />
@@ -79,7 +52,7 @@ export default function Home() {
                 <div className="max-w-[600px] mx-auto px-4">
                     {gameId && (
                         <h1 className="text-2xl font-bold text-center text-white mb-6">
-                            {getGameTitle()} News
+                            {getGameTitle(gameId)} News
                         </h1>
                     )}
                     <NewsFeed newsItems={newsFeedData.news_posts} />

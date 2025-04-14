@@ -1,3 +1,4 @@
+import { getGameTitle } from "../utils.ts";
 
 export interface NewsData {
   date: string;
@@ -31,7 +32,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
 
         return (
           <div
-            key={news.identifier + "-" + news.timestamp}
+            key={news.identifier + "-" + news.timestamp + "-" + news.content}
             className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg overflow-hidden"
           >
             {/* Header (Game Icon + Info) */}
@@ -44,7 +45,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
 
                 <div className="flex flex-col leading-tight">
                   <span className="text-sm font-semibold text-gray-200">
-                    {getGameName(news.identifier)}
+                    {getGameTitle(news.identifier)}
                   </span>
                   <span className="text-xs text-gray-400">
                     {formattedDate}
@@ -122,18 +123,3 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
     </div>
   );
 };
-function getGameName(identifier: string): string | null {
-    if(identifier.startsWith("SOUND_VOLTEX")){
-        return "SOUND VOLTEX";
-    }
-    else if(identifier.startsWith("IIDX")){
-        return "beatmania IIDX";
-    }
-    else if(identifier.startsWith("CHUNITHM_JP")){
-        return "CHUNITHM (JAPAN)";
-    }
-    else if(identifier.startsWith("MAIMAIDX_JP")){
-      return "maimai DX (JAPAN)"
-    }
-    return null;
-}
