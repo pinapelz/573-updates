@@ -27,15 +27,14 @@ def parse_maimaidx_jp_prism_plus_news_site(html: str):
             dt = None
             timestamp = 0
 
-        headline_tag = box.select_one(".newsLink")
-        headline = headline_tag.get_text(strip=True) if headline_tag else None
-        content = box.get_text(separator="\n", strip=True)
+        content_tag = box.select_one(".newsLink")
+        content = content_tag.get_text(strip=True) if content_tag else None
         news_items.append({
             "date": raw_date,
             "identifier": "MAIMAIDX_JPN_PRISM_PLUS",
             "type": None,
             "timestamp": timestamp,
-            "headline": headline,
+            "headline": None,
             "content": content,
             "url": url,
             "images": [{

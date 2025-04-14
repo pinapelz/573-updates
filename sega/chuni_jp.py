@@ -39,13 +39,7 @@ def parse_chuni_jp_verse_news_site(html: str):
         headline = None
         content_text = ""
         if main_content:
-            img_tag = main_content.find("img")
-            if img_tag and img_tag.get("alt"):
-                headline = img_tag.get("alt")
-            else:
-                headline = main_content.get_text(separator=" ", strip=True)
             content_text = main_content.get_text(separator=" ", strip=True)
-        news_dict["headline"] = headline
         news_dict["content"] = content_text
         images = {"image": None, "link": None}
         if main_content:
