@@ -1,6 +1,6 @@
 from enum import Enum
 
-DAYS_LIMIT=7
+DAYS_LIMIT=14
 
 EAMUSEMENT_BASE_URL = "https://p.eagate.573.jp"
 SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE ="https://p.eagate.573.jp/game/sdvx/vi/news/index.html"
