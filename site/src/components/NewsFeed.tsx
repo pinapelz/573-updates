@@ -71,7 +71,24 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
 
               {/* Content */}
               <p className="text-sm text-gray-200 whitespace-pre-line mb-2">
-                {news.content}
+                {news.content.split(/(\[.*?\]\(.*?\)|https?:\/\/[^\s]+)/g).map((part, index) => {
+                  const match = part.match(/\[(.*?)\]\((.*?)\)/);
+                  const urlMatch = part.match(/https?:\/\/[^\s]+/);
+                  if (match) {
+                    return (
+                      <a key={index} href={match[2]} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                        {match[1]}
+                      </a>
+                    );
+                  } else if (urlMatch) {
+                    return (
+                      <a key={index} href={urlMatch[0]} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+                        {urlMatch[0]}
+                      </a>
+                    );
+                  }
+                  return part;
+                })}
               </p>
             </div>
 
