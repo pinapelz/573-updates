@@ -30,9 +30,11 @@ def get_news(news_url: str, version=None) -> list:
         news_posts = sorted(sound_voltex.parse_exceed_gear_news_site(site_data, constants.EAMUSEMENT_BASE_URL), key=lambda x: x['timestamp'], reverse=True)
     elif news_url == constants.IIDX_PINKY_CRUSH_NEWS_SITE:
         news_posts = sorted(iidx.parse_pinky_crush_news_site(site_data, constants.EAMUSEMENT_BASE_URL), key=lambda x: x['timestamp'], reverse=True)
-    elif news_url == constants.CHUNITHM_NEWS_SITE:
+    elif news_url == constants.CHUNITHM_JP_NEWS_SITE:
         if version == constants.CHUNITHM_VERSION.VERSE:
             news_posts = sorted(chunithm_jp.parse_chuni_jp_verse_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+    elif news_url == constants.MAIMAIDX_NEWS_SITE:
+        pass
     else:
         news_posts = []
     scraper.close()

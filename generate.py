@@ -38,7 +38,7 @@ if __name__ == "__main__":
     with open(OUTPUT_DIR+'/sdvx_news.json', 'w') as json_file:
         json.dump(attach_news_meta_data(sdvx_news_data), json_file)
 
-    chunithm_jp_news_data = feed.get_news(constants.CHUNITHM_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
+    chunithm_jp_news_data = feed.get_news(constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
     with open(OUTPUT_DIR+'/chunithm_jp_news.json', 'w') as json_file:
         json.dump(attach_news_meta_data(chunithm_jp_news_data), json_file)
 
