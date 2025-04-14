@@ -60,6 +60,6 @@ if __name__ == "__main__":
         with open(OUTPUT_DIR+'/ongeki_jp_news.json', 'w') as json_file:
             json.dump(attach_news_meta_data(ongeki_jp_news_data), json_file)
 
-    news = create_merged_feed(iidx_news_data, sdvx_news_data, chunithm_jp_news_data, maimaidx_jp_news_data)
+    news = create_merged_feed(iidx_news_data, sdvx_news_data, chunithm_jp_news_data, maimaidx_jp_news_data, ongeki_jp_news_data)
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
         json.dump(attach_news_meta_data(news), json_file)
