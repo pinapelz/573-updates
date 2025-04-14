@@ -7,7 +7,7 @@ SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE ="https://p.eagate.573.jp/game/sdvx/vi/news/i
 IIDX_PINKY_CRUSH_NEWS_SITE="https://p.eagate.573.jp/game/2dx/32/info/index.html"
 
 CHUNITHM_JP_NEWS_SITE="https://info-chunithm.sega.jp/"
-MAIMAIDX_NEWS_SITE="https://info-maimai.sega.jp/"
+MAIMAIDX_JP_NEWS_SITE="https://info-maimai.sega.jp/"
 
 class CHUNITHM_VERSION(Enum):
     VERSE = 1

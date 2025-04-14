@@ -132,5 +132,8 @@ function getGameName(identifier: string): string | null {
     else if(identifier.startsWith("CHUNITHM_JP")){
         return "CHUNITHM (JAPAN)";
     }
+    else if(identifier.startsWith("MAIMAIDX_JP")){
+      return "maimai DX (JAPAN)"
+    }
     return null;
 }
