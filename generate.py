@@ -30,21 +30,25 @@ if __name__ == "__main__":
     if not os.path.exists(OUTPUT_DIR):
         os.makedirs(OUTPUT_DIR)
 
+    print("Fetching IIDX Data")
     iidx_news_data = feed.get_news(constants.IIDX_PINKY_CRUSH_NEWS_SITE)
     if len(iidx_news_data) != 0:
         with open(OUTPUT_DIR+'/iidx_news.json', 'w') as json_file:
             json.dump(attach_news_meta_data(iidx_news_data), json_file)
 
+    print("Fetching SDVX Data")
     sdvx_news_data = feed.get_news(constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
     if len(sdvx_news_data) != 0:
         with open(OUTPUT_DIR+'/sdvx_news.json', 'w') as json_file:
             json.dump(attach_news_meta_data(sdvx_news_data), json_file)
 
+    print("Fetching CHUNITHM JPN Data")
     chunithm_jp_news_data = feed.get_news(constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
     if len(chunithm_jp_news_data) != 0:
         with open(OUTPUT_DIR+'/chunithm_jp_news.json', 'w') as json_file:
             json.dump(attach_news_meta_data(chunithm_jp_news_data), json_file)
 
+    print("Fetching MAIMAI DX JPN Data")
     maimaidx_jp_news_data = feed.get_news(constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
     if len(maimaidx_jp_news_data) != 0:
         with open(OUTPUT_DIR+'/maimaidx_jp_news.json', 'w') as json_file:
