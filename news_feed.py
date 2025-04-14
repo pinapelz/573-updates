@@ -22,6 +22,7 @@ import bemani.sdvx as sound_voltex
 import bemani.iidx as iidx
 import sega.chuni_jp as chunithm_jp
 import sega.maimaidx_jp as maimaidx_jp
+import sega.ongeki_jp as ongeki_jp
 import constants
 
 def get_news(news_url: str, version=None) -> list:
@@ -37,6 +38,9 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.MAIMAIDX_JP_NEWS_SITE:
         if version == constants.MAIMAIDX_VERSION.PRISM_PLUS:
             news_posts = sorted(maimaidx_jp.parse_maimaidx_jp_prism_plus_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+    elif news_url == constants.ONGEKI_JP_NEWS_SITE:
+        if version == constants.ONGEKI_VERSION.REFRESH:
+            news_posts = sorted(ongeki_jp.parse_ongeki_refresh_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
     else:
         news_posts = []
     scraper.close()

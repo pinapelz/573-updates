@@ -54,6 +54,12 @@ if __name__ == "__main__":
         with open(OUTPUT_DIR+'/maimaidx_jp_news.json', 'w') as json_file:
             json.dump(attach_news_meta_data(maimaidx_jp_news_data), json_file)
 
+    print("Fetching ONGEKI JPN Data")
+    ongeki_jp_news_data = feed.get_news(constants.ONGEKI_JP_NEWS_SITE, constants.ONGEKI_VERSION.REFRESH)
+    if len(ongeki_jp_news_data) != 0:
+        with open(OUTPUT_DIR+'/ongeki_jp_news.json', 'w') as json_file:
+            json.dump(attach_news_meta_data(ongeki_jp_news_data), json_file)
+
     news = create_merged_feed(iidx_news_data, sdvx_news_data, chunithm_jp_news_data, maimaidx_jp_news_data)
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
         json.dump(attach_news_meta_data(news), json_file)
