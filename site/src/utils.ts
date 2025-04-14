@@ -1,10 +1,12 @@
 export const getGameTitle = (gameId: string) => {
     if (!gameId) return null;
 
-    if (gameId.startsWith("sdvx")) return "SOUND VOLTEX";
-    if (gameId.startsWith("iidx")) return "beatmania IIDX";
-    if (gameId.startsWith("chunithm_jp")) return "CHUNITHM (JAPAN)";
-    if (gameId.startsWith("maimaidx_jp")) return "maimai DX (JAPAN)";
+    const lowerCaseGameId = gameId.toLowerCase();
+
+    if (lowerCaseGameId.startsWith("sdvx")) return "SOUND VOLTEX";
+    if (lowerCaseGameId.startsWith("iidx")) return "beatmania IIDX";
+    if (lowerCaseGameId.startsWith("chunithm_jp")) return "CHUNITHM (JAPAN)";
+    if (lowerCaseGameId.startsWith("maimaidx_jp")) return "maimai DX (JAPAN)";
 
     return gameId.toUpperCase();
 };
