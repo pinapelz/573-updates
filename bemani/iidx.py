@@ -54,6 +54,7 @@ def parse_pinky_crush_news_site(html: str, base_url):
             "timestamp": timestamp,
             "headline": headline,
             "content": content,
+            "url": None,
             "images": [],
         })
 

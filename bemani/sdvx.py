@@ -40,6 +40,7 @@ def parse_exceed_gear_news_site(html: str, base_url: str):
             'timestamp': timestamp,
             'headline': headline_text,
             'content': content,
+            "url": None,
             'images': images
         })
 
