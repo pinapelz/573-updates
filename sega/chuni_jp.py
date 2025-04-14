@@ -53,7 +53,7 @@ def parse_chuni_jp_verse_news_site(html: str):
             if img_tag:
                 images["image"] = img_tag.get("src")
                 images["link"] = news_url
-        news_dict["images"] = images
+        news_dict["images"] = [images]
         news_dict["identifier"] = "CHUNITHM_JP_VERSE"
 
         news_entries.append(news_dict)
