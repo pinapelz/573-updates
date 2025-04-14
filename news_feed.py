@@ -1,7 +1,8 @@
 """
 Generic format for a news entry. All keys are considered to be nullable
 {
-    'date': JST date of news post
+    'date': JST date of news post,
+    'identifier': unique identifier for the game (usually some deriv. of the title),
     'type': Type of post if available, otherwise if not provided it will be None (aka Generic news)
     'timestamp': Unixtime of date above,
     'headline': Headline,
@@ -16,7 +17,6 @@ Generic format for a news entry. All keys are considered to be nullable
 """
 
 from email.utils import parsedate_to_datetime
-from datetime import datetime
 from site_scraper import SiteScraper
 import bemani.sdvx as sound_voltex
 import bemani.iidx as iidx
@@ -25,7 +25,6 @@ import constants
 
 def get_news(news_url: str, version=None) -> list:
     scraper = SiteScraper(headless=True)
-    news_json = {}
     site_data = scraper.get_page_source(news_url)
     if news_url == constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE:
         news_posts = sorted(sound_voltex.parse_exceed_gear_news_site(site_data, constants.EAMUSEMENT_BASE_URL), key=lambda x: x['timestamp'], reverse=True)
@@ -37,9 +36,4 @@ def get_news(news_url: str, version=None) -> list:
     else:
         news_posts = []
     scraper.close()
-    news_json = {
-        "fetch_date": int(datetime.now().timestamp()),
-        "posts": news_posts
-
-    }
-    return news_json
+    return news_posts

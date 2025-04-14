@@ -50,6 +50,7 @@ def parse_pinky_crush_news_site(html: str, base_url):
         content = re.sub(r'\s*/\s*', '/', content)
         news_items.append({
             "date": date_str,
+            "identifier": "IIDX_PINKY_CRUSH",
             "type": type_map[type_class],
             "timestamp": timestamp,
             "headline": headline,

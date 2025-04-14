@@ -36,6 +36,7 @@ def parse_exceed_gear_news_site(html: str, base_url: str):
 
         entries.append({
             'date': date_str,
+            'identifier': 'SOUND_VOLTEX_EXCEED_GEAR',
             'type': None,
             'timestamp': timestamp,
             'headline': headline_text,
