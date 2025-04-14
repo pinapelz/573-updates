@@ -31,20 +31,24 @@ if __name__ == "__main__":
         os.makedirs(OUTPUT_DIR)
 
     iidx_news_data = feed.get_news(constants.IIDX_PINKY_CRUSH_NEWS_SITE)
-    with open(OUTPUT_DIR+'/iidx_news.json', 'w') as json_file:
-        json.dump(attach_news_meta_data(iidx_news_data), json_file)
+    if len(iidx_news_data) != 0:
+        with open(OUTPUT_DIR+'/iidx_news.json', 'w') as json_file:
+            json.dump(attach_news_meta_data(iidx_news_data), json_file)
 
     sdvx_news_data = feed.get_news(constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
-    with open(OUTPUT_DIR+'/sdvx_news.json', 'w') as json_file:
-        json.dump(attach_news_meta_data(sdvx_news_data), json_file)
+    if len(sdvx_news_data) != 0:
+        with open(OUTPUT_DIR+'/sdvx_news.json', 'w') as json_file:
+            json.dump(attach_news_meta_data(sdvx_news_data), json_file)
 
     chunithm_jp_news_data = feed.get_news(constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
-    with open(OUTPUT_DIR+'/chunithm_jp_news.json', 'w') as json_file:
-        json.dump(attach_news_meta_data(chunithm_jp_news_data), json_file)
+    if len(chunithm_jp_news_data) != 0:
+        with open(OUTPUT_DIR+'/chunithm_jp_news.json', 'w') as json_file:
+            json.dump(attach_news_meta_data(chunithm_jp_news_data), json_file)
 
     maimaidx_jp_news_data = feed.get_news(constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
-    with open(OUTPUT_DIR+'/maimaidx_jp_news.json', 'w') as json_file:
-        json.dump(attach_news_meta_data(maimaidx_jp_news_data), json_file)
+    if len(maimaidx_jp_news_data) != 0:
+        with open(OUTPUT_DIR+'/maimaidx_jp_news.json', 'w') as json_file:
+            json.dump(attach_news_meta_data(maimaidx_jp_news_data), json_file)
 
     news = create_merged_feed(iidx_news_data, sdvx_news_data, chunithm_jp_news_data, maimaidx_jp_news_data)
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
