@@ -7,6 +7,8 @@ export const getGameTitle = (gameId: string) => {
     if (lowerCaseGameId.startsWith("iidx")) return "beatmania IIDX";
     if (lowerCaseGameId.startsWith("chunithm_jp")) return "CHUNITHM (JAPAN)";
     if (lowerCaseGameId.startsWith("maimaidx_jp")) return "maimai DX (JAPAN)";
+    if (lowerCaseGameId.startsWith("maimaidx_intl")) return "maimai DX (INTERNATIONAL)";
+    if (lowerCaseGameId.startsWith("ongeki_jp")) return "O.N.G.E.K.I"
 
     return gameId.toUpperCase();
 };

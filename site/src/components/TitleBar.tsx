@@ -21,8 +21,10 @@ const TitleBar: React.FC = () => {
         {
             name: "SEGA",
             games: [
-                { id: "chunithm_jp", title: "CHUNITHM (JPN)" },
-                { id: "maimaidx_jp", title: "maimai DX (JPN)" },
+                { id: "chunithm_jp", title: "CHUNITHM (JAPAN)" },
+                { id: "maimaidx_jp", title: "maimai DX (JAPAN)" },
+                { id: "maimaidx_intl", title: "maimai DX (INTERNATIONAL)"},
+                { id: "ongeki_jp", title: "O.N.G.E.K.I"},
             ]
         }
     ];
