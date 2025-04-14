@@ -37,7 +37,9 @@ jobs:
         working-directory: site
 
       - name: Build
-        run: pnpm run build
+        run: |
+          pnpm run build
+          cp site/dist/index.html site/dist/404.html
         working-directory: site
 
       - name: Setup Pages
