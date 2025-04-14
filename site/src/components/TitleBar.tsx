@@ -47,12 +47,12 @@ const TitleBar: React.FC = () => {
         <div className="bg-gray-900 border-b border-gray-800 py-4 px-6">
             <div className="max-w-[800px] mx-auto">
                 <div className="flex flex-col sm:flex-row justify-between items-center">
-                    <div className="flex items-center space-x-3 mb-3 sm:mb-0">
-                        <img
-                            src="/rasis.webp"
-                            alt="573 Updates Logo"
-                            className="w-8 h-8"
-                        />
+                  <div className="flex items-center space-x-3 mb-3 sm:mb-0">
+                      <img
+                          src="/rasis.webp"
+                          alt="573 Updates Logo"
+                          className="w-8 h-8 object-contain"
+                      />
                         <div className="w-8 h-8 bg-red-700 rounded-md flex items-center justify-center">
                             <span className="text-white font-bold">573</span>
                         </div>
