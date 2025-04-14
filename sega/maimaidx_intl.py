@@ -14,7 +14,7 @@ def parse_maimaidx_intl_prism_news_site(html: str):
 
         img_tag = item.select_one("a.dl--pop__thumb img")
         image_url = img_tag["srcset"] if img_tag else None
-        full_image_url = image_url.replace("../", "https://maimai.sega.jp/") if image_url else None
+        full_image_url = image_url.replace("../", "https://maimai.sega.com/") if image_url else None
 
         entry = {
             "date": date_text,
