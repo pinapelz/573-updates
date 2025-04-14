@@ -30,10 +30,9 @@ def parse_maimaidx_jp_prism_plus_news_site(html: str):
         headline_tag = box.select_one(".newsLink")
         headline = headline_tag.get_text(strip=True) if headline_tag else None
         content = box.get_text(separator="\n", strip=True)
-        identifier = re.sub(r"\W+", "-", headline.lower()) if headline else "unknown"
         news_items.append({
             "date": raw_date,
-            "identifier": identifier,
+            "identifier": "MAIMAIDX_JPN_PRISM_PLUS",
             "type": None,
             "timestamp": timestamp,
             "headline": headline,
