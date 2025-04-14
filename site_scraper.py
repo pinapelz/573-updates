@@ -8,7 +8,7 @@ import os
 load_dotenv()
 
 class SiteScraper:
-    def __init__(self, headless: bool = False, wait_time = 5):
+    def __init__(self, headless: bool = True, wait_time = 5):
         """
         Initialize the SiteScraper with the path to ChromeDriver
         :param chrome_driver_path: Path to the ChromeDriver executable
