@@ -91,6 +91,17 @@ if __name__ == "__main__":
             ongeki_jp_news_data = json.load(json_file)['news_posts']
         print("ONGEKI JPN Data not fetched, using existing data.")
 
-    news = create_merged_feed(iidx_news_data, sdvx_news_data, chunithm_jp_news_data, maimaidx_jp_news_data, ongeki_jp_news_data)
+    print("Fetching MAIMAIDX INTL Data")
+    maimaidx_intl_news_data = feed.get_news(constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM)
+    if len(maimaidx_intl_news_data) != 0:
+        with open(OUTPUT_DIR+'/maimaidx_intl_news.json', 'w') as json_file:
+            json.dump(attach_news_meta_data(maimaidx_intl_news_data), json_file)
+        print("MAIMAIDX INTLN Data fetched and saved.")
+    elif len(maimaidx_intl_news_data) == 0 and os.path.exists(OUTPUT_DIR+'/maimaidx_intl_news.json'):
+        with open(OUTPUT_DIR+'/maimaidx_intl_news.json', 'r') as json_file:
+            maimaidx_intl_news_data = json.load(json_file)['news_posts']
+        print("MAIMAIDX INTL Data not fetched, using existing data.")
+
+    news = create_merged_feed(iidx_news_data, sdvx_news_data, chunithm_jp_news_data, maimaidx_jp_news_data, ongeki_jp_news_data, maimaidx_intl_news_data)
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
         json.dump(attach_news_meta_data(news), json_file)
