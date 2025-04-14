@@ -34,7 +34,7 @@ export default function Home() {
             }
             
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/${jsonFile}`);
+                const response = await fetch("https://arcade-news.pinapelz.com/"+`${jsonFile}`);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch news: ${response.statusText}`);
                 }
