@@ -8,8 +8,8 @@ API: `https://arcade-news.pinapelz.com/<game_id>.json`
 Setting `game_id` to `news` provides an aggregate feed of all news from games that are within a 14 day range of scraping
 
 Currently Supported:
-- beatmania IIDX PINKY CRUSH (`iidx_news`)
-- SOUND VOLTEX EXCEED GEAR (`sdvx_news`)
+- beatmania IIDX (`iidx_news`)
+- SOUND VOLTEX (`sdvx_news`)
 - CHUNITHM (JPN) (`chunithm_jpn_news`)
 - CHUNITHM (INTL) (`chunithm_intl_news`)
 - maimai DX (JPN) (`maimaidx_jp_news`)
