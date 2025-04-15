@@ -28,9 +28,6 @@ import sega.ongeki_jp as ongeki_jp
 import constants
 
 def get_news(news_url: str, version=None) -> list:
-    # As of right now all supported games don't require JS to pull data from
-    # scraper = SiteScraper(headless=True)
-    # site_data = scraper.get_page_source(news_url)
     if news_url == constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(sound_voltex.parse_exceed_gear_news_site(site_data, constants.EAMUSEMENT_BASE_URL), key=lambda x: x['timestamp'], reverse=True)
@@ -55,7 +52,9 @@ def get_news(news_url: str, version=None) -> list:
             news_posts = sorted(maimaidx_jp.parse_maimaidx_jp_prism_plus_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
 
     elif news_url == constants.MAIMAIDX_INTL_NEWS_SITE:
-        site_data = download_site_as_html(news_url)
+        scraper = SiteScraper(headless=True)
+        site_data = scraper.get_page_source(news_url)
+        scraper.close()
         if version == constants.MAIMAIDX_VERSION.PRISM:
             news_posts = sorted(maimaidx_intl.parse_maimaidx_intl_prism_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
 
@@ -65,5 +64,4 @@ def get_news(news_url: str, version=None) -> list:
             news_posts = sorted(ongeki_jp.parse_ongeki_refresh_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
     else:
         news_posts = []
-    # scraper.close()
     return news_posts
