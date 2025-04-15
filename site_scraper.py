@@ -25,6 +25,15 @@ class SiteScraper:
                 self.chrome_options.add_argument("--disable-dev-shm-usage")
                 self.chrome_options.add_argument("--window-size=1920,1080")
                 self.chrome_options.add_argument("--no-sandbox")
+                self.chrome_options.add_argument("--disable-extensions")
+                self.chrome_options.add_argument("--disable-infobars")
+                self.chrome_options.add_argument("--disable-logging")
+                self.chrome_options.add_argument("--disable-background-networking")
+                self.chrome_options.add_argument("--disable-sync")
+                self.chrome_options.add_argument("--metrics-recording-only")
+                self.chrome_options.add_argument("--mute-audio")
+                self.chrome_options.add_argument("--remote-debugging-port=9222")
+
 
             self.driver = webdriver.Chrome(service=self.service, options=self.chrome_options)
         except FileNotFoundError:
