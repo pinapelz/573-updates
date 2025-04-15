@@ -42,7 +42,7 @@ def make_chuni_intl_parser(identifier: str, parser: ParserVersion):
                 "identifier": identifier,
                 "type": None,
                 "timestamp": timestamp,
-                "headline": headline,
+                "headline": None,
                 "content": headline,
                 "url": url,
                 "images": [{

@@ -9,6 +9,7 @@ export const getGameTitle = (gameId: string) => {
     if (lowerCaseGameId.startsWith("maimaidx_jp")) return "maimai DX (JAPAN)";
     if (lowerCaseGameId.startsWith("maimaidx_intl")) return "maimai DX (INTERNATIONAL)";
     if (lowerCaseGameId.startsWith("ongeki_jp")) return "O.N.G.E.K.I"
+    if (lowerCaseGameId.startsWith("chunithm_intl")) return "CHUNITHM (INTERNATIONAL)"
 
     return gameId.toUpperCase();
 };
