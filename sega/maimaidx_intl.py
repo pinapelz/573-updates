@@ -33,4 +33,4 @@ def parse_maimaidx_intl_prism_news_site(html: str):
         }
 
         entries.append(entry)
-        return entries
+    return entries
