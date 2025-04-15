@@ -14,8 +14,8 @@ const TitleBar: React.FC = () => {
         {
             name: "KONAMI",
             games: [
-                { id: "sdvx", title: "SOUND VOLTEX" },
                 { id: "iidx", title: "beatmania IIDX" },
+                { id: "sdvx", title: "SOUND VOLTEX" },
             ]
         },
         {
