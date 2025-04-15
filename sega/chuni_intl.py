@@ -53,7 +53,7 @@ def make_chuni_intl_parser(identifier: str, parser: ParserVersion):
 
         return results
 
-    if parser == ParserVersion.ALPHA
+    if parser == ParserVersion.ALPHA:
         return alpha_parser
 
 parse_chuni_intl_luminous_plus_news_site = make_chuni_intl_parser("CHUNITHM_INTL_LUMINOUS_PLUS", ParserVersion.ALPHA)
