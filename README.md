@@ -11,3 +11,7 @@ Currently Supported:
 - beatmania IIDX PINKY CRUSH (`iidx_news`)
 - SOUND VOLTEX EXCEED GEAR (`sdvx_news`)
 - CHUNITHM (JPN) (`chunithm_jpn_news`)
+- CHUNITHM (INTL) (`chunithm_intl_news`)
+- maimai DX (JPN) (`maimaidx_jp_news`)
+- maimai DX (INTL) (`maimaidx_intl_news`)
+- O.N.G.E.K.I (JPN) (`ongeki_jp_news`)
