@@ -1,5 +1,7 @@
 # 573 UPDATES
-A scraper and aggregator of information/news for various arcade games. Despite the name, there are plans to add more than just Konami games
+A scraper and aggregator of information/news for various arcade games. Despite the name, there are plans to add more than just Konami games.
+
+As of right now we only provide "recent" news, this usually means its the first page of news for whatever the site is willing to provide
 
 Frontend: https://arcade.moekyun.me/
 
