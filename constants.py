@@ -8,7 +8,12 @@ DDR_WORLD_NEWS_SITE="https://p.eagate.573.jp/game/ddr/ddrworld/info/index.html"
 
 EAMUSE_APP_FEED="https://eam.573.jp/app/web/post/official"
 IIDX_EAMUSE_APP_ID="s8svjrq62x592gvb"
+SDVX_EAMUSE_APP_ID="3215emnco2s2p1sx"
 DDR_EAMUSE_APP_ID="aegmtuzekqik0eyf"
+GITADORA_EAMUSE_APP_ID="9orw5gze0d1tkyhm"
+POPN_MUSIC_EAMUSE_APP_ID="17ua1w2bg3aggz00"
+NOSTALGIA_EAMUSE_APP_ID="mql0c9jmkhzf02r3"
+JUBEAT_EAMUSE_APP_ID="bz6w0u3gp546fpnq"
 
 CHUNITHM_JP_NEWS_SITE="https://info-chunithm.sega.jp/"
 CHUNITHM_INTL_NEWS_SITE="https://info-chunithm.sega.com/"

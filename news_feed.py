@@ -53,6 +53,21 @@ def get_news(news_url: str, version=None) -> list:
             case constants.DDR_EAMUSE_APP_ID:
                 news_posts= sorted(eamuse_app.parse_news_page(site_data, "DDR_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
+            case constants.SDVX_EAMUSE_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "SOUND_VOLTEX_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
+            case constants.JUBEAT_EAMUSE_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "JUEBEAT_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
+            case constants.POPN_MUSIC_EAMUSE_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "POPN_MUSIC_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
+            case constants.GITADORA_EAMUSE_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "GITADORA_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
+            case constants.NOSTALGIA_EAMUSE_APP_ID  :
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "NOSTALGIA_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
             case _:
                 raise ValueError("Cannot find provided e-amuse app gameId", version)
 
