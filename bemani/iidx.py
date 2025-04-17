@@ -3,7 +3,7 @@ from datetime import datetime
 from urllib.parse import urljoin
 import re
 
-IIDX_KEY_TERMS = [
+KEY_TERMS_TL = [
     ("クプロ", "QPro")
 ]
 
