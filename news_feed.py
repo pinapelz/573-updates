@@ -8,15 +8,18 @@ Generic format for a news entry. All keys are considered to be nullable
     'headline': Headline,
     'content': All text content of news,
     'url': URL to full post if available,
-    'images': {
+    'images': [
+    {
         'image': URL to image,
         'link': If there's an associated href. Else None
+        }
 
-    }
+    ]
 }
 """
 
 from site_scraper import SiteScraper, download_site_as_html
+import konami.eamuse_app as eamuse_app
 import bemani.sdvx as sound_voltex
 import bemani.iidx as iidx
 import bemani.ddr as ddr
@@ -38,6 +41,20 @@ def get_news(news_url: str, version=None) -> list:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(iidx.parse_pinky_crush_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
+
+    elif news_url == constants.EAMUSE_APP_FEED:
+        scraper = SiteScraper(headless=True)
+        site_data = scraper.get_page_source(news_url+"/?uuid_to="+version)
+        scraper.close()
+        match version:
+            case constants.IIDX_EAMUSE_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "IIDX_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
+            case constants.DDR_EAMUSE_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "DDR_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
+            case _:
+                raise ValueError("Cannot find provided e-amuse app gameId", version)
 
     elif news_url == constants.DDR_WORLD_NEWS_SITE:
         scraper = SiteScraper(headless=True)

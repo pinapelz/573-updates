@@ -3,6 +3,7 @@ Generates news JSON files
 Generally you're expected to update the game versions manually
 as for most games you only ever want the latest version (supported) of the game
 """
+from ast import Constant
 import news_feed as feed
 import constants
 import json
@@ -59,14 +60,22 @@ def generate_news_file(filename, url, version=None):
         print(f"Failed. Couldn't fetch {filename.upper()} data. Skipping...", "NEWS")
     return news_data
 
-def generate_iidx_news_file():
-    return generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
+# For e-amusement games you can choose to pull from a specific implementation of the scraper or the generic feed provided
+# by the e-amusement app. Information is different
+def generate_iidx_news_file(eamuse_feed: bool=False):
+    if eamuse_feed:
+        return generate_news_file("iidx_news", constants.EAMUSE_APP_FEED, constants.IIDX_EAMUSE_APP_ID)
+    else:
+        return generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
 
 def generate_sdvx_news_file():
     return generate_news_file("sdvx_news", constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
 
-def generate_ddr_news_file():
-    return generate_news_file("ddr_news", constants.DDR_WORLD_NEWS_SITE)
+def generate_ddr_news_file(eamuse_feed: bool=False):
+    if eamuse_feed:
+        return generate_news_file("ddr_news", constants.EAMUSE_APP_FEED, constants.DDR_EAMUSE_APP_ID)
+    else:
+        return generate_news_file("ddr_news", constants.DDR_WORLD_NEWS_SITE)
 
 def generate_chunithm_jp_news_file():
     return generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
@@ -89,9 +98,9 @@ if __name__ == "__main__":
         log_output(f"{OUTPUT_DIR} was not found. Creating this directory...")
         os.makedirs(OUTPUT_DIR)
 
-    iidx_news_data = generate_iidx_news_file()
+    iidx_news_data = generate_iidx_news_file(eamuse_feed=True)
     sdvx_news_data = generate_sdvx_news_file()
-    ddr_news_data = generate_ddr_news_file()
+    ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
     chunithm_jp_news_data = generate_chunithm_jp_news_file()
     maimaidx_jp_news_data = generate_maimaidx_jp_news_file()
     ongeki_jp_news_data = generate_ongeki_jp_news_file()

@@ -6,6 +6,10 @@ SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE ="https://p.eagate.573.jp/game/sdvx/vi/news/i
 IIDX_PINKY_CRUSH_NEWS_SITE="https://p.eagate.573.jp/game/2dx/32/info/index.html"
 DDR_WORLD_NEWS_SITE="https://p.eagate.573.jp/game/ddr/ddrworld/info/index.html"
 
+EAMUSE_APP_FEED="https://eam.573.jp/app/web/post/official"
+IIDX_EAMUSE_APP_ID="s8svjrq62x592gvb"
+DDR_EAMUSE_APP_ID="aegmtuzekqik0eyf"
+
 CHUNITHM_JP_NEWS_SITE="https://info-chunithm.sega.jp/"
 CHUNITHM_INTL_NEWS_SITE="https://info-chunithm.sega.com/"
 MAIMAIDX_JP_NEWS_SITE="https://info-maimai.sega.jp/"
