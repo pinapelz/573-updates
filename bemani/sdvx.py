@@ -32,7 +32,8 @@ def parse_exceed_gear_news_site(html: str, base_url: str):
             src = urljoin(base_url, src)
             parent = img.find_parent('a')
             href = urljoin(base_url, parent['href']) if parent and parent.has_attr('href') else None
-            images.append({'image': src, 'link': href})
+            if {'image': src, 'link': href} not in images:
+                images.append({'image': src, 'link': href})
 
         entries.append({
             'date': date_str,
