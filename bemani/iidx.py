@@ -3,6 +3,9 @@ from datetime import datetime
 from urllib.parse import urljoin
 import re
 
+IIDX_KEY_TERMS = [
+    ("クプロ", "QPro")
+]
 
 def parse_pinky_crush_news_site(html: str, base_url):
     type_map = {

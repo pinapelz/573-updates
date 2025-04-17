@@ -16,7 +16,6 @@ Generic format for a news entry. All keys are considered to be nullable
 }
 """
 
-from email.utils import parsedate_to_datetime
 from site_scraper import SiteScraper, download_site_as_html
 import bemani.sdvx as sound_voltex
 import bemani.iidx as iidx
@@ -26,6 +25,7 @@ import sega.maimaidx_jp as maimaidx_jp
 import sega.maimaidx_intl as maimaidx_intl
 import sega.ongeki_jp as ongeki_jp
 import constants
+import translate
 
 def get_news(news_url: str, version=None) -> list:
     if news_url == constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE:
@@ -35,6 +35,7 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.IIDX_PINKY_CRUSH_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(iidx.parse_pinky_crush_news_site(site_data, constants.EAMUSEMENT_BASE_URL), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = translate.add_translate_text_to_en(news_posts)
 
     elif news_url == constants.CHUNITHM_JP_NEWS_SITE:
         site_data = download_site_as_html(news_url)

@@ -12,6 +12,8 @@ MAIMAIDX_JP_NEWS_SITE="https://info-maimai.sega.jp/"
 MAIMAIDX_INTL_NEWS_SITE="https://maimai.sega.com/download/"
 ONGEKI_JP_NEWS_SITE="https://info-ongeki.sega.jp/"
 
+ADD_EN_TRANSLATION=True # Only takes effect if an API key is provided in .env
+
 class CHUNITHM_VERSION(Enum):
     LUMINOUS_PLUS = 1
     VERSE = 2

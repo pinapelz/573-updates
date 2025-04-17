@@ -4,7 +4,6 @@ Generally you're expected to update the game versions manually
 as for most games you only ever want the latest version (supported) of the game
 """
 import news_feed as feed
-import requests
 import constants
 import json
 import os
