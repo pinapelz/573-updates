@@ -57,7 +57,7 @@ def get_news(news_url: str, version=None) -> list:
                 news_posts= sorted(eamuse_app.parse_news_page(site_data, "SOUND_VOLTEX_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.JUBEAT_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "JUEBEAT_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "JUBEAT_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.POPN_MUSIC_EAMUSE_APP_ID:
                 news_posts= sorted(eamuse_app.parse_news_page(site_data, "POPN_MUSIC_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
