@@ -28,6 +28,7 @@ import sega.chuni_intl as chuni_intl
 import sega.maimaidx_jp as maimaidx_jp
 import sega.maimaidx_intl as maimaidx_intl
 import sega.ongeki_jp as ongeki_jp
+import taito.music_diver as music_diver
 import constants
 import translate
 
@@ -107,6 +108,11 @@ def get_news(news_url: str, version=None) -> list:
         if version == constants.ONGEKI_VERSION.REFRESH:
             news_posts = sorted(ongeki_jp.parse_ongeki_refresh_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
             news_posts = translate.add_translate_text_to_en(news_posts)
+
+    elif news_url == constants.MUSIC_DIVER_NEWS:
+        api_data = download_site_as_html(news_url)
+        news_posts = sorted(music_diver.parse_music_diver_news_json(api_data), key=lambda x: x['timestamp'], reverse=True)
+
     else:
         news_posts = []
     return news_posts
