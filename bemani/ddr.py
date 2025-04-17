@@ -53,7 +53,7 @@ def parse_ddr_world_news_site(html: str):
             "timestamp":  timestamp,
             "headline":   headline,
             "content":    content,
-            "url":        base_url,
+            "url":        None,
             "images":     images
         })
 
