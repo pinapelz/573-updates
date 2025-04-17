@@ -25,8 +25,7 @@ def parse_ddr_world_news_site(html: str):
             timestamp = int(time.mktime(dt.timetuple()))
         except Exception:
             date_iso, timestamp = None, None
-
-        paras = [p.get_text(strip=True, separator="\n")
+        paras = [p.get_text(strip=True, separator="\n\n")
                  for p in div.find_all("p", recursive=False)]
         if not paras:
             for child in div.find_all(recursive=False):
@@ -34,8 +33,11 @@ def parse_ddr_world_news_site(html: str):
                 if "news_title" in cls or "img_news_center" in cls:
                     continue
                 if child.name == "div":
-                    paras.append(child.get_text(strip=True, separator="\n"))
-        content = "\n\n".join(paras) if paras else None
+                    paras.append(child.get_text(strip=True, separator="\n\n"))
+
+        content = "\n\n\n".join(paras) if paras else None
+        if content:
+            content = f"\n{content}\n"
 
         images = []
         for img in div.select("div.img_news_center img"):
