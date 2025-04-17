@@ -114,7 +114,7 @@ if __name__ == "__main__":
     sdvx_news_data = generate_sdvx_news_file()
     ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
     gitadora_news_data = generate_gitadora_news_file()
-    popn_music_news_daa = generate_popn_music_news_file()
+    popn_music_news_data = generate_popn_music_news_file()
     jubeat_news_data = generate_jubeat_news_file()
     nostalgia_news_data = generate_nostalgia_news_file()
     chunithm_jp_news_data = generate_chunithm_jp_news_file()
@@ -127,6 +127,10 @@ if __name__ == "__main__":
         iidx_news_data,
         sdvx_news_data,
         ddr_news_data,
+        gitadora_news_data,
+        popn_music_news_data,
+        jubeat_news_data,
+        nostalgia_news_data,
         chunithm_jp_news_data,
         maimaidx_jp_news_data,
         ongeki_jp_news_data,

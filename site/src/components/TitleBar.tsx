@@ -16,7 +16,11 @@ const TitleBar: React.FC = () => {
       games: [
         { id: "iidx", title: "beatmania IIDX" },
         { id: "sdvx", title: "SOUND VOLTEX" },
-        { id: "ddr", title: "DanceDanceRevolution"}
+        { id: "ddr", title: "DanceDanceRevolution"},
+        { id: "jubeat", title: "jubeat"},
+        { id: "popn_music", title: "pop'n music"},
+        { id: "nostalgia", title: "NOSTALGIA"},
+        { id: "gitadora", title: "GITADORA"}
       ],
     },
     {
