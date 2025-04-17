@@ -7,7 +7,8 @@ KEY_TERMS_TL = [
     ("クプロ", "QPro")
 ]
 
-def parse_pinky_crush_news_site(html: str, base_url):
+def parse_pinky_crush_news_site(html: str):
+    base_url = "https://p.eagate.573.jp"
     type_map = {
         "i_01": "NEWSONG",
         "i_02": "RANKING",

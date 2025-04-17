@@ -19,6 +19,7 @@ Generic format for a news entry. All keys are considered to be nullable
 from site_scraper import SiteScraper, download_site_as_html
 import bemani.sdvx as sound_voltex
 import bemani.iidx as iidx
+import bemani.ddr as ddr
 import sega.chuni_jp as chunithm_jp
 import sega.chuni_intl as chuni_intl
 import sega.maimaidx_jp as maimaidx_jp
@@ -30,13 +31,20 @@ import translate
 def get_news(news_url: str, version=None) -> list:
     if news_url == constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE:
         site_data = download_site_as_html(news_url)
-        news_posts = sorted(sound_voltex.parse_exceed_gear_news_site(site_data, constants.EAMUSEMENT_BASE_URL), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = sorted(sound_voltex.parse_exceed_gear_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts)
 
     elif news_url == constants.IIDX_PINKY_CRUSH_NEWS_SITE:
         site_data = download_site_as_html(news_url)
-        news_posts = sorted(iidx.parse_pinky_crush_news_site(site_data, constants.EAMUSEMENT_BASE_URL), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = sorted(iidx.parse_pinky_crush_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
+
+    elif news_url == constants.DDR_WORLD_NEWS_SITE:
+        scraper = SiteScraper(headless=True)
+        site_data = scraper.get_page_source(news_url)
+        scraper.close()
+        news_posts = sorted(ddr.parse_ddr_world_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = translate.add_translate_text_to_en(news_posts)
 
     elif news_url == constants.CHUNITHM_JP_NEWS_SITE:
         site_data = download_site_as_html(news_url)

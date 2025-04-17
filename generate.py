@@ -65,6 +65,9 @@ def generate_iidx_news_file():
 def generate_sdvx_news_file():
     return generate_news_file("sdvx_news", constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
 
+def generate_ddr_news_file():
+    return generate_news_file("ddr_news", constants.DDR_WORLD_NEWS_SITE)
+
 def generate_chunithm_jp_news_file():
     return generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
 
@@ -88,6 +91,7 @@ if __name__ == "__main__":
 
     iidx_news_data = generate_iidx_news_file()
     sdvx_news_data = generate_sdvx_news_file()
+    ddr_news_data = generate_ddr_news_file()
     chunithm_jp_news_data = generate_chunithm_jp_news_file()
     maimaidx_jp_news_data = generate_maimaidx_jp_news_file()
     ongeki_jp_news_data = generate_ongeki_jp_news_file()
@@ -97,6 +101,7 @@ if __name__ == "__main__":
     news = create_merged_feed(
         iidx_news_data,
         sdvx_news_data,
+        ddr_news_data,
         chunithm_jp_news_data,
         maimaidx_jp_news_data,
         ongeki_jp_news_data,

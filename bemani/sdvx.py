@@ -2,7 +2,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urljoin
 
-def parse_exceed_gear_news_site(html: str, base_url: str):
+def parse_exceed_gear_news_site(html: str):
+    base_url = "https://p.eagate.573.jp"
     soup = BeautifulSoup(html, 'html.parser')
     news_list = soup.select('.tab ul.news li')
 
