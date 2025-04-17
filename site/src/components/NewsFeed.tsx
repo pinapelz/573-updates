@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { getGameTitle } from "../utils.ts";
 
 export interface NewsData {
@@ -12,6 +13,8 @@ export interface NewsData {
     image: string;
     link: string | null;
   }>;
+  en_headline: string | null;
+  en_content: string | null;
 }
 
 interface NewsFeedProps {
@@ -19,6 +22,17 @@ interface NewsFeedProps {
 }
 
 export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
+  // Track which items are showing English content
+  const [showEnglish, setShowEnglish] = useState<Record<string, boolean>>({});
+
+  // Toggle language for a specific news item
+  const toggleLanguage = (itemId: string) => {
+    setShowEnglish(prev => ({
+      ...prev,
+      [itemId]: !prev[itemId]
+    }));
+  };
+
   return (
     <div className="max-w-[600px] w-full mx-auto py-8 space-y-4">
       {newsItems.map((news) => {
@@ -29,14 +43,21 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
         });
 
         const gameId = news.identifier;
+        const newsId = `${news.identifier}-${news.timestamp}-${news.content.substring(0, 20)}`;
+        const isEnglish = showEnglish[newsId] || false;
+        const hasTranslation = news.en_headline || news.en_content;
+
+        // Choose content based on language selection
+        const displayHeadline = isEnglish && news.en_headline ? news.en_headline : news.headline;
+        const displayContent = isEnglish && news.en_content ? news.en_content : news.content;
 
         return (
           <div
-            key={news.identifier + "-" + news.timestamp + "-" + news.content}
+            key={newsId}
             className="bg-gray-900 border border-gray-800 rounded-lg shadow-lg overflow-hidden"
           >
             {/* Header (Game Icon + Info) */}
-            <div className="flex items-center p-3">
+            <div className="flex items-center p-3 justify-between">
               <div className="flex items-center space-x-3">
                 {/* Game Icon */}
                 <div className="bg-purple-700 rounded-full h-8 w-8 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
@@ -58,20 +79,30 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                   )}
                 </div>
               </div>
+
+              {/* Language Toggle Button */}
+              {hasTranslation && (
+                <button
+                  onClick={() => toggleLanguage(newsId)}
+                  className="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 py-1 px-2 rounded"
+                >
+                  {isEnglish ? "View Original" : "View in English"}
+                </button>
+              )}
             </div>
 
             {/* Content Area */}
             <div className="px-3 pt-1 pb-3">
               {/* Headline */}
-              {news.headline && (
+              {displayHeadline && (
                 <p className="font-semibold text-white text-sm mb-2">
-                  {news.headline}
+                  {displayHeadline}
                 </p>
               )}
 
               {/* Content */}
               <p className="text-sm text-gray-200 whitespace-pre-line mb-2">
-                {news.content.split(/(\[.*?\]\(.*?\)|https?:\/\/[^\s]+)/g).map((part, index) => {
+                {displayContent.split(/(\[.*?\]\(.*?\)|https?:\/\/[^\s]+)/g).map((part, index) => {
                   const match = part.match(/\[(.*?)\]\((.*?)\)/);
                   const urlMatch = part.match(/https?:\/\/[^\s]+/);
                   if (match) {
@@ -93,33 +124,33 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
             </div>
 
             {/* Post Image(s) */}
-              <div className="w-full">
-                {news.images.map((img, i) => (
-                  img.link ? (
-                    <a
-                      key={i}
-                      href={img.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block hover:opacity-75"
-                    >
-                      <img
-                        src={img.image}
-                        alt="news visual"
-                        className="w-full object-cover py-2"
-                      />
-                    </a>
-                  ) : (
-                    <div key={i} className="block">
-                      <img
-                        src={img.image}
-                        alt="news visual"
-                        className="w-full object-cover py-2"
-                      />
-                    </div>
-                  )
-                ))}
-              </div>
+            <div className="w-full">
+              {news.images.map((img, i) => (
+                img.link ? (
+                  <a
+                    key={i}
+                    href={img.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block hover:opacity-75"
+                  >
+                    <img
+                      src={img.image}
+                      alt="news visual"
+                      className="w-full object-cover py-2"
+                    />
+                  </a>
+                ) : (
+                  <div key={i} className="block">
+                    <img
+                      src={img.image}
+                      alt="news visual"
+                      className="w-full object-cover py-2"
+                    />
+                  </div>
+                )
+              ))}
+            </div>
 
             {/* Footer with Read More Link */}
             {news.url && (
