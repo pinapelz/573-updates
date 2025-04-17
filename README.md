@@ -12,6 +12,7 @@ Setting `game_id` to `news` provides an aggregate feed of all news from games th
 Currently Supported:
 - beatmania IIDX (`iidx_news`)
 - SOUND VOLTEX (`sdvx_news`)
+- DanceDanceRevolution (`ddr_news`)
 - CHUNITHM (JPN) (`chunithm_jpn_news`)
 - CHUNITHM (INTL) (`chunithm_intl_news`)
 - maimai DX (JPN) (`maimaidx_jp_news`)
