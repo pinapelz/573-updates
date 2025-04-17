@@ -108,11 +108,15 @@ def add_translate_text_to_en(news_post: dict, overrides: list=[]) -> dict:
             for override in overrides:
                 headline = headline.replace(override[0], override[1])
             post["en_headline"] = request_google_translate(headline, translation_cache=translation_cache)
+        else:
+            post["en_headline"] = None
         content = post.get("content")
         if content:
             for override in overrides:
                 content = content.replace(override[0], override[1])
             en_content = request_google_translate(content, translation_cache=translation_cache)
             post["en_content"] = en_content
+        else:
+            post["en_content"] = None
         translated_posts.append(post)
     return translated_posts
