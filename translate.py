@@ -100,6 +100,8 @@ def add_translate_text_to_en(news_post: dict, overrides: list=[]) -> dict:
     Takes a news post dict as input, then appends the translated EN headline and content
     to the newspost and returns it
     """
+    if not translation_possible():
+        return news_post
     translated_posts = []
     translation_cache = _load_translation_cache()
     for post in news_post:
