@@ -33,6 +33,12 @@ const TitleBar: React.FC = () => {
         { id: "ongeki_jp", title: "O.N.G.E.K.I" },
       ],
     },
+    {
+      name: "TAITO",
+      games: [
+        { id: "music_diver", title: "MUSIC DIVER" },
+      ],
+    },
   ];
 
   useEffect(() => {
