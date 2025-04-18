@@ -29,6 +29,7 @@ import sega.maimaidx_jp as maimaidx_jp
 import sega.maimaidx_intl as maimaidx_intl
 import sega.ongeki_jp as ongeki_jp
 import taito.music_diver as music_diver
+import bandai_namco.taiko as taiko
 import constants
 import translate
 
@@ -66,7 +67,7 @@ def get_news(news_url: str, version=None) -> list:
             case constants.GITADORA_EAMUSE_APP_ID:
                 news_posts= sorted(eamuse_app.parse_news_page(site_data, "GITADORA_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
-            case constants.NOSTALGIA_EAMUSE_APP_ID  :
+            case constants.NOSTALGIA_EAMUSE_APP_ID:
                 news_posts= sorted(eamuse_app.parse_news_page(site_data, "NOSTALGIA_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case _:
@@ -112,6 +113,10 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.MUSIC_DIVER_NEWS:
         api_data = download_site_as_html(news_url)
         news_posts = sorted(music_diver.parse_music_diver_news_json(api_data), key=lambda x: x['timestamp'], reverse=True)
+
+    elif news_url == constants.TAIKO_BLOG_SITE:
+        site_data = download_site_as_html(news_url)
+        news_posts = sorted(taiko.parse_taiko_blog_site(site_data), key=lambda x: x['timestamp'], reverse=True)
 
     else:
         news_posts = []

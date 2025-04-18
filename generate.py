@@ -107,6 +107,9 @@ def generate_chunithm_intl_news_file():
 def generate_music_diver_news_file():
     return generate_news_file("music_diver_news", constants.MUSIC_DIVER_NEWS)
 
+def generate_taiko_news_file():
+    return generate_news_file("taiko_news", constants.TAIKO_BLOG_SITE)
+
 if __name__ == "__main__":
     log_output("JOB START", "TASK")
     if not os.path.exists(OUTPUT_DIR):
@@ -126,6 +129,7 @@ if __name__ == "__main__":
     maimaidx_intl_news_data = generate_maimaidx_intl_news_file()
     chunithm_intl_news_data = generate_chunithm_intl_news_file()
     music_diver_news_data = generate_music_diver_news_file()
+    taiko_news_data = generate_taiko_news_file()
 
     news = create_merged_feed(
         iidx_news_data,
@@ -140,7 +144,8 @@ if __name__ == "__main__":
         ongeki_jp_news_data,
         maimaidx_intl_news_data,
         chunithm_intl_news_data,
-        music_diver_news_data
+        music_diver_news_data,
+        taiko_news_data
     )
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
