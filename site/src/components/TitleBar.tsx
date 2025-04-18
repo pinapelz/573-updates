@@ -39,6 +39,12 @@ const TitleBar: React.FC = () => {
         { id: "music_diver", title: "MUSIC DIVER" },
       ],
     },
+    {
+      name: "BANDAI NAMCO",
+      games: [
+        { id: "taiko", title: "TAIKO" },
+      ],
+    },
   ];
 
   useEffect(() => {

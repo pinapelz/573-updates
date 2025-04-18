@@ -16,6 +16,7 @@ export const getGameTitle = (gameId: string) => {
     if (lowerCaseGameId.startsWith("nostalgia")) return "NOSTALGIA";
     if (lowerCaseGameId.startsWith("popn_music")) return "pop'n music";
     if (lowerCaseGameId.startsWith("music_diver")) return "MUSIC DIVER";
+    if (lowerCaseGameId.startsWith("taiko")) return "Taiko no Tatsujin";
 
 
     return gameId.toUpperCase();
