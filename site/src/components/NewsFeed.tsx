@@ -180,22 +180,24 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                     );
                   })()}
 
-                  {/* Image selector buttons (only shown if there are multiple images) */}
+                  {/* Image selector buttons with horizontal scroll for small screens */}
                   {news.images.length > 1 && (
-                    <div className="flex justify-center gap-2 pb-3">
-                      {news.images.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => changeImage(newsId, idx)}
-                          className={`px-3 py-1 rounded ${
-                            (currentImageIndex[newsId] || 0) === idx
-                              ? "bg-blue-600 text-white"
-                              : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-                          }`}
-                        >
-                          {idx + 1}
-                        </button>
-                      ))}
+                    <div className="pb-3 overflow-x-auto scrolling-touch -mx-3 px-3">
+                      <div className="flex space-x-2 w-max mx-auto">
+                        {news.images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => changeImage(newsId, idx)}
+                            className={`w-9 h-9 flex-shrink-0 rounded-sm flex items-center justify-center ${
+                              (currentImageIndex[newsId] || 0) === idx
+                                ? "bg-blue-600 text-white font-bold"
+                                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                            }`}
+                          >
+                            {idx + 1}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </>
