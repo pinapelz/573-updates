@@ -84,7 +84,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}>
         Official e-amusement service in NA available only at Round1 USA
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which are running older data
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data
       </p>
     </>
   ),
@@ -99,7 +99,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}>
         Official e-amusement service in NA available only at Round1 USA
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which are running older data
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data
       </p>
     </>
   ),
@@ -111,7 +111,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}>
         Official e-amusement service in NA available only at Round1 USA
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which are running older data
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data
       </p>
     </>
   ),
@@ -123,7 +123,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}>
         Official e-amusement service in NA available only at Round1 USA
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which are running older data
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data
       </p>
     </>
   ),
@@ -133,7 +133,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         Online only in Japan and Asia regions. No online service in the US (only old versions running offline-kit)
       </p>
       <p className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}>
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which are running older data
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data
       </p>
     </>
   ),
@@ -143,7 +143,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         Online only in Japan and Asia regions. Japan and Asia only. No online service in the US (only old versions running offline-kit)
       </p>
       <p className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}>
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which are running older data
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data
       </p>
     </>
   ),
@@ -153,7 +153,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
        Online only in Japan and Asia regions. Japan and Asia only. No online service in the US
       </p>
       <p className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}>
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which are running older data
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data
       </p>
     </>
   ),
