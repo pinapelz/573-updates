@@ -65,7 +65,9 @@ export default function Home() {
                     ) : (
                         <div className={`${isMoe ? "bg-pink-200 text-pink-900" : "bg-gray-800 text-white"} rounded-lg p-6 text-center shadow-lg`}>
                             <h1 className="text-2xl font-bold">Welcome to 573-UPDATES</h1>
-                            <img src="/xiatian.webp" className="w-48 mx-auto mb-2 object-contain rounded-2xl animate-floating" />
+                            <div className="floating">
+                              <img src="/xiatian.webp" className="w-48 mx-auto mb-2 object-contain rounded-2xl" />
+                            </div>
                             <p>News and Information for various arcade games is aggregated here!</p>
                             <p className="mt-2">
                                 Please see the{" "}
