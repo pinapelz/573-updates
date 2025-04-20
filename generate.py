@@ -110,6 +110,9 @@ def generate_music_diver_news_file():
 def generate_taiko_news_file():
     return generate_news_file("taiko_news", constants.TAIKO_BLOG_SITE)
 
+def generate_myt_changelog():
+    return generate_news_file("myt_news", constants.MYT_SOLIPS_UPDATE_SITE)
+
 if __name__ == "__main__":
     log_output("JOB START", "TASK")
     if not os.path.exists(OUTPUT_DIR):
@@ -130,6 +133,8 @@ if __name__ == "__main__":
     chunithm_intl_news_data = generate_chunithm_intl_news_file()
     music_diver_news_data = generate_music_diver_news_file()
     taiko_news_data = generate_taiko_news_file()
+
+    generate_myt_changelog()
 
     news = create_merged_feed(
         iidx_news_data,

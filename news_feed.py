@@ -30,6 +30,7 @@ import sega.maimaidx_intl as maimaidx_intl
 import sega.ongeki_jp as ongeki_jp
 import taito.music_diver as music_diver
 import bandai_namco.taiko as taiko
+import networks.myt as myt
 import constants
 import translate
 
@@ -118,6 +119,9 @@ def get_news(news_url: str, version=None) -> list:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(taiko.parse_taiko_blog_site(site_data), key=lambda x: x['timestamp'], reverse=True)
 
+    elif news_url == constants.MYT_SOLIPS_UPDATE_SITE:
+        site_data = download_site_as_html(news_url)
+        news_posts = sorted(myt.parse_changelog_to_news_format(site_data), key=lambda x: x['timestamp'], reverse=True)
     else:
         news_posts = []
     return news_posts

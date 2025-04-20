@@ -25,6 +25,8 @@ MUSIC_DIVER_NEWS="https://mypage.musicdiver.jp/api/news?lang=en"
 
 TAIKO_BLOG_SITE="https://taiko-ch.net/blog/"
 
+MYT_SOLIPS_UPDATE_SITE="https://www.solips.app/"
+
 ADD_EN_TRANSLATION=True # Only takes effect if an API key is provided in .env
 
 class CHUNITHM_VERSION(Enum):
