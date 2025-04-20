@@ -57,6 +57,11 @@ export default function Home() {
                     )}
                     <NewsFeed newsItems={newsFeedData.news_posts} />
                 </div>
+                <footer className="mt-8 text-center text-gray-500 text-sm">
+                    <p>
+                        Last updated: {new Date(newsFeedData.fetch_time * 1000).toLocaleString()}
+                    </p>
+                </footer>
             </div>
         </>
     );
