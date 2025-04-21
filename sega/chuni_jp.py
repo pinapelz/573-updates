@@ -1,11 +1,14 @@
-from bs4 import BeautifulSoup
-from datetime import datetime, timezone, timedelta
-from urllib.parse import urljoin
 import re
+from datetime import datetime, timedelta, timezone
 from enum import Enum
+from urllib.parse import urljoin
+
+from bs4 import BeautifulSoup
+
 
 class ParserVersion(Enum):
-    ALPHA=1
+    ALPHA = 1
+
 
 def make_chuni_jp_parser(identifier: str, parser: ParserVersion):
     def alpha_parser(html: str):
@@ -64,7 +67,47 @@ def make_chuni_jp_parser(identifier: str, parser: ParserVersion):
             news_entries.append(news_dict)
 
         return news_entries
+
     if parser == ParserVersion.ALPHA:
         return alpha_parser
 
-parse_chuni_jp_verse_news_site = make_chuni_jp_parser("CHUNITHM_JP_VERSE", ParserVersion.ALPHA)
+
+def make_image_extractor(version: ParserVersion):
+    """
+    Gets all the images from a full post page as CHUNITHM intl has more relevant images
+    hidden in the actual posts
+    """
+
+    def image_extractor_alpha(html: str):
+        base_url = "https://info-chunithm.sega.jp/"
+        soup = BeautifulSoup(html, "html.parser")
+        images = []
+
+        container = soup.select_one(".chuniCommonBox-inner-main")
+        if not container:
+            return images
+        for img in container.find_all("img"):
+            if img.find_parent("p") and "©" in img.find_parent("p").text:
+                continue
+
+            src = img.get("src") or img.get("data-src")
+            if not src:
+                continue
+            full_url = urljoin(base_url, src)
+            parent = img.find_parent("a")
+            link = parent.get("href") if parent and parent.name == "a" else None
+            images.append(
+                {"image": full_url, "link": urljoin(base_url, link) if link else None}
+            )
+        return images
+
+    if version == ParserVersion.ALPHA:
+        return image_extractor_alpha
+    else:
+        raise ValueError("Unknown Parser Version")
+
+
+parse_chuni_jp_verse_news_site = make_chuni_jp_parser(
+    "CHUNITHM_JP_VERSE", ParserVersion.ALPHA
+)
+parse_chuni_jp_verse_post_images = make_image_extractor(ParserVersion.ALPHA)

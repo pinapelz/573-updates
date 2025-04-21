@@ -85,11 +85,28 @@ def get_news(news_url: str, version=None) -> list:
         if version == constants.CHUNITHM_VERSION.VERSE:
             news_posts = sorted(chunithm_jp.parse_chuni_jp_verse_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
             news_posts = translate.add_translate_text_to_en(news_posts)
+            if constants.CHUNI_RECURSIVE_IMAGE:
+                for i in range(len(news_posts)):
+                    if not news_posts[i]["url"]:
+                        continue
+                    post_site_data = download_site_as_html(news_posts[i]["url"])
+                    post_images = chunithm_jp.parse_chuni_jp_verse_post_images(post_site_data)
+                    news_posts[i]["images"].extend([image for image in post_images if not any(existing_image['image'] == image['image'] for existing_image in news_posts[i]["images"])])
 
     elif news_url == constants.CHUNITHM_INTL_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         if version == constants.CHUNITHM_VERSION.LUMINOUS_PLUS:
             news_posts = sorted(chuni_intl.parse_chuni_intl_luminous_plus_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        elif version == constants.CHUNITHM_VERSION.VERSE:
+            news_posts = sorted(chuni_intl.parse_chuni_intl_verse_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+            if constants.CHUNI_RECURSIVE_IMAGE:
+                for i in range(len(news_posts)):
+                    if not news_posts[i]["url"]:
+                        continue
+                    post_site_data = download_site_as_html(news_posts[i]["url"])
+                    post_images = chuni_intl.parse_chuni_intl_verse_post_images(post_site_data)
+                    news_posts[i]["images"].extend([image for image in post_images if not any(existing_image['image'] == image['image'] for existing_image in news_posts[i]["images"])])
+
 
     elif news_url == constants.MAIMAIDX_JP_NEWS_SITE:
         site_data = download_site_as_html(news_url)

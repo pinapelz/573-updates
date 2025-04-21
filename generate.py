@@ -8,7 +8,6 @@ import news_feed as feed
 import constants
 import json
 import os
-import argparse
 
 from datetime import datetime, timedelta
 
@@ -102,7 +101,7 @@ def generate_maimaidx_intl_news_file():
     return generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM)
 
 def generate_chunithm_intl_news_file():
-    return generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE, constants.CHUNITHM_VERSION.LUMINOUS_PLUS)
+    return generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
 
 def generate_music_diver_news_file():
     return generate_news_file("music_diver_news", constants.MUSIC_DIVER_NEWS)

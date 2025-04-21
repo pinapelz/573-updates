@@ -26,6 +26,7 @@ MUSIC_DIVER_NEWS="https://mypage.musicdiver.jp/api/news?lang=en"
 TAIKO_BLOG_SITE="https://taiko-ch.net/blog/"
 
 ADD_EN_TRANSLATION=True # Only takes effect if an API key is provided in .env
+CHUNI_RECURSIVE_IMAGE=True # Scrape the individual post pages and get all images there
 
 class CHUNITHM_VERSION(Enum):
     LUMINOUS_PLUS = 1
