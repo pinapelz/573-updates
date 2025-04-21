@@ -54,7 +54,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
         const contentToShow = isLong && !isExpanded ? displayContent.slice(0, PREVIEW_CHAR_LIMIT) + "…" : displayContent;
 
         return (
-          <div key={newsId} className={`${isMoe ? "bg-pink-100 border-pink-300 text-pink-900" : "bg-gray-900 border-gray-800 text-white"} border rounded-lg shadow-lg overflow-hidden`}>
+          <div key={newsId} className={`${isMoe ? "bg-pink-100 border-pink-300 text-pink-900 font-[Zen_Maru_Gothic]" : "bg-gray-900 border-gray-800 text-white font-sans"} border rounded-lg shadow-lg overflow-hidden`}>
             <div className="flex items-center p-3 justify-between">
               <div className="flex items-center space-x-3">
                 <div className={`${isMoe ? "bg-pink-400" : "bg-purple-700"} rounded-full h-8 w-8 flex items-center justify-center text-white text-xs font-bold`}>
