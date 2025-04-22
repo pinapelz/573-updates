@@ -84,6 +84,10 @@ const TitleBar: React.FC = () => {
       name: "BANDAI NAMCO",
       games: [{ id: "taiko", title: "TAIKO" }],
     },
+    {
+      name: "COMMUNITY",
+      games: [{ id: "wacca_plus", title: "WACCA+" }],
+    },
   ];
 
   useEffect(() => {

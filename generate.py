@@ -131,7 +131,7 @@ if __name__ == "__main__":
     chunithm_intl_news_data = generate_chunithm_intl_news_file()
     music_diver_news_data = generate_music_diver_news_file()
     taiko_news_data = generate_taiko_news_file()
-    generate_wacca_plus_news_file()
+    wacca_plus_news = generate_wacca_plus_news_file()
 
 
     news = create_merged_feed(
@@ -148,7 +148,8 @@ if __name__ == "__main__":
         maimaidx_intl_news_data,
         chunithm_intl_news_data,
         music_diver_news_data,
-        taiko_news_data
+        taiko_news_data,
+        wacca_plus_news
     )
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:

@@ -120,7 +120,7 @@ def parse_announcement_messages(message_json: dict):
         news_posts.append({
             "date": date,
             "identifier": "WACCA_PLUS",
-            "type": type,
+            "type": type.upper(),
             "timestamp": unix_time,
             "content": "NEW INFORMATION FROM WACCA+ / WACCA+ の最新情報",
             "headline": None,
