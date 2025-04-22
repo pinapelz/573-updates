@@ -28,6 +28,8 @@ TAIKO_BLOG_SITE="https://taiko-ch.net/blog/"
 ADD_EN_TRANSLATION=True # Only takes effect if an API key is provided in .env
 CHUNI_RECURSIVE_IMAGE=True # Scrape the individual post pages and get all images there
 
+WACCA_PLUS_MAGIC_STRING="1206017527864369262"
+
 class CHUNITHM_VERSION(Enum):
     LUMINOUS_PLUS = 1
     VERSE = 2

@@ -172,3 +172,4 @@ cython_debug/
 .pypirc
 news
 tl_cache.json
+wac_result_cache.json

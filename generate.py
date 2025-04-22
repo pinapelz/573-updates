@@ -109,12 +109,14 @@ def generate_music_diver_news_file():
 def generate_taiko_news_file():
     return generate_news_file("taiko_news", constants.TAIKO_BLOG_SITE)
 
+def generate_wacca_plus_news_file():
+    return generate_news_file("wacca_plus_news", constants.WACCA_PLUS_MAGIC_STRING)
+
 if __name__ == "__main__":
     log_output("JOB START", "TASK")
     if not os.path.exists(OUTPUT_DIR):
         log_output(f"{OUTPUT_DIR} was not found. Creating this directory...")
         os.makedirs(OUTPUT_DIR)
-
     iidx_news_data = generate_iidx_news_file(eamuse_feed=True)
     sdvx_news_data = generate_sdvx_news_file()
     ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
@@ -129,6 +131,8 @@ if __name__ == "__main__":
     chunithm_intl_news_data = generate_chunithm_intl_news_file()
     music_diver_news_data = generate_music_diver_news_file()
     taiko_news_data = generate_taiko_news_file()
+    generate_wacca_plus_news_file()
+
 
     news = create_merged_feed(
         iidx_news_data,
