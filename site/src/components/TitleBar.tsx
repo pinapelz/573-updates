@@ -89,6 +89,7 @@ const TitleBar: React.FC = () => {
       games: [
         { id: "wacca_plus", title: "WACCA PLUS" },
         { id: "museca_plus", title: "MÚSECA PLUS" },
+        { id: "rb_deluxe_plus", title: "RB DELUXE PLUS" },
       ],
     },
   ];

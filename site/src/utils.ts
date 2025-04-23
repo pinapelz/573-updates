@@ -19,6 +19,7 @@ export const getGameTitle = (gameId: string) => {
     if (lowerCaseGameId.startsWith("taiko")) return "Taiko no Tatsujin";
     if (lowerCaseGameId.startsWith("wacca")) return "WACCA PLUS";
     if (lowerCaseGameId.startsWith("museca")) return "MÚSECA PLUS";
+    if (lowerCaseGameId.startsWith("rb_deluxe")) return "REFLEC BEAT DELUXE PLUS";
 
 
     return gameId.toUpperCase();

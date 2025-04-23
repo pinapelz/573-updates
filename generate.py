@@ -115,6 +115,9 @@ def generate_wacca_plus_news_file():
 def generate_museca_plus_news_file():
     return generate_news_file("museca_plus_news", constants.MUSECA_PLUS_NEWS_SITE)
 
+def generate_rbdx_plus_news_file():
+    return generate_news_file("rb_deluxe_plus_news", constants.RB_DELUXE_PLUS_NEWS)
+
 if __name__ == "__main__":
     log_output("JOB START", "TASK")
     if not os.path.exists(OUTPUT_DIR):
@@ -136,6 +139,7 @@ if __name__ == "__main__":
     taiko_news_data = generate_taiko_news_file()
     wacca_plus_news = generate_wacca_plus_news_file()
     museca_plus_news = generate_museca_plus_news_file()
+    generate_rbdx_plus_news_file()
 
 
     news = create_merged_feed(

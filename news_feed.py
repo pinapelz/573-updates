@@ -33,6 +33,7 @@ import bandai_namco.taiko as taiko
 import community.disc as disc
 import community.wacca_plus.wacca_plus as wac_plus
 import community.museca_plus as mus_plus
+import community.rbdx as rbdx
 import constants
 import translate
 
@@ -148,6 +149,10 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.MUSECA_PLUS_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(mus_plus.parse_museca_plus_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+
+    elif news_url == constants.RB_DELUXE_PLUS_NEWS:
+        site_data = download_site_as_html(news_url)
+        news_posts = rbdx.get_carousel_posts(site_data)
 
     else:
         news_posts = []
