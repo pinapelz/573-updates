@@ -122,7 +122,7 @@ def parse_announcement_messages(message_json: dict):
             "identifier": "WACCA_PLUS",
             "type": type.upper(),
             "timestamp": unix_time,
-            "content": "NEW INFORMATION FROM WACCA+ / WACCA+ の最新情報",
+            "content": "NEW INFORMATION FROM WACCA PLUS / WACCA PLUS の最新情報",
             "headline": None,
             "url": None,
             "images": filtered_images
