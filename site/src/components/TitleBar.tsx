@@ -86,7 +86,10 @@ const TitleBar: React.FC = () => {
     },
     {
       name: "COMMUNITY",
-      games: [{ id: "wacca_plus", title: "WACCA+" }],
+      games: [
+        { id: "wacca_plus", title: "WACCA PLUS" },
+        { id: "museca_plus", title: "MÚSECA PLUS" },
+      ],
     },
   ];
 

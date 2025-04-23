@@ -112,6 +112,9 @@ def generate_taiko_news_file():
 def generate_wacca_plus_news_file():
     return generate_news_file("wacca_plus_news", constants.WACCA_PLUS_MAGIC_STRING)
 
+def generate_museca_plus_news_file():
+    return generate_news_file("museca_plus_news", constants.MUSECA_PLUS_NEWS_SITE)
+
 if __name__ == "__main__":
     log_output("JOB START", "TASK")
     if not os.path.exists(OUTPUT_DIR):
@@ -132,6 +135,7 @@ if __name__ == "__main__":
     music_diver_news_data = generate_music_diver_news_file()
     taiko_news_data = generate_taiko_news_file()
     wacca_plus_news = generate_wacca_plus_news_file()
+    museca_plus_news = generate_museca_plus_news_file()
 
 
     news = create_merged_feed(
@@ -149,7 +153,8 @@ if __name__ == "__main__":
         chunithm_intl_news_data,
         music_diver_news_data,
         taiko_news_data,
-        wacca_plus_news
+        wacca_plus_news,
+        museca_plus_news
     )
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:

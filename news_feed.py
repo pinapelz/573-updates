@@ -32,6 +32,7 @@ import taito.music_diver as music_diver
 import bandai_namco.taiko as taiko
 import community.disc as disc
 import community.wacca_plus.wacca_plus as wac_plus
+import community.museca_plus as mus_plus
 import constants
 import translate
 
@@ -143,6 +144,11 @@ def get_news(news_url: str, version=None) -> list:
         else:
             messages = disc.fetch_messages(constants.WACCA_PLUS_MAGIC_STRING)
             news_posts = sorted(wac_plus.parse_announcement_messages(messages), key=lambda x: x['timestamp'], reverse=True)
+
+    elif news_url == constants.MUSECA_PLUS_NEWS_SITE:
+        site_data = download_site_as_html(news_url)
+        news_posts = sorted(mus_plus.parse_museca_plus_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+
     else:
         news_posts = []
     return news_posts
