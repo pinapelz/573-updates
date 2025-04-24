@@ -138,6 +138,7 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.TAIKO_BLOG_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(taiko.parse_taiko_blog_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = translate.add_translate_text_to_en(news_posts)
 
     elif news_url == constants.WACCA_PLUS_MAGIC_STRING:
         if not wac_plus.check_is_generation_possible():
