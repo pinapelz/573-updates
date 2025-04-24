@@ -7,6 +7,7 @@ from ast import Constant
 import news_feed as feed
 import constants
 import json
+import hashlib
 import os
 
 from datetime import datetime, timedelta
@@ -14,18 +15,24 @@ from datetime import datetime, timedelta
 
 OUTPUT_DIR = "news"
 
+def compute_json_hash(data):
+    return hashlib.sha256(json.dumps(data, sort_keys=True).encode('utf-8')).hexdigest()
+
+
 def create_merged_feed(*news_lists, limit=constants.DAYS_LIMIT):
     """
-    Merge multiple news feeds into a singular one
-    limit = maximum number of days old to be included in the merged feed
+    Generator-based memory-efficient merging of multiple news feeds.
+    Only includes news newer than `limit` days.
     """
-    merged_feed = []
-    for news_list in news_lists:
-        merged_feed.extend(news_list)
-    cutoff_date = datetime.now() - timedelta(days=limit)
-    filtered_feed = [news for news in merged_feed if datetime.fromtimestamp(news['timestamp']) >= cutoff_date]
-    sorted_feed = sorted(filtered_feed, key=lambda x: x['timestamp'], reverse=True)
-    return sorted_feed
+    cutoff = datetime.now() - timedelta(days=limit)
+    recent_items = (
+        item
+        for news_list in news_lists
+        for item in news_list
+        if datetime.fromtimestamp(item['timestamp']) >= cutoff
+    )
+    return sorted(recent_items, key=lambda x: x['timestamp'], reverse=True)
+
 
 def attach_news_meta_data(news_data: list):
     """
@@ -37,6 +44,7 @@ def attach_news_meta_data(news_data: list):
         "news_posts": news_data
     }
 
+
 def log_output(message: str, type: str="DEBUG"):
     """
     Prints a log line output with a timestamp
@@ -44,20 +52,23 @@ def log_output(message: str, type: str="DEBUG"):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"[{timestamp}] [{type}]: {message}")
 
+
 def generate_news_file(filename, url, version=None):
     log_output(f"Fetching {filename.upper()} News Data", "NEWS")
     news_data = feed.get_news(url, version) if version else feed.get_news(url)
-    if len(news_data) != 0:
+    path = f"{OUTPUT_DIR}/{filename}.json"
+    if news_data:
         log_output(f"Success. Got {filename.upper()} News Data. Saving to file...", "NEWS")
-        with open(f"{OUTPUT_DIR}/{filename}.json", 'w') as json_file:
-            json.dump(attach_news_meta_data(news_data), json_file)
-    elif os.path.exists(f"{OUTPUT_DIR}/{filename}.json"):
-        print(f"Failed. Couldn't fetch {filename.upper()} data. Using previously scraped data", "NEWS")
-        with open(f"{OUTPUT_DIR}/{filename}.json", 'r') as json_file:
+        with open(path, 'w') as f:
+            json.dump(attach_news_meta_data(news_data), f, indent=2)
+    elif os.path.exists(path):
+        log_output(f"Failed. Couldn't fetch {filename.upper()} data. Using previously scraped data", "NEWS")
+        with open(path, 'r') as json_file:
             news_data = json.load(json_file)['news_posts']
     else:
-        print(f"Failed. Couldn't fetch {filename.upper()} data. Skipping...", "NEWS")
+        log_output(f"Failed. Couldn't fetch {filename.upper()} data. Skipping...", "NEWS")
     return news_data
+
 
 # For e-amusement games you can choose to pull from a specific implementation of the scraper or the generic feed provided
 # by the e-amusement app. Information is different
