@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getGameTitle } from "../utils.ts";
 import { useSearchParams } from "react-router-dom";
 
@@ -33,11 +33,23 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
   const toggleLanguage = (id: string) => setShowEnglish((prev) => ({ ...prev, [id]: !prev[id] }));
   const toggleExpand = (id: string) => setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   const changeImage = (id: string, i: number) => {
+    if (currentImageIndex[id] == i)
+      return
     setCurrentImageIndex((p) => ({ ...p, [id]: i }));
     setLoadingImages((p) => ({ ...p, [id]: true }));
   };
   const handleImageLoad = (id: string) => setLoadingImages((p) => ({ ...p, [id]: false }));
   const PREVIEW_CHAR_LIMIT = 600;
+
+  useEffect(() => {
+    const initialImageIndex: Record<string, number> = {};
+    newsItems.forEach((news) => {
+      const contentHash = news.content.split('').reduce((hash, char) => ((hash << 5) + hash) + char.charCodeAt(0), 5381) >>> 0;
+      const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${news.headline}`;
+      initialImageIndex[newsId] = 0;
+    });
+    setCurrentImageIndex(initialImageIndex);
+  }, [newsItems]);
 
   return (
     <div className="max-w-[600px] w-full mx-auto py-8 space-y-4 font-[Zen_Maru_Gothic]">
