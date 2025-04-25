@@ -6,6 +6,10 @@ import openai
 import json
 from dotenv import load_dotenv
 import base64
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
+from summarizer import generate_headline_and_content_from_images
 
 load_dotenv()
 
@@ -99,7 +103,9 @@ def parse_announcement_messages(message_json: dict):
             continue
 
         filtered_images = []
+        image_urls = [] # save the images before they get encoded
         for image in image_attachments:
+            image_urls.append(image["url"])
             if image["id"] in cache:
                 is_related = cache[image["id"]][0]
                 type = cache[image["id"]][1]
@@ -116,17 +122,18 @@ def parse_announcement_messages(message_json: dict):
         date = message["timestamp"].split("T")[0]
         date_obj = datetime.strptime(date, "%Y-%m-%d")
         unix_time = int(time.mktime(date_obj.timetuple()))
+        headline, content = generate_headline_and_content_from_images(image_urls, "WACCA PLUS")
 
         news_posts.append({
             "date": date,
             "identifier": "WACCA_PLUS",
             "type": type.upper(),
             "timestamp": unix_time,
-            "content": "NEW INFORMATION FROM WACCA PLUS / WACCA PLUS の最新情報",
-            "headline": None,
+            "content": content,
+            "headline": headline,
             "url": None,
             "images": filtered_images,
-            'is_ai_summary': False
+            'is_ai_summary': True
         })
 
     _save_cache(cache)

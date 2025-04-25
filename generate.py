@@ -3,7 +3,6 @@ Generates news JSON files
 Generally you're expected to update the game versions manually
 as for most games you only ever want the latest version (supported) of the game
 """
-from ast import Constant
 import news_feed as feed
 import constants
 import json

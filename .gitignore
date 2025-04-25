@@ -173,3 +173,4 @@ cython_debug/
 news
 tl_cache.json
 wac_result_cache.json
+summarization_cache.json

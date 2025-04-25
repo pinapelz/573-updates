@@ -16,6 +16,7 @@ export interface NewsData {
   }>;
   en_headline: string | null;
   en_content: string | null;
+  is_ai_summary: boolean | null;
 }
 
 interface NewsFeedProps {
@@ -102,6 +103,12 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                 </button>
               )}
             </div>
+            {/* AI Disclaimer */}
+            {news.is_ai_summary && (
+              <div className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-1 text-xs text-center`}>
+              The information above is summarized by AI / 上記の情報はAIによって生成されました。
+              </div>
+            )}
 
             {/* Images */}
             {news.images.length > 0 && (
