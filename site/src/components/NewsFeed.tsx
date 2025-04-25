@@ -106,7 +106,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
             {/* AI Disclaimer */}
             {news.is_ai_summary && (
               <div className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-1 text-xs text-center`}>
-              The information above is summarized by AI / 上記の情報はAIによって生成されました。
+              The information above is written by AI / 上記の情報はAIによって生成されました。
               </div>
             )}
 
