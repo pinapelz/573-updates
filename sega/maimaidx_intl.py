@@ -37,7 +37,8 @@ def make_maimaidx_intl_parser(identifier: str, parser: ParserVersion):
                         "image": full_image_url,
                         "link": None
                     }
-                ]
+                ],
+                'is_ai_summary': False
             }
             entries.append(entry)
         return entries

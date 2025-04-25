@@ -47,7 +47,8 @@ def parse_taiko_blog_site(html: str) -> list:
                 "headline": headline,
                 "content": "\n".join(content),
                 "url": None,
-                "images": images
+                "images": images,
+                'is_ai_summary': False
             }
 
             entries.append(entry)

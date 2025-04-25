@@ -22,7 +22,6 @@ def parse_museca_plus_news_site(html: str) -> list:
         images = []
         for img in p.find_all("img"):
             img_url = urljoin(base_url, img.get("src"))
-            parent_a = img.find_parent("a")
             images.append({"image": img_url, "link": None})
 
         content = p.get_text(separator=' ', strip=True)
@@ -35,7 +34,8 @@ def parse_museca_plus_news_site(html: str) -> list:
             'headline': None,
             'content': content,
             'url': None,
-            'images': images
+            'images': images,
+            'is_ai_summary': False
         })
 
     return news_posts

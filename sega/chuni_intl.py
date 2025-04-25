@@ -50,6 +50,7 @@ def make_chuni_intl_parser(identifier: str, parser: ParserVersion):
                     "content": headline,
                     "url": url,
                     "images": [{"image": image_url, "link": url}] if image_url else [],
+                    'is_ai_summary': False
                 }
             )
 

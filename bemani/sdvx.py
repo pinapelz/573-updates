@@ -44,7 +44,8 @@ def parse_exceed_gear_news_site(html: str):
             'headline': headline_text,
             'content': content,
             "url": None,
-            'images': images
+            'images': images,
+            'is_ai_summary': False
         })
 
     return entries

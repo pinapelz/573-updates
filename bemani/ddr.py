@@ -54,7 +54,8 @@ def parse_ddr_world_news_site(html: str):
             "headline":   headline,
             "content":    content,
             "url":        None,
-            "images":     images
+            "images":     images,
+            'is_ai_summary': False
         })
 
     return news_entries

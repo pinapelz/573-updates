@@ -24,6 +24,7 @@ def get_carousel_posts(html: str):
                 "url": None,
                 "headline": None,
                 "content": "[お知らせ] ANNOUNCEMENT FROM REFLECT BEAT DELUXE PLUS",
-                "images": [{"image": urljoin(base_url, img_tag['src']), "link": None}]
+                "images": [{"image": urljoin(base_url, img_tag['src']), "link": None}],
+                'is_ai_summary': False
             })
     return news_posts

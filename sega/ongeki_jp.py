@@ -24,9 +24,6 @@ def make_ongeki_parser(identifier: str, parser: ParserVersion):
             date_text = date_type_text.text.strip().split("/")[0].strip() if date_type_text else None
             type_text = date_type_text.text.strip().split("/")[-1].strip() if "/" in date_type_text.text else None
 
-            headline_tag = li.select_one(".p-news__listTextUnder")
-            headline = headline_tag.text.strip() if headline_tag else None
-
             timestamp = None
             if date_text:
                 try:
@@ -43,6 +40,7 @@ def make_ongeki_parser(identifier: str, parser: ParserVersion):
                 "headline": None,
                 "content": image_alt,
                 "url": url,
+                'is_ai_summary': False,
                 "images": [{
                     "image": image_url,
                     "link": image_link

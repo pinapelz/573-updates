@@ -44,7 +44,8 @@ def parse_news_page(html: str, identifier: str):
             "headline": None,
             "content": content,
             "url": url,
-            "images": images
+            "images": images,
+            'is_ai_summary': False
         }
         entries.append(entry)
 

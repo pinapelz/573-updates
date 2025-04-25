@@ -63,6 +63,7 @@ def make_chuni_jp_parser(identifier: str, parser: ParserVersion):
                     images["link"] = news_url
             news_dict["images"] = [images]
             news_dict["identifier"] = identifier
+            news_dict["is_ai_summary"] = False
 
             news_entries.append(news_dict)
 

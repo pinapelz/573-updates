@@ -46,6 +46,7 @@ def make_maimaidx_jpn_parser(identifier: str, parser: ParserVersion):
                 "headline": None,
                 "content": content,
                 "url": url,
+                'is_ai_summary': False,
                 "images": [{
                     "image": image_url,
                     "link": url

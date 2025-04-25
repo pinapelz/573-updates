@@ -61,6 +61,7 @@ def parse_pinky_crush_news_site(html: str):
             "content": content,
             "url": None,
             "images": [],
+            'is_ai_summary': False
         })
 
     return news_items

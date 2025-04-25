@@ -24,5 +24,3 @@ def fetch_messages(channel_id: str):
     }
     response = requests.get(url, headers=headers)
     return response.json()
-    if response.ok:
-        print(f"Failed to fetch: {response.status_code} - {response.text}")

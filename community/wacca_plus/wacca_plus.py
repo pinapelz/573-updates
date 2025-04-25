@@ -125,7 +125,8 @@ def parse_announcement_messages(message_json: dict):
             "content": "NEW INFORMATION FROM WACCA PLUS / WACCA PLUS の最新情報",
             "headline": None,
             "url": None,
-            "images": filtered_images
+            "images": filtered_images,
+            'is_ai_summary': False
         })
 
     _save_cache(cache)
