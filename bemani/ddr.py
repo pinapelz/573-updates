@@ -1,8 +1,10 @@
+"""
+Currently unused as e-eamusement app feed is favored. Here for archival purposes
+"""
 from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urljoin
 import time
-import re
 
 def parse_ddr_world_news_site(html: str):
     base_url = "https://p.eagate.573.jp"

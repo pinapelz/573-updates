@@ -25,6 +25,7 @@ import bemani.sdvx as sound_voltex
 import bemani.iidx as iidx
 import bemani.ddr as ddr
 import sega.chuni_jp as chunithm_jp
+import bemani.polaris_chord as polaris_chord
 import sega.chuni_intl as chuni_intl
 import sega.maimaidx_jp as maimaidx_jp
 import sega.maimaidx_intl as maimaidx_intl
@@ -58,6 +59,12 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.IIDX_PINKY_CRUSH_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(iidx.parse_pinky_crush_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
+
+    elif news_url == constants.POLARIS_CHORD_NEWS_SITE:
+        scraper = SiteScraper(headless=True)
+        site_data = scraper.get_page_source(news_url)
+        news_posts = sorted(polaris_chord.parse_polaris_chord_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
 
     elif news_url == constants.EAMUSE_APP_FEED:

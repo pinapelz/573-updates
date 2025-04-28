@@ -86,6 +86,9 @@ def generate_ddr_news_file(eamuse_feed: bool=False):
     else:
         return generate_news_file("ddr_news", constants.DDR_WORLD_NEWS_SITE)
 
+def generate_polaris_chord_news_file():
+    return generate_news_file("polaris_chord_news", constants.POLARIS_CHORD_NEWS_SITE)
+
 def generate_popn_music_news_file():
     return generate_news_file("popn_music_news", constants.EAMUSE_APP_FEED, constants.POPN_MUSIC_EAMUSE_APP_ID)
 
@@ -136,6 +139,7 @@ if __name__ == "__main__":
     iidx_news_data = generate_iidx_news_file(eamuse_feed=True)
     sdvx_news_data = generate_sdvx_news_file()
     ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
+    polaris_news_data = generate_polaris_chord_news_file()
     gitadora_news_data = generate_gitadora_news_file()
     popn_music_news_data = generate_popn_music_news_file()
     jubeat_news_data = generate_jubeat_news_file()

@@ -5,6 +5,7 @@ DAYS_LIMIT=14
 SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE ="https://p.eagate.573.jp/game/sdvx/vi/news/index.html"
 IIDX_PINKY_CRUSH_NEWS_SITE="https://p.eagate.573.jp/game/2dx/32/info/index.html"
 DDR_WORLD_NEWS_SITE="https://p.eagate.573.jp/game/ddr/ddrworld/info/index.html"
+POLARIS_CHORD_NEWS_SITE="https://p.eagate.573.jp/game/polarischord/pc/news/index.html"
 
 EAMUSE_APP_FEED="https://eam.573.jp/app/web/post/official"
 IIDX_EAMUSE_APP_ID="s8svjrq62x592gvb"
