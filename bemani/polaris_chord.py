@@ -34,7 +34,7 @@ def parse_polaris_chord_news_site(html: str) -> list[dict]:
 
         headline = li.find('li', class_='news_title').text.strip()
         detail = li.find('li', class_='news_detail')
-        content = detail.get_text(separator='\n').strip()
+        content = detail.get_text().strip()
 
         first_a = detail.find('a', href=True)
         url = first_a['href'] if first_a else None

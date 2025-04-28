@@ -20,6 +20,9 @@ export const getGameTitle = (gameId: string) => {
     if (lowerCaseGameId.startsWith("wacca")) return "WACCA PLUS";
     if (lowerCaseGameId.startsWith("museca")) return "MÚSECA PLUS";
     if (lowerCaseGameId.startsWith("reflec_beat") || lowerCaseGameId.startsWith("rb_deluxe")) return "REFLEC BEAT DELUXE PLUS";
+    if (lowerCaseGameId.startsWith("dance_rush")) return "DANCERUSH";
+    if(lowerCaseGameId.startsWith("dance_around")) return "DANCE aROUND";
+    if(lowerCaseGameId.startsWith("polaris_chord")) return "POLARIS CHORD/ポラリスコード"
 
 
     return gameId.toUpperCase();

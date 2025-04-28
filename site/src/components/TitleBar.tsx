@@ -32,7 +32,6 @@ const TitleBar: React.FC = () => {
     navigate(`${location.pathname}?${params.toString()}`);
   };
 
-
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
 
@@ -52,7 +51,6 @@ const TitleBar: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, navigate]);
 
-
   const gameCategories: GameCategory[] = [
     {
       name: "KONAMI",
@@ -64,6 +62,9 @@ const TitleBar: React.FC = () => {
         { id: "popn_music", title: "pop'n music" },
         { id: "nostalgia", title: "NOSTALGIA" },
         { id: "gitadora", title: "GITADORA" },
+        { id: "dance_rush", title: "DANCERUSH" },
+        { id: "dance_around", title: "DANCE aROUND" },
+        { id: "polaris_chord", title: "POLARIS CHORD" },
       ],
     },
     {

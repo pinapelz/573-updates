@@ -142,10 +142,10 @@ if __name__ == "__main__":
     if not os.path.exists(OUTPUT_DIR):
         log_output(f"{OUTPUT_DIR} was not found. Creating this directory...")
         os.makedirs(OUTPUT_DIR)
+    polaris_news_data = generate_polaris_chord_news_file()
     iidx_news_data = generate_iidx_news_file(eamuse_feed=True)
     sdvx_news_data = generate_sdvx_news_file()
     ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
-    polaris_news_data = generate_polaris_chord_news_file()
     dance_rush_news_data = generate_dance_rush_news_file()
     dance_around_news_data = generate_dance_around_news_file()
     gitadora_news_data = generate_gitadora_news_file()
