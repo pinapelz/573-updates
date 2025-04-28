@@ -77,15 +77,14 @@ def request_google_translate(text: str, source: str="ja", target="en", translati
         return translation_cache[key]
     API_KEY = os.getenv("GOOGLE_TRANSLATE_API_KEY")
     encoded_text, restore_data = _encode_links(text)
-    url = "https://translation.googleapis.com/language/translate/v2"
-    params = {
+    url = "https://translation.googleapis.com/language/translate/v2?key="+API_KEY
+    payload = {
         "q": text,
         "source": source,
         "target": target,
         "format": "text",
-        "key": API_KEY,
     }
-    response = requests.post(url, params=params)
+    response = requests.post(url, json=payload)
     data = response.json()
     translated_text = data["data"]["translations"][0]["translatedText"]
     translation_cache[key] = translated_text
