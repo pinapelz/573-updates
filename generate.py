@@ -89,6 +89,12 @@ def generate_ddr_news_file(eamuse_feed: bool=False):
 def generate_polaris_chord_news_file():
     return generate_news_file("polaris_chord_news", constants.POLARIS_CHORD_NEWS_SITE)
 
+def generate_dance_around_news_file():
+    return generate_news_file("dance_around_news", constants.EAMUSE_APP_FEED, constants.DANCE_AROUND_APP_ID)
+
+def generate_dance_rush_news_file():
+    return generate_news_file("dance_rush_news", constants.EAMUSE_APP_FEED, constants.DANCE_RUSH_APP_ID)
+
 def generate_popn_music_news_file():
     return generate_news_file("popn_music_news", constants.EAMUSE_APP_FEED, constants.POPN_MUSIC_EAMUSE_APP_ID)
 
@@ -140,6 +146,8 @@ if __name__ == "__main__":
     sdvx_news_data = generate_sdvx_news_file()
     ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
     polaris_news_data = generate_polaris_chord_news_file()
+    dance_rush_news_data = generate_dance_rush_news_file()
+    dance_around_news_data = generate_dance_around_news_file()
     gitadora_news_data = generate_gitadora_news_file()
     popn_music_news_data = generate_popn_music_news_file()
     jubeat_news_data = generate_jubeat_news_file()
@@ -154,6 +162,7 @@ if __name__ == "__main__":
     wacca_plus_news = generate_wacca_plus_news_file()
     museca_plus_news = generate_museca_plus_news_file()
     generate_rbdx_plus_news_file()
+
 
 
     news = create_merged_feed(
@@ -172,7 +181,10 @@ if __name__ == "__main__":
         music_diver_news_data,
         taiko_news_data,
         wacca_plus_news,
-        museca_plus_news
+        museca_plus_news,
+        polaris_news_data,
+        dance_rush_news_data,
+        dance_around_news_data
     )
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:

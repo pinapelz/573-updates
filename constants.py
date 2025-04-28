@@ -15,6 +15,8 @@ GITADORA_EAMUSE_APP_ID="9orw5gze0d1tkyhm"
 POPN_MUSIC_EAMUSE_APP_ID="17ua1w2bg3aggz00"
 NOSTALGIA_EAMUSE_APP_ID="mql0c9jmkhzf02r3"
 JUBEAT_EAMUSE_APP_ID="bz6w0u3gp546fpnq"
+DANCE_AROUND_APP_ID="kmhqpindcodm0mkh"
+DANCE_RUSH_APP_ID="ns3maqirvf08ddhp"
 
 CHUNITHM_JP_NEWS_SITE="https://info-chunithm.sega.jp/"
 CHUNITHM_INTL_NEWS_SITE="https://info-chunithm.sega.com/"

@@ -93,6 +93,12 @@ def get_news(news_url: str, version=None) -> list:
             case constants.NOSTALGIA_EAMUSE_APP_ID:
                 news_posts= sorted(eamuse_app.parse_news_page(site_data, "NOSTALGIA_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
+            case constants.DANCE_RUSH_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "DANCE_RUSH_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
+            case constants.DANCE_AROUND_APP_ID:
+                news_posts= sorted(eamuse_app.parse_news_page(site_data, "DANCE_AROUND_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts = translate.add_translate_text_to_en(news_posts)
             case _:
                 raise ValueError("Cannot find provided e-amuse app gameId", version)
 
