@@ -134,6 +134,48 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       </p>
     </>
   ),
+  dance_rush: (
+    <>
+      <div className="flex justify-center">
+        <EamuseMaintenancePopup isMoe={isMoe} />
+      </div>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
+      >
+        Official e-amusement service in NA available only at Round1 USA
+        <br />
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
+        networks which run older data
+      </p>
+    </>
+  ),
+  dance_around: (
+    <>
+      <div className="flex justify-center">
+        <EamuseMaintenancePopup isMoe={isMoe} />
+      </div>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
+      >
+        Official e-amusement service in NA available only at Round1 USA
+        <br />
+        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
+        networks which run older data
+      </p>
+    </>
+  ),
+  polaris_chord: (
+    <>
+      <div className="flex justify-center">
+        <EamuseMaintenancePopup isMoe={isMoe} />
+      </div>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
+      >
+        Official e-amusement service only in Japan.
+      </p>
+    </>
+  ),
   ddr: (
     <>
       <div className="flex justify-center">
