@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 import pytz
+from urllib.parse import urljoin
 import re
 
 CATEGORY_MAP = {
@@ -12,6 +13,7 @@ CATEGORY_MAP = {
 
 
 def parse_polaris_chord_news_site(html: str) -> list[dict]:
+    base_url = "https://p.eagate.573.jp/"
     soup = BeautifulSoup(html, 'html.parser')
     news_list = []
     for li in soup.select('#info-news li.news'):
@@ -37,7 +39,7 @@ def parse_polaris_chord_news_site(html: str) -> list[dict]:
         content = detail.get_text().strip()
 
         first_a = detail.find('a', href=True)
-        url = first_a['href'] if first_a else None
+        url = urljoin(base_url, first_a['href']) if first_a else None
 
         images = []
         for img in detail.find_all('img'):
