@@ -105,8 +105,15 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
             </div>
             {/* AI Disclaimer */}
             {news.is_ai_summary && (
-              <div className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-1 text-xs text-center`}>
+              <div className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-2 text-xs text-center`}>
               The information above is written by AI / 上記の情報はAIによって生成されました。
+              </div>
+            )}
+
+            {/* Machine TL Disclaimer */}
+            {hasTranslation && isEnglish &&  (
+              <div className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-2 text-xs text-center`}>
+                This text above is machine translated and may contain accuracies
               </div>
             )}
 
