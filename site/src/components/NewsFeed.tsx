@@ -113,7 +113,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
             {/* Machine TL Disclaimer */}
             {hasTranslation && isEnglish &&  (
               <div className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-2 text-xs text-center`}>
-                This text above is machine translated and may contain accuracies
+                The information above is machine translated and may contain inaccuracies
               </div>
             )}
 
