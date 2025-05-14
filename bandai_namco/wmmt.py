@@ -52,7 +52,7 @@ def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
                 url = url.replace(".php", ".html")
                 results.append({
                     "url": url,
-                    "title": title,
+                    "headline": title,
                     "date": date,
                     "type": TYPE_MAP.get(type_name, "Unknown")
                 })
@@ -78,7 +78,7 @@ def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
                 url = url.replace(".php", ".html")
                 results.append({
                     "url": url,
-                    "title": title,
+                    "headline": title,
                     "date": date,
                     "type": TYPE_MAP.get(type_name, "Unknown")
                 })
@@ -104,7 +104,7 @@ def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
                 url = url.replace(".php", ".html")
                 results.append({
                     "url": url,
-                    "title": title,
+                    "headline": title,
                     "date": date,
                     "type": TYPE_MAP.get(type_name, "Unknown")
                 })
@@ -167,9 +167,17 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         content = first_p.get_text(" ", strip=True) if first_p else ""
         images = []
         for img in container.select("img"):
-            src = img.get("src")
+            src = img.get("src").replace("./","").lstip("/")
             if not src:
                 continue
+            if data["type"] == "EVENTS":
+                src = "event/online/" + src
+            elif data["type"] == "SPECIAL":
+                src =  "special/" + src
+            elif data["type"] == "FUTURE LAB":
+                src =  "miraiken/" + src
+            elif data["type"] == "UPDATE":
+                src = "update/" + src
             src = src.replace("./", "").lstrip("/")
             img_url = f"{image_base}/{src}"
             parent = img.find_parent("a")
@@ -197,7 +205,17 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         content = first_p.get_text(" ", strip=True) if first_p else ""
         images = []
         for img in container.select("img"):
-            src = img.get("src")
+            src = img.get("src").replace("./","").lstip("/")
+            if not src:
+                continue
+            if data["type"] == "EVENTS":
+                src = "event/online/" + src
+            elif data["type"] == "SPECIAL":
+                src =  "special/" + src
+            elif data["type"] == "FUTURE LAB":
+                src =  "miraiken/" + src
+            elif data["type"] == "UPDATE":
+                src = "update/" + src
             if not src:
                 continue
             src = src.replace("./", "").lstrip("/")
