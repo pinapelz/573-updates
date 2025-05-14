@@ -173,9 +173,28 @@ def get_news(news_url: str, version=None) -> list:
         prelim_na_news_data = wmmt.get_wmmt_na_news_post_links(na_site_data)
         for data in prelim_na_news_data:
             post_site_data = download_site_as_html(data["url"])
-            news_posts.append(wmmt.parse_wmmt_na_news(post_site_data, data))
-        print(news_posts)
-        exit()
+            news = wmmt.parse_wmmt_na_news(post_site_data, data)
+            if news is not None:
+                news_posts.append(news)
+        asia_oce_site_data = download_site_as_html(constants.WANGAN_MAXI_ASIA_OCE_NEWS_SITE)
+        prelim_asia_oce_news_data = wmmt.get_wmmt_asia_oce_news_post_links(asia_oce_site_data)
+        for data in prelim_asia_oce_news_data:
+            post_site_data = download_site_as_html(data["url"])
+            news = wmmt.parse_wmmt_asia_oce_news(post_site_data, data)
+            if news is not None:
+                news_posts.append(news)
+        jp_site_data = download_site_as_html(constants.WANGAN_MAXI_JP_NEWS_SITE, response_encoding="utf-8")
+        prelim_jp_news_data = wmmt.get_wmmt_jp_news_post_links(jp_site_data)
+        jp_news = []
+        for data in prelim_jp_news_data:
+            post_site_data = download_site_as_html(data["url"], response_encoding="utf-8")
+            news = wmmt.parse_wmmt_jp_news(post_site_data, data)
+            if news is not None:
+                jp_news.append(news)
+        jp_news = translate.add_translate_text_to_en(jp_news)
+        news_posts.extend(jp_news)
+        news_posts = sorted(news_posts, key=lambda x: x['timestamp'], reverse=True)
+        return news_posts
 
 
     elif news_url == constants.WACCA_PLUS_MAGIC_STRING:

@@ -128,6 +128,9 @@ def generate_music_diver_news_file():
 def generate_taiko_news_file():
     return generate_news_file("taiko_news", constants.TAIKO_BLOG_SITE)
 
+def generate_wmmt_news_file():
+    return generate_news_file("wmmt_news", constants.WANGAN_MAXI_GENERIC)
+
 def generate_wacca_plus_news_file():
     return generate_news_file("wacca_plus_news", constants.WACCA_PLUS_MAGIC_STRING)
 
@@ -162,6 +165,7 @@ if __name__ == "__main__":
     wacca_plus_news = generate_wacca_plus_news_file()
     museca_plus_news = generate_museca_plus_news_file()
     generate_rbdx_plus_news_file()
+    wmmt_news = generate_wmmt_news_file()
 
 
 
@@ -180,6 +184,7 @@ if __name__ == "__main__":
         chunithm_intl_news_data,
         music_diver_news_data,
         taiko_news_data,
+        wmmt_news,
         wacca_plus_news,
         museca_plus_news,
         polaris_news_data,

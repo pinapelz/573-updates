@@ -68,7 +68,7 @@ class SiteScraper:
         print("WebDriver closed successfully")
 
 
-def download_site_as_html(url: str, timeout: int = 10) -> str:
+def download_site_as_html(url: str, timeout: int = 10, response_encoding=None) -> str:
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -84,6 +84,8 @@ def download_site_as_html(url: str, timeout: int = 10) -> str:
 
     try:
         response = requests.get(url, headers=headers, timeout=timeout)
+        if response_encoding:
+            response.encoding = response_encoding
         response.raise_for_status()
         return response.text
     except requests.RequestException as e:
