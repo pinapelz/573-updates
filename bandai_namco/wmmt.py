@@ -1,0 +1,96 @@
+import re
+from datetime import datetime, timedelta, timezone
+from enum import Enum
+from urllib.parse import urljoin
+import sys
+import os
+import pytz
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+import constants
+from bs4 import BeautifulSoup
+
+BASE_URL = "https://wanganmaxi-official.com"
+
+TYPE_MAP = {
+    "Online Events Information": "EVENTS",
+    "Update Information": "UPDATE",
+    "Future Lab News": "FUTURE LAB",
+    "Special Contents": "SPECIAL"
+}
+
+def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
+    def five_dx_plus_parser(html: str):
+        soup = BeautifulSoup(html, "html.parser")
+        results = []
+        for section in soup.select("div.parts_column_02 > div.parts_bg_01"):
+            type_heading = section.select_one("section h2.parts_txt_01")
+            type_name = type_heading.get_text(strip=True) if type_heading else None
+            count = 0
+            for a in section.select("ul.archiveNav a[href]"):
+                if count >= constants.WANGAN_MAXI_POSTS_PER_SECTION:
+                    break
+                href = a["href"]
+                title_tag = a.find("h4")
+                date_tag = a.find("p")
+                title_parts = []
+                for child in title_tag.children:
+                    if child.name == "span":
+                        title_parts.append(f"[{child.get_text(strip=True)}]")
+                    elif isinstance(child, str):
+                        title_parts.append(child.strip())
+                title = " ".join(title_parts).strip()
+                date = date_tag.get_text(strip=True) if date_tag else "No date"
+                url = urljoin(BASE_URL, href)
+                url = url.replace(".php", ".html")
+                results.append({
+                    "url": url,
+                    "title": title,
+                    "date": date,
+                    "type": TYPE_MAP[type_name]
+                })
+                count += 1
+        return results
+    if version == constants.WANGAN_MAXI_VERSION.FIVE_DX_PLUS:
+        return five_dx_plus_parser
+
+
+def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VERSION, internal_path: str):
+    def five_dx_plus_extractor(html: str, data: dict):
+        image_base = BASE_URL + "/" + internal_path
+        soup = BeautifulSoup(html, "html.parser")
+        container = soup.select_one(".parts_inner_01")
+        if not container:
+            return None
+        date_str = data["date"]
+        timestamp = int(datetime.strptime(date_str, "%Y/%m/%d").replace(tzinfo=timezone.utc).timestamp())
+        first_p = container.find("p")
+        content = first_p.get_text(" ", strip=True) if first_p else ""
+        images = []
+        for img in container.find_all("img"):
+            src = img.get("src").replace("./","")
+            if data["type"] == "EVENTS":
+                src = "event/online/" + src
+            elif data["type"] == "SPECIAL":
+                src =  "special/" + src
+            elif data["type"] == "FUTURE LAB":
+                src =  "miraiken/" + src
+            elif data["type"] == "UPDATE":
+                src = "update/" + src
+            img_url = image_base + "/" + src if src else None
+            parent = img.find_parent("a")
+            images.append({
+                "image": img_url,
+                "link": urljoin(BASE_URL, parent.get("href")) if parent and parent.get("href") else None
+            })
+        data["identifier"] = identifier
+        data["timestamp"] = timestamp
+        data["content"] = content
+        data["images"] = images
+        data["is_ai_summary"] = False
+        return data
+
+    if version == constants.WANGAN_MAXI_VERSION.FIVE_DX_PLUS:
+        return five_dx_plus_extractor
+
+get_wmmt_na_news_post_links = make_wmmt_parser(constants.WANGAN_MAXI_VERSION.FIVE_DX_PLUS)
+parse_wmmt_na_news = make_wmmt_news_extractor("WANGAN_MAXI_NA", constants.WANGAN_MAXI_VERSION.FIVE_DX_PLUS, "wanganmaxi5dxplus/na")

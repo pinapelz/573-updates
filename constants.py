@@ -27,6 +27,12 @@ ONGEKI_JP_NEWS_SITE="https://info-ongeki.sega.jp/"
 MUSIC_DIVER_NEWS="https://mypage.musicdiver.jp/api/news?lang=en"
 
 TAIKO_BLOG_SITE="https://taiko-ch.net/blog/"
+WANGAN_MAXI_GENERIC="https://wanganmaxi-official.com/"
+WANGAN_MAXI_NA_NEWS_SITE="https://wanganmaxi-official.com/wanganmaxi5dxplus/na/archive"
+WANGAN_MAXI_ASIA_OCE_NEWS_SITE="https://wanganmaxi-official.com/wanganmaxi6rr/en/archive/"
+WANGAN_MAXI_JP_NEWS_SITE="https://wanganmaxi-official.com/wanganmaxi6rrplus/jp/archive/"
+WANGAN_MAXI_POSTS_PER_SECTION=3
+# due to how dead the NA version is, these will be merged into a singular feed
 
 ADD_EN_TRANSLATION=True # Only takes effect if an API key is provided in .env
 CHUNI_RECURSIVE_IMAGE=True # Scrape the individual post pages and get all images there
@@ -45,3 +51,10 @@ class MAIMAIDX_VERSION(Enum):
 
 class ONGEKI_VERSION(Enum):
     REFRESH = 1
+
+class WANGAN_MAXI_VERSION(Enum):
+    FIVE_DX_PLUS = 1,
+    SIX = 2,
+    SIX_R = 3,
+    SIX_RR = 4,
+    SIX_RR_PLUS = 5

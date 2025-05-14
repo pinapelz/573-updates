@@ -32,6 +32,7 @@ import sega.maimaidx_intl as maimaidx_intl
 import sega.ongeki_jp as ongeki_jp
 import taito.music_diver as music_diver
 import bandai_namco.taiko as taiko
+import bandai_namco.wmmt as wmmt
 import community.disc as disc
 import community.wacca_plus.wacca_plus as wac_plus
 import community.museca_plus as mus_plus
@@ -165,6 +166,17 @@ def get_news(news_url: str, version=None) -> list:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(taiko.parse_taiko_blog_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts)
+
+    elif news_url == constants.WANGAN_MAXI_GENERIC:
+        news_posts = []
+        na_site_data = download_site_as_html(constants.WANGAN_MAXI_NA_NEWS_SITE)
+        prelim_na_news_data = wmmt.get_wmmt_na_news_post_links(na_site_data)
+        for data in prelim_na_news_data:
+            post_site_data = download_site_as_html(data["url"])
+            news_posts.append(wmmt.parse_wmmt_na_news(post_site_data, data))
+        print(news_posts)
+        exit()
+
 
     elif news_url == constants.WACCA_PLUS_MAGIC_STRING:
         if not wac_plus.check_is_generation_possible():

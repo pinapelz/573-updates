@@ -17,6 +17,8 @@ Currently Supported:
 - jubeat (`jubeat_news`)
 - GITADORA (`gitadora_news`)
 - NOSTALGIA (`nostalgia_news`)
+- DanceRush (`dance_rush_news`)
+- DANCE aROUND (`dance_around_news`)
 - CHUNITHM (JPN) (`chunithm_jpn_news`)
 - CHUNITHM (INTL) (`chunithm_intl_news`)
 - maimai DX (JPN) (`maimaidx_jp_news`)
