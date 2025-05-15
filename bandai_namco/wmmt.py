@@ -26,6 +26,15 @@ TYPE_MAP = {
     "ニュース": "NEWS"
 }
 
+def fix_image_url_path(base_url: str, image_path):
+    if image_path.startswith(base_url):
+        return image_path
+    elif base_url in image_path:
+        common_path_index = image_path.find(base_url) + len(base_url)
+        return base_url + image_path[common_path_index:]
+    else:
+        return urljoin(base_url, image_path)
+
 def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
     def five_dx_plus_parser(html: str):
         soup = BeautifulSoup(html, "html.parser")
@@ -144,8 +153,6 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 src =  "special/" + src
             elif data["type"] == "FUTURE LAB":
                 src =  "miraiken/" + src
-            elif data["type"] == "NAVI-SCRATCH":
-                src = "navi/"
             elif data["type"] == "UPDATE":
                 src = "update/" + src
             img_url = image_base + "/" + src if src else None
@@ -188,9 +195,10 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
             elif data["type"] == "FUTURE LAB":
                 src =  "miraiken/" + src
             elif data["type"] == "NAVI-SCRATCH":
-                src = "navi/"
+                src = "navi/" + src
             elif data["type"] == "UPDATE":
                 src = "update/" + src
+
             src = src.replace("./", "").lstrip("/")
             img_url = f"{image_base}/{src}"
             parent = img.find_parent("a")
@@ -230,7 +238,7 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
             elif data["type"] == "SPECIAL":
                 src =  "special/" + src
             elif data["type"] == "NAVI-SCRATCH":
-                src = "navi/"
+                src = "navi/" + src
             elif data["type"] == "FUTURE LAB":
                 src =  "miraiken/" + src
             elif data["type"] == "UPDATE":
