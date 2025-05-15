@@ -128,8 +128,13 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
             return None
         date_str = data["date"]
         timestamp = int(datetime.strptime(date_str, "%Y/%m/%d").replace(tzinfo=timezone.utc).timestamp())
-        first_p = container.find("p")
-        content = first_p.get_text(" ", strip=True) if first_p else ""
+        content = ""
+        paragraphs = container.find_all("p")
+        if paragraphs:
+            content = paragraphs[0].get_text(" ", strip=True)
+            if content and len(content.split()) < 10 and len(paragraphs) > 1:
+                next_p_content = paragraphs[1].get_text(" ", strip=True)
+                content += " " + next_p_content
         images = []
         for img in container.find_all("img"):
             src = img.get("src").replace("./","")
@@ -139,6 +144,8 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 src =  "special/" + src
             elif data["type"] == "FUTURE LAB":
                 src =  "miraiken/" + src
+            elif data["type"] == "NAVI-SCRATCH":
+                src = "navi/"
             elif data["type"] == "UPDATE":
                 src = "update/" + src
             img_url = image_base + "/" + src if src else None
@@ -163,8 +170,12 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
             return None
         date_str = data["date"]
         timestamp = int(datetime.strptime(date_str, "%Y/%m/%d").replace(tzinfo=timezone.utc).timestamp())
-        first_p = container.find("p")
-        content = first_p.get_text(" ", strip=True) if first_p else ""
+        paragraphs = container.find_all("p")
+        if paragraphs:
+            content = paragraphs[0].get_text(" ", strip=True)
+            if content and len(content.split()) < 10 and len(paragraphs) > 1:
+                next_p_content = paragraphs[1].get_text(" ", strip=True)
+                content += " " + next_p_content
         images = []
         for img in container.select("img"):
             src = img.get("src").replace("./","").lstrip("/")
@@ -176,6 +187,8 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 src =  "special/" + src
             elif data["type"] == "FUTURE LAB":
                 src =  "miraiken/" + src
+            elif data["type"] == "NAVI-SCRATCH":
+                src = "navi/"
             elif data["type"] == "UPDATE":
                 src = "update/" + src
             src = src.replace("./", "").lstrip("/")
@@ -201,8 +214,12 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
             return None
         date_str = data["date"]
         timestamp = int(datetime.strptime(date_str, "%Y/%m/%d").replace(tzinfo=timezone.utc).timestamp())
-        first_p = container.find("p")
-        content = first_p.get_text(" ", strip=True) if first_p else ""
+        paragraphs = container.find_all("p")
+        if paragraphs:
+            content = paragraphs[0].get_text(" ", strip=True)
+            if content and len(content.split()) < 10 and len(paragraphs) > 1:
+                next_p_content = paragraphs[1].get_text(" ", strip=True)
+                content += " " + next_p_content
         images = []
         for img in container.select("img"):
             src = img.get("src").replace("./","").lstrip("/")
@@ -212,6 +229,8 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 src = "event/online/" + src
             elif data["type"] == "SPECIAL":
                 src =  "special/" + src
+            elif data["type"] == "NAVI-SCRATCH":
+                src = "navi/"
             elif data["type"] == "FUTURE LAB":
                 src =  "miraiken/" + src
             elif data["type"] == "UPDATE":

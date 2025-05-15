@@ -184,7 +184,6 @@ if __name__ == "__main__":
         chunithm_intl_news_data,
         music_diver_news_data,
         taiko_news_data,
-        wmmt_news,
         wacca_plus_news,
         museca_plus_news,
         polaris_news_data,
