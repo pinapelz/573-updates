@@ -167,7 +167,7 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         content = first_p.get_text(" ", strip=True) if first_p else ""
         images = []
         for img in container.select("img"):
-            src = img.get("src").replace("./","").lstip("/")
+            src = img.get("src").replace("./","").lstrip("/")
             if not src:
                 continue
             if data["type"] == "EVENTS":
@@ -205,7 +205,7 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         content = first_p.get_text(" ", strip=True) if first_p else ""
         images = []
         for img in container.select("img"):
-            src = img.get("src").replace("./","").lstip("/")
+            src = img.get("src").replace("./","").lstrip("/")
             if not src:
                 continue
             if data["type"] == "EVENTS":
