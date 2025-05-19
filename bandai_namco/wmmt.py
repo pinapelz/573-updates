@@ -143,7 +143,7 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         paragraphs = container.find_all("p")
         if paragraphs:
             content = paragraphs[0].get_text(" ", strip=True)
-            if content and len(content.split()) < 10 and len(paragraphs) > 1:
+            if content and len(content.split()) < 50 and len(paragraphs) > 1:
                 next_p_content = paragraphs[1].get_text(" ", strip=True)
                 content += " " + next_p_content
         images = []
@@ -177,7 +177,7 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         paragraphs = container.find_all("p")
         if paragraphs:
             content = paragraphs[0].get_text(" ", strip=True)
-            if content and len(content.split()) < 10 and len(paragraphs) > 1:
+            if content and len(content.split()) < 50 and len(paragraphs) > 1:
                 next_p_content = paragraphs[1].get_text(" ", strip=True)
                 content += " " + next_p_content
         images = []
@@ -211,7 +211,7 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         paragraphs = container.find_all("p")
         if paragraphs:
             content = paragraphs[0].get_text(" ", strip=True)
-            if content and len(content.split()) < 10 and len(paragraphs) > 1:
+            if content and len(content.split()) < 50 and len(paragraphs) > 1:
                 next_p_content = paragraphs[1].get_text(" ", strip=True)
                 content += " " + next_p_content
         images = []
