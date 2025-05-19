@@ -169,14 +169,14 @@ def get_news(news_url: str, version=None) -> list:
 
     elif news_url == constants.WANGAN_MAXI_GENERIC:
         news_posts = []
-        na_site_data = download_site_as_html(constants.WANGAN_MAXI_NA_NEWS_SITE)
+        na_site_data = download_site_as_html(constants.WANGAN_MAXI_NA_NEWS_SITE, response_encoding="utf-8")
         prelim_na_news_data = wmmt.get_wmmt_na_news_post_links(na_site_data)
         for data in prelim_na_news_data:
             post_site_data = download_site_as_html(data["url"])
             news = wmmt.parse_wmmt_na_news(post_site_data, data)
             if news is not None:
                 news_posts.append(news)
-        asia_oce_site_data = download_site_as_html(constants.WANGAN_MAXI_ASIA_OCE_NEWS_SITE)
+        asia_oce_site_data = download_site_as_html(constants.WANGAN_MAXI_ASIA_OCE_NEWS_SITE, response_encoding="utf-8")
         prelim_asia_oce_news_data = wmmt.get_wmmt_asia_oce_news_post_links(asia_oce_site_data)
         for data in prelim_asia_oce_news_data:
             post_site_data = download_site_as_html(data["url"])

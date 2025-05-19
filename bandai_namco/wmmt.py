@@ -131,7 +131,7 @@ def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
         return six_rr_plus_parser
 
 
-def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VERSION, internal_path: str, region_text: str):
+def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VERSION, region_text: str):
     def five_dx_plus_extractor(html: str, data: dict):
         soup = BeautifulSoup(html, "html.parser")
         container = soup.select_one(".parts_inner_01")
@@ -245,6 +245,6 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
 get_wmmt_na_news_post_links = make_wmmt_parser(constants.WANGAN_MAXI_VERSION.FIVE_DX_PLUS)
 get_wmmt_asia_oce_news_post_links = make_wmmt_parser(constants.WANGAN_MAXI_VERSION.SIX_RR)
 get_wmmt_jp_news_post_links = make_wmmt_parser(constants.WANGAN_MAXI_VERSION.SIX_RR_PLUS)
-parse_wmmt_na_news = make_wmmt_news_extractor("WANGAN_MAXI_NA", constants.WANGAN_MAXI_VERSION.FIVE_DX_PLUS, "wanganmaxi5dxplus/na", "NA")
-parse_wmmt_asia_oce_news = make_wmmt_news_extractor("WANGAN_MAXI_ASIA_OCE", constants.WANGAN_MAXI_VERSION.SIX_RR, "wanganmaxi6rr/en", "ASIA/OCE")
-parse_wmmt_jp_news = make_wmmt_news_extractor("WANGAN_MAXI_JP", constants.WANGAN_MAXI_VERSION.SIX_RR_PLUS, "wanganmaxi6rrplus/jp", "JPN")
+parse_wmmt_na_news = make_wmmt_news_extractor("WANGAN_MAXI_NA", constants.WANGAN_MAXI_VERSION.FIVE_DX_PLUS, "NA")
+parse_wmmt_asia_oce_news = make_wmmt_news_extractor("WANGAN_MAXI_ASIA_OCE", constants.WANGAN_MAXI_VERSION.SIX_RR, "ASIA/OCE")
+parse_wmmt_jp_news = make_wmmt_news_extractor("WANGAN_MAXI_JP", constants.WANGAN_MAXI_VERSION.SIX_RR_PLUS, "JPN")
