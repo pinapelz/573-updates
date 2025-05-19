@@ -12,7 +12,9 @@ interface GameCategory {
 }
 const TitleBar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [otherDropdownOpen, setOtherDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const otherDropdownRef = useRef<HTMLDivElement>(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -95,6 +97,15 @@ const TitleBar: React.FC = () => {
     },
   ];
 
+  const otherGames: GameCategory[] = [
+    {
+      name: "BANDAI NAMCO",
+      games: [
+        { id: "wmmt", title: "WANGAN MAXI" },
+      ],
+    },
+  ];
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -103,11 +114,18 @@ const TitleBar: React.FC = () => {
       ) {
         setDropdownOpen(false);
       }
+      if (
+        otherDropdownRef.current &&
+        !otherDropdownRef.current.contains(event.target as Node)
+      ) {
+        setOtherDropdownOpen(false);
+      }
     };
-    if (dropdownOpen)
+    if (dropdownOpen || otherDropdownOpen)
       document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [dropdownOpen]);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, [dropdownOpen, otherDropdownOpen]);
 
   return (
     <div
@@ -153,7 +171,7 @@ const TitleBar: React.FC = () => {
                 className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center`}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                Game Select
+                Rhythm Games
                 <svg
                   className="w-4 h-4 ml-1"
                   fill="none"
@@ -190,6 +208,60 @@ const TitleBar: React.FC = () => {
                               to={`/game/${game.id}?${searchParams.toString()}`}
                               className={`${isMoe ? "text-pink-800 hover:bg-pink-200" : "text-gray-300 hover:bg-gray-700 hover:text-white"} block text-left px-2 py-1 text-sm rounded whitespace-nowrap overflow-hidden text-ellipsis`}
                               onClick={() => setDropdownOpen(false)}
+                            >
+                              {game.title}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="relative" ref={otherDropdownRef}>
+              <button
+                className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center`}
+                onClick={() => setOtherDropdownOpen(!otherDropdownOpen)}
+              >
+                Other Games
+                <svg
+                  className="w-4 h-4 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              {otherDropdownOpen && (
+                <div
+                  className={`absolute mt-2 w-64 sm:w-80 ${isMoe ? "bg-pink-100 border-pink-300" : "bg-gray-800 border-gray-700"} border rounded-md shadow-lg z-10 right-0`}
+                >
+                  <div className="py-1 max-h-[70vh] overflow-y-auto scroll-py-2">
+                    {otherGames.map((category, index) => (
+                      <div key={index} className="px-2 py-1">
+                        <div
+                          className={`${isMoe ? "text-pink-600 border-pink-300" : "text-gray-400 border-gray-700"} text-sm font-semibold mb-1 border-b pb-1`}
+                        >
+                          {category.name}
+                        </div>
+                        <div
+                          className={`${category.games.length > 3 ? "grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5" : "space-y-0.5"}`}
+                        >
+                          {category.games.map((game) => (
+                            <Link
+                              key={game.id}
+                              to={`/game/${game.id}?${searchParams.toString()}`}
+                              className={`${isMoe ? "text-pink-800 hover:bg-pink-200" : "text-gray-300 hover:bg-gray-700 hover:text-white"} block text-left px-2 py-1 text-sm rounded whitespace-nowrap overflow-hidden text-ellipsis`}
+                              onClick={() => setOtherDropdownOpen(false)}
                             >
                               {game.title}
                             </Link>

@@ -392,6 +392,11 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       >
       Needs to be sideloaded once you get a hold of the IPA. Network features supported. iOS ONLY
       </p>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
+      >
+        *Not in main feed as date data is unavailable from this source
+      </p>
     </>
   )
 });

@@ -22,7 +22,11 @@ export const getGameTitle = (gameId: string) => {
     if (lowerCaseGameId.startsWith("reflec_beat") || lowerCaseGameId.startsWith("rb_deluxe")) return "REFLEC BEAT DELUXE PLUS";
     if (lowerCaseGameId.startsWith("dance_rush")) return "DANCERUSH";
     if(lowerCaseGameId.startsWith("dance_around")) return "DANCE aROUND";
-    if(lowerCaseGameId.startsWith("polaris_chord")) return "POLARIS CHORD/ポラリスコード"
+    if(lowerCaseGameId.startsWith("polaris_chord")) return "POLARIS CHORD/ポラリスコード";
+    if(lowerCaseGameId.startsWith("wmmt")) return "WANGAN MIDNIGHT MAXIMUM TUNE";
+    if(lowerCaseGameId.startsWith("wangan_maxi_jp")) return "WANGAN MIDNIGHT MAXIMUM TUNE (JAPAN)";
+    if(lowerCaseGameId.startsWith("wangan_maxi_na")) return "WANGAN MIDNIGHT MAXIMUM TUNE (NORTH AMERICA)";
+    if(lowerCaseGameId.startsWith("wangan_maxi_asia_oce")) return "WANGAN MIDNIGHT MAXIMUM TUNE (ASIA/OCEANIA)";
 
 
     return gameId.toUpperCase();
