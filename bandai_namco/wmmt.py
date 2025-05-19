@@ -27,13 +27,16 @@ TYPE_MAP = {
 }
 
 def fix_image_url_path(base_url: str, image_path):
-    if image_path.startswith(base_url):
-        return image_path
-    elif base_url in image_path:
-        common_path_index = image_path.find(base_url) + len(base_url)
-        return base_url + image_path[common_path_index:]
-    else:
-        return urljoin(base_url, image_path)
+    if image_path.startswith("wanganmaxi"):
+        from urllib.parse import urlparse
+        parsed_url = urlparse(base_url)
+        domain = f"{parsed_url.scheme}://{parsed_url.netloc}"
+        return urljoin(domain, image_path)
+    if base_url.endswith(".html"):
+        base_url = re.sub(r"/[^/]+\.html$", "/", base_url)
+    return urljoin(base_url, image_path.lstrip("/"))
+
+
 
 def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
     def five_dx_plus_parser(html: str):
@@ -130,7 +133,6 @@ def make_wmmt_parser(version: constants.WANGAN_MAXI_VERSION):
 
 def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VERSION, internal_path: str, region_text: str):
     def five_dx_plus_extractor(html: str, data: dict):
-        image_base = BASE_URL + "/" + internal_path
         soup = BeautifulSoup(html, "html.parser")
         container = soup.select_one(".parts_inner_01")
         if not container:
@@ -145,17 +147,13 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 next_p_content = paragraphs[1].get_text(" ", strip=True)
                 content += " " + next_p_content
         images = []
+        seen_srcs = []
         for img in container.find_all("img"):
-            src = img.get("src").replace("./","")
-            if data["type"] == "EVENTS":
-                src = "event/online/" + src
-            elif data["type"] == "SPECIAL":
-                src =  "special/" + src
-            elif data["type"] == "FUTURE LAB":
-                src =  "miraiken/" + src
-            elif data["type"] == "UPDATE":
-                src = "update/" + src
-            img_url = image_base + "/" + src if src else None
+            src = img.get("src").replace("./","").lstrip("/")
+            if src in seen_srcs:
+                continue
+            seen_srcs.append(src)
+            img_url = fix_image_url_path(data["url"], src)
             parent = img.find_parent("a")
             images.append({
                 "image": img_url,
@@ -170,7 +168,6 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         return data
 
     def six_rr_extractor(html: str, data: dict):
-        image_base = BASE_URL + "/" + internal_path
         soup = BeautifulSoup(html, "html.parser")
         container = soup.select_one(".parts_column_02")
         if not container:
@@ -184,23 +181,13 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 next_p_content = paragraphs[1].get_text(" ", strip=True)
                 content += " " + next_p_content
         images = []
+        seen_srcs = []
         for img in container.select("img"):
             src = img.get("src").replace("./","").lstrip("/")
-            if not src:
+            if src in seen_srcs:
                 continue
-            if data["type"] == "EVENTS":
-                src = "event/online/" + src
-            elif data["type"] == "SPECIAL":
-                src =  "special/" + src
-            elif data["type"] == "FUTURE LAB":
-                src =  "miraiken/" + src
-            elif data["type"] == "NAVI-SCRATCH":
-                src = "navi/" + src
-            elif data["type"] == "UPDATE":
-                src = "update/" + src
-
-            src = src.replace("./", "").lstrip("/")
-            img_url = f"{image_base}/{src}"
+            seen_srcs.append(src)
+            img_url = fix_image_url_path(data["url"], src)
             parent = img.find_parent("a")
             images.append({
                 "image": img_url,
@@ -215,7 +202,6 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         return data
 
     def six_rr_plus_extractor(html: str, data: dict):
-        image_base = BASE_URL + "/" + internal_path
         soup = BeautifulSoup(html, "html.parser")
         container = soup.select_one(".parts_column_02")
         if not container:
@@ -229,24 +215,13 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 next_p_content = paragraphs[1].get_text(" ", strip=True)
                 content += " " + next_p_content
         images = []
+        seen_srcs = []
         for img in container.select("img"):
             src = img.get("src").replace("./","").lstrip("/")
-            if not src:
+            if src in seen_srcs:
                 continue
-            if data["type"] == "EVENTS":
-                src = "event/online/" + src
-            elif data["type"] == "SPECIAL":
-                src =  "special/" + src
-            elif data["type"] == "NAVI-SCRATCH":
-                src = "navi/" + src
-            elif data["type"] == "FUTURE LAB":
-                src =  "miraiken/" + src
-            elif data["type"] == "UPDATE":
-                src = "update/" + src
-            if not src:
-                continue
-            src = src.replace("./", "").lstrip("/")
-            img_url = f"{image_base}/{src}"
+            seen_srcs.append(src)
+            img_url = fix_image_url_path(data["url"], src)
             parent = img.find_parent("a")
             images.append({
                 "image": img_url,
