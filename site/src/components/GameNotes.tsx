@@ -398,5 +398,19 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         *Not in main feed as date data is unavailable from this source
       </p>
     </>
+  ),
+  wmmt: (
+    <>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
+      >
+        Singular news feed for NA, ASIA/OCE, and JPN
+      </p>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
+      >
+        All regions run different versions of the game
+      </p>
+    </>
   )
 });

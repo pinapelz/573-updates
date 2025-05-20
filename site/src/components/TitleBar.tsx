@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   Link,
   useSearchParams,
@@ -6,24 +6,11 @@ import {
   useLocation,
 } from "react-router-dom";
 
-interface GameCategory {
-  name: string;
-  games: { id: string; title: string }[];
-}
 const TitleBar: React.FC = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [otherDropdownOpen, setOtherDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const otherDropdownRef = useRef<HTMLDivElement>(null);
-  const rhythmGamesBtnRef = useRef<HTMLButtonElement>(null);
-  const otherGamesBtnRef = useRef<HTMLButtonElement>(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isMoe = searchParams.has("moe");
-
-  const [rhythmDropdownStyle, setRhythmDropdownStyle] = useState<React.CSSProperties>({});
-  const [otherDropdownStyle, setOtherDropdownStyle] = useState<React.CSSProperties>({});
 
   const toggleTheme = () => {
     const params = new URLSearchParams(searchParams);
@@ -57,121 +44,6 @@ const TitleBar: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, navigate]);
-
-  const gameCategories: GameCategory[] = [
-    {
-      name: "KONAMI",
-      games: [
-        { id: "iidx", title: "beatmania IIDX" },
-        { id: "sdvx", title: "SOUND VOLTEX" },
-        { id: "ddr", title: "DDR" },
-        { id: "jubeat", title: "jubeat" },
-        { id: "popn_music", title: "pop'n music" },
-        { id: "nostalgia", title: "NOSTALGIA" },
-        { id: "gitadora", title: "GITADORA" },
-        { id: "dance_rush", title: "DANCERUSH" },
-        { id: "dance_around", title: "DANCE aROUND" },
-        { id: "polaris_chord", title: "POLARIS CHORD" },
-      ],
-    },
-    {
-      name: "SEGA",
-      games: [
-        { id: "chunithm_jp", title: "CHUNITHM (JAPAN)" },
-        { id: "chunithm_intl", title: "CHUNITHM (INTL)" },
-        { id: "maimaidx_jp", title: "maimai DX (JAPAN)" },
-        { id: "maimaidx_intl", title: "maimai DX (INTL)" },
-        { id: "ongeki_jp", title: "O.N.G.E.K.I" },
-      ],
-    },
-    {
-      name: "TAITO",
-      games: [{ id: "music_diver", title: "MUSIC DIVER" }],
-    },
-    {
-      name: "BANDAI NAMCO",
-      games: [{ id: "taiko", title: "TAIKO" }],
-    },
-    {
-      name: "COMMUNITY",
-      games: [
-        { id: "wacca_plus", title: "WACCA PLUS" },
-        { id: "museca_plus", title: "MÚSECA PLUS" },
-        { id: "rb_deluxe_plus", title: "RB DELUXE PLUS" },
-      ],
-    },
-  ];
-
-  const otherGames: GameCategory[] = [
-    {
-      name: "BANDAI NAMCO",
-      games: [
-        { id: "wmmt", title: "WANGAN MAXI" },
-      ],
-    },
-  ];
-
-  const calculateDropdownPosition = (buttonRef: React.RefObject<HTMLElement | null>) => {
-    if (!buttonRef.current) return {};
-
-    const rect = buttonRef.current.getBoundingClientRect();
-    const dropdownWidth = 320; // sm:w-80 equivalent in px
-    const spaceOnRight = window.innerWidth - rect.right;
-    if (spaceOnRight < dropdownWidth) {
-      return { right: 'auto', left: '0' };
-    }
-    return { right: '0', left: 'auto' };
-  };
-  const toggleRhythmDropdown = () => {
-    const newState = !dropdownOpen;
-    if (newState) {
-      setRhythmDropdownStyle(calculateDropdownPosition(rhythmGamesBtnRef));
-    }
-    setDropdownOpen(newState);
-  };
-
-  const toggleOtherDropdown = () => {
-    const newState = !otherDropdownOpen;
-    if (newState) {
-      setOtherDropdownStyle(calculateDropdownPosition(otherGamesBtnRef));
-    }
-    setOtherDropdownOpen(newState);
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (dropdownOpen) {
-        setRhythmDropdownStyle(calculateDropdownPosition(rhythmGamesBtnRef));
-      }
-      if (otherDropdownOpen) {
-        setOtherDropdownStyle(calculateDropdownPosition(otherGamesBtnRef));
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [dropdownOpen, otherDropdownOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setDropdownOpen(false);
-      }
-      if (
-        otherDropdownRef.current &&
-        !otherDropdownRef.current.contains(event.target as Node)
-      ) {
-        setOtherDropdownOpen(false);
-      }
-    };
-    if (dropdownOpen || otherDropdownOpen)
-      document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
-  }, [dropdownOpen, otherDropdownOpen]);
 
   return (
     <div
@@ -209,120 +81,14 @@ const TitleBar: React.FC = () => {
               to={`/${isMoe ? "?moe" : ""}`}
               className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium text-sm sm:text-base`}
             >
-              All Games
+              Main News Feed
             </Link>
-
-            <div className="relative" ref={dropdownRef}>
-              <button
-                ref={rhythmGamesBtnRef}
-                className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center text-sm sm:text-base`}
-                onClick={toggleRhythmDropdown}
-              >
-                Rhythm Games
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-
-              {dropdownOpen && (
-                <div
-                  className={`absolute mt-2 w-64 sm:w-80 ${isMoe ? "bg-pink-100 border-pink-300" : "bg-gray-800 border-gray-700"} border rounded-md shadow-lg z-10`}
-                  style={rhythmDropdownStyle}
-                >
-                  <div className="py-1 max-h-[70vh] overflow-y-auto scroll-py-2">
-                    {gameCategories.map((category, index) => (
-                      <div key={index} className="px-2 py-1">
-                        <div
-                          className={`${isMoe ? "text-pink-600 border-pink-300" : "text-gray-400 border-gray-700"} text-sm font-semibold mb-1 border-b pb-1`}
-                        >
-                          {category.name}
-                        </div>
-                        <div
-                          className={`${category.games.length > 3 ? "grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5" : "space-y-0.5"}`}
-                        >
-                          {category.games.map((game) => (
-                            <Link
-                              key={game.id}
-                              to={`/game/${game.id}?${searchParams.toString()}`}
-                              className={`${isMoe ? "text-pink-800 hover:bg-pink-200" : "text-gray-300 hover:bg-gray-700 hover:text-white"} block text-left px-2 py-1 text-sm rounded whitespace-nowrap overflow-hidden text-ellipsis`}
-                              onClick={() => setDropdownOpen(false)}
-                            >
-                              {game.title}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="relative" ref={otherDropdownRef}>
-              <button
-                ref={otherGamesBtnRef}
-                className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center text-sm sm:text-base`}
-                onClick={toggleOtherDropdown}
-              >
-                Other Games
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-
-              {otherDropdownOpen && (
-                <div
-                  className={`absolute mt-2 w-64 sm:w-80 ${isMoe ? "bg-pink-100 border-pink-300" : "bg-gray-800 border-gray-700"} border rounded-md shadow-lg z-10`}
-                  style={otherDropdownStyle}
-                >
-                  <div className="py-1 max-h-[70vh] overflow-y-auto scroll-py-2">
-                    {otherGames.map((category, index) => (
-                      <div key={index} className="px-2 py-1">
-                        <div
-                          className={`${isMoe ? "text-pink-600 border-pink-300" : "text-gray-400 border-gray-700"} text-sm font-semibold mb-1 border-b pb-1`}
-                        >
-                          {category.name}
-                        </div>
-                        <div
-                          className={`${category.games.length > 3 ? "grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5" : "space-y-0.5"}`}
-                        >
-                          {category.games.map((game) => (
-                            <Link
-                              key={game.id}
-                              to={`/game/${game.id}?${searchParams.toString()}`}
-                              className={`${isMoe ? "text-pink-800 hover:bg-pink-200" : "text-gray-300 hover:bg-gray-700 hover:text-white"} block text-left px-2 py-1 text-sm rounded whitespace-nowrap overflow-hidden text-ellipsis`}
-                              onClick={() => setOtherDropdownOpen(false)}
-                            >
-                              {game.title}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
+            <Link
+              to={`/games${isMoe ? "?moe" : ""}`}
+              className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium text-sm sm:text-base`}
+            >
+              Game Selector
+            </Link>
           </div>
         </div>
       </div>
@@ -330,4 +96,4 @@ const TitleBar: React.FC = () => {
   );
 };
 
-export default TitleBar
+export default TitleBar;
