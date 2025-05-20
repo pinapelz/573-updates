@@ -15,10 +15,15 @@ const TitleBar: React.FC = () => {
   const [otherDropdownOpen, setOtherDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const otherDropdownRef = useRef<HTMLDivElement>(null);
+  const rhythmGamesBtnRef = useRef<HTMLButtonElement>(null);
+  const otherGamesBtnRef = useRef<HTMLButtonElement>(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isMoe = searchParams.has("moe");
+
+  const [rhythmDropdownStyle, setRhythmDropdownStyle] = useState<React.CSSProperties>({});
+  const [otherDropdownStyle, setOtherDropdownStyle] = useState<React.CSSProperties>({});
 
   const toggleTheme = () => {
     const params = new URLSearchParams(searchParams);
@@ -106,6 +111,48 @@ const TitleBar: React.FC = () => {
     },
   ];
 
+  const calculateDropdownPosition = (buttonRef: React.RefObject<HTMLElement>) => {
+    if (!buttonRef.current) return {};
+
+    const rect = buttonRef.current.getBoundingClientRect();
+    const dropdownWidth = 320; // sm:w-80 equivalent in px
+    const spaceOnRight = window.innerWidth - rect.right;
+    if (spaceOnRight < dropdownWidth) {
+      return { right: 'auto', left: '0' };
+    }
+    return { right: '0', left: 'auto' };
+  };
+  const toggleRhythmDropdown = () => {
+    const newState = !dropdownOpen;
+    if (newState) {
+      setRhythmDropdownStyle(calculateDropdownPosition(rhythmGamesBtnRef));
+    }
+    setDropdownOpen(newState);
+  };
+
+  const toggleOtherDropdown = () => {
+    const newState = !otherDropdownOpen;
+    if (newState) {
+      setOtherDropdownStyle(calculateDropdownPosition(otherGamesBtnRef));
+    }
+    setOtherDropdownOpen(newState);
+  };
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (dropdownOpen) {
+        setRhythmDropdownStyle(calculateDropdownPosition(rhythmGamesBtnRef));
+      }
+      if (otherDropdownOpen) {
+        setOtherDropdownStyle(calculateDropdownPosition(otherGamesBtnRef));
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [dropdownOpen, otherDropdownOpen]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -158,18 +205,19 @@ const TitleBar: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <Link
               to={`/${isMoe ? "?moe" : ""}`}
-              className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium`}
+              className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium text-sm sm:text-base`}
             >
               All Games
             </Link>
 
             <div className="relative" ref={dropdownRef}>
               <button
-                className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center`}
-                onClick={() => setDropdownOpen(!dropdownOpen)}
+                ref={rhythmGamesBtnRef}
+                className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center text-sm sm:text-base`}
+                onClick={toggleRhythmDropdown}
               >
                 Rhythm Games
                 <svg
@@ -189,7 +237,8 @@ const TitleBar: React.FC = () => {
 
               {dropdownOpen && (
                 <div
-                  className={`absolute mt-2 w-64 sm:w-80 ${isMoe ? "bg-pink-100 border-pink-300" : "bg-gray-800 border-gray-700"} border rounded-md shadow-lg z-10 right-0`}
+                  className={`absolute mt-2 w-64 sm:w-80 ${isMoe ? "bg-pink-100 border-pink-300" : "bg-gray-800 border-gray-700"} border rounded-md shadow-lg z-10`}
+                  style={rhythmDropdownStyle}
                 >
                   <div className="py-1 max-h-[70vh] overflow-y-auto scroll-py-2">
                     {gameCategories.map((category, index) => (
@@ -222,8 +271,9 @@ const TitleBar: React.FC = () => {
 
             <div className="relative" ref={otherDropdownRef}>
               <button
-                className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center`}
-                onClick={() => setOtherDropdownOpen(!otherDropdownOpen)}
+                ref={otherGamesBtnRef}
+                className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium flex items-center text-sm sm:text-base`}
+                onClick={toggleOtherDropdown}
               >
                 Other Games
                 <svg
@@ -243,7 +293,8 @@ const TitleBar: React.FC = () => {
 
               {otherDropdownOpen && (
                 <div
-                  className={`absolute mt-2 w-64 sm:w-80 ${isMoe ? "bg-pink-100 border-pink-300" : "bg-gray-800 border-gray-700"} border rounded-md shadow-lg z-10 right-0`}
+                  className={`absolute mt-2 w-64 sm:w-80 ${isMoe ? "bg-pink-100 border-pink-300" : "bg-gray-800 border-gray-700"} border rounded-md shadow-lg z-10`}
+                  style={otherDropdownStyle}
                 >
                   <div className="py-1 max-h-[70vh] overflow-y-auto scroll-py-2">
                     {otherGames.map((category, index) => (
@@ -280,4 +331,4 @@ const TitleBar: React.FC = () => {
   );
 };
 
-export default TitleBar;
+export default TitleBar
