@@ -111,7 +111,7 @@ const TitleBar: React.FC = () => {
     },
   ];
 
-  const calculateDropdownPosition = (buttonRef: React.RefObject<HTMLElement>) => {
+  const calculateDropdownPosition = (buttonRef: React.RefObject<HTMLElement | null>) => {
     if (!buttonRef.current) return {};
 
     const rect = buttonRef.current.getBoundingClientRect();
@@ -138,7 +138,6 @@ const TitleBar: React.FC = () => {
     setOtherDropdownOpen(newState);
   };
 
-  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       if (dropdownOpen) {
