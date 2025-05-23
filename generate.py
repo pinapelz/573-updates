@@ -188,7 +188,8 @@ if __name__ == "__main__":
         museca_plus_news,
         polaris_news_data,
         dance_rush_news_data,
-        dance_around_news_data
+        dance_around_news_data,
+        wmmt_news
     )
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:

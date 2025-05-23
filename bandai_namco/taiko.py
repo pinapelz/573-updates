@@ -19,7 +19,7 @@ def parse_taiko_blog_site(html: str) -> list:
             date_obj = datetime.strptime(date_str, "%Y年%m月%d日")
             timestamp = int(time.mktime(date_obj.timetuple()))
             url_date = date_obj.strftime("%Y%m%d")
-            url = base_url + "/?m="+url_date
+            url = base_url + "/blog/?m="+url_date
 
             # Get headline
             headline_tag = article.select_one("h1")
