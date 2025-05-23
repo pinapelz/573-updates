@@ -18,6 +18,8 @@ def parse_taiko_blog_site(html: str) -> list:
             date_str = date_tag.text.strip()
             date_obj = datetime.strptime(date_str, "%Y年%m月%d日")
             timestamp = int(time.mktime(date_obj.timetuple()))
+            url_date = date_obj.strftime("%Y%m%d")
+            url = base_url + "/?m="+url_date
 
             # Get headline
             headline_tag = article.select_one("h1")
@@ -46,7 +48,7 @@ def parse_taiko_blog_site(html: str) -> list:
                 "timestamp": timestamp,
                 "headline": headline,
                 "content": "\n".join(content),
-                "url": None,
+                "url": url,
                 "images": images,
                 'is_ai_summary': False
             }
