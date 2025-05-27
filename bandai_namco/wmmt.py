@@ -144,8 +144,11 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         if paragraphs:
             content = paragraphs[0].get_text(" ", strip=True)
             if content and len(content.split()) < 50 and len(paragraphs) > 1:
-                next_p_content = paragraphs[1].get_text(" ", strip=True)
-                content += " " + next_p_content
+                for paragraph in paragraphs[1:]:
+                    next_p_content = paragraph.get_text(" ", strip=True)
+                    content += " " + next_p_content
+                    if len(content.split()) >= 50:
+                        break
         images = []
         seen_srcs = []
         for img in container.find_all("img"):
@@ -178,8 +181,11 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         if paragraphs:
             content = paragraphs[0].get_text(" ", strip=True)
             if content and len(content.split()) < 50 and len(paragraphs) > 1:
-                next_p_content = paragraphs[1].get_text(" ", strip=True)
-                content += " " + next_p_content
+                for paragraph in paragraphs[1:]:
+                    next_p_content = paragraph.get_text(" ", strip=True)
+                    content += " " + next_p_content
+                    if len(content.split()) >= 50:
+                        break
         images = []
         seen_srcs = []
         for img in container.select("img"):
@@ -214,8 +220,11 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
         if paragraphs:
             content = paragraphs[0].get_text(" ", strip=True)
             if content and len(content.split()) < 50 and len(paragraphs) > 1:
-                next_p_content = paragraphs[1].get_text(" ", strip=True)
-                content += " " + next_p_content
+                for paragraph in paragraphs[1:]:
+                    next_p_content = paragraph.get_text(" ", strip=True)
+                    content += " " + next_p_content
+                    if len(content.split()) >= 50:
+                        break
         images = []
         seen_srcs = []
         for img in container.select("img"):
