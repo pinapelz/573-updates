@@ -193,6 +193,8 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 "image": img_url,
                 "link": urljoin(BASE_URL, parent.get("href")) if parent and parent.get("href") else None
             })
+        if data["type"] == "FUTURE LAB":
+            images = images[1:]
         data["type"] = "["+region_text+"]" + " " + data["type"]
         data["identifier"] = identifier
         data["timestamp"] = timestamp
@@ -227,6 +229,8 @@ def make_wmmt_news_extractor(identifier: str, version: constants.WANGAN_MAXI_VER
                 "image": img_url,
                 "link": urljoin(BASE_URL, parent.get("href")) if parent and parent.get("href") else None
             })
+        if data["type"] == "FUTURE LAB":
+            images = images[1:]
         data["type"] = "["+region_text+"]" + " " + data["type"]
         data["identifier"] = identifier
         data["timestamp"] = timestamp
