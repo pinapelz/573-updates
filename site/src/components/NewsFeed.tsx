@@ -52,6 +52,19 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
     setCurrentImageIndex(initialImageIndex);
   }, [newsItems]);
 
+  useEffect(() => {
+    const fragment = window.location.hash.slice(1);
+    if(fragment){
+      const el = document.getElementById(fragment);
+      if(el){
+        el.scrollIntoView({behavior: "smooth", block: "start"});
+      }
+      else{
+        alert("News Post doesn't or no longer exists...");
+      }
+    }
+  }, [newsItems]);
+
   return (
     <div className="max-w-[600px] w-full mx-auto py-8 space-y-4 font-[Zen_Maru_Gothic]">
       {newsItems.map((news) => {
@@ -67,7 +80,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
         const contentToShow = isLong && !isExpanded ? displayContent.slice(0, PREVIEW_CHAR_LIMIT) + "…" : displayContent;
 
         return (
-          <div key={newsId} className={`${isMoe ? "bg-pink-100 border-pink-300 text-pink-900 font-[Zen_Maru_Gothic]" : "bg-gray-900 border-gray-800 text-white font-sans"} border rounded-lg shadow-lg overflow-hidden`}>
+          <div id={newsId} key={newsId} className={`${isMoe ? "bg-pink-100 border-pink-300 text-pink-900 font-[Zen_Maru_Gothic]" : "bg-gray-900 border-gray-800 text-white font-sans"} border rounded-lg shadow-lg overflow-hidden`}>
             <div className="flex items-center p-3 justify-between">
               <div className="flex items-center space-x-3">
                 <div className={`${isMoe ? "bg-pink-400" : "bg-purple-700"} rounded-full h-8 w-8 flex items-center justify-center text-white text-xs font-bold`}>
@@ -103,6 +116,24 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                 </button>
               )}
             </div>
+
+            {/* Copy Link to Post */}
+            <div className="px-3 pb-2 text-right">
+              <a
+                href={`#${newsId}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const url = `${window.location.origin}${window.location.pathname}#${newsId}`;
+                  navigator.clipboard.writeText(url);
+                  alert("Copied Direct Link to Post (Older news are automatically culled after some time)");
+                }}
+                title="Copy permalink"
+                className="text-xs text-blue-400 hover:underline cursor-pointer"
+              >
+                🔗 Copy Link to Post
+              </a>
+            </div>
+
             {/* AI Disclaimer */}
             {news.is_ai_summary && (
               <div className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-2 text-xs text-center`}>
