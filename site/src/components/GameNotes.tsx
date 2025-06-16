@@ -75,6 +75,56 @@ const EamuseMaintenancePopup: React.FC<{ isMoe: boolean }> = ({ isMoe }) => {
   );
 };
 
+const NesicaMaintenancePopup: React.FC<{ isMoe: boolean }> = ({ isMoe }) => {
+  return (
+    <Popup
+      trigger={
+        <button
+          className={`mt-4 rounded px-2 py-1 ${isMoe ? "bg-pink-300 text-pink-900 hover:bg-pink-400" : "bg-gray-500 text-white hover:bg-gray-400"}`}
+        >
+          NESiCA Maintenance
+        </button>
+      }
+      position="center center"
+      modal
+      closeOnDocumentClick
+    >
+      <div
+        className={`p-6 rounded-lg shadow-lg ${isMoe ? "bg-pink-100 text-pink-900" : "bg-gray-900 text-white"} max-w-md mx-auto`}
+      >
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-lg">NESiCA Maintenance Information</h3>
+        </div>
+        <div className="mb-4">
+          <p className="font-bold">Regular Daily Maintenance</p>
+          <p className="mt-1 font-semibold">
+            Every day from 6:00 AM to 8:00 AM (JST)
+          </p>
+          <p className="mt-1 text-right">
+            In your local time:{" "}
+            {(() => {
+              const jst5am = new Date();
+              jst5am.setUTCHours(21, 0, 0, 0); // 6AM JST is 9PM UTC the day before
+              const jst7am = new Date();
+              jst7am.setUTCHours(23, 0, 0, 0); // 8AM JST is 11PM UTC the day before
+              const options: Intl.DateTimeFormatOptions = {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              };
+              return `${jst5am.toLocaleTimeString([], options)} to ${jst7am.toLocaleTimeString([], options)}`;
+            })()}
+          </p>
+          <p>
+            IC Cards are not accepted 15 minutes prior to start of maintenance
+          </p>
+        </div>
+        <div className="flex justify-end"></div>
+      </div>
+    </Popup>
+  );
+};
+
 export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
   sdvx: (
     <>
@@ -335,6 +385,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
   ),
   music_diver: (
     <>
+      <div className="flex justify-center">
+        <NesicaMaintenancePopup isMoe={isMoe} />
+      </div>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
