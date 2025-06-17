@@ -166,6 +166,7 @@ def get_news(news_url: str, version=None) -> list:
         for news in news_posts:
             promo_image_url = idac.get_promo_image(download_site_as_html(news["url"]))
             news["images"] = [{'image': promo_image_url, 'link': None}]
+        news_posts = translate.add_translate_text_to_en(news_posts)
 
     elif news_url == constants.MUSIC_DIVER_NEWS:
         api_data = download_site_as_html(news_url)
@@ -174,6 +175,7 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.STREET_FIGHTER_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(street_fighter.parse_sf_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = translate.add_translate_text_to_en(news_posts)
 
 
     elif news_url == constants.TAIKO_BLOG_SITE:
