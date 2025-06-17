@@ -25,4 +25,5 @@ Currently Supported:
 - maimai DX (INTL) (`maimaidx_intl_news`)
 - O.N.G.E.K.I (JPN) (`ongeki_jp_news`)
 - MUSIC DIVER (`music_diver_news`)
+- STREET FIGHTER TYPE ARCADE (`street_fighter_news`)
 - Taiko no Tatsujin (`taiko_news`) -> Only official blog title and headings

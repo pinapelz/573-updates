@@ -31,6 +31,7 @@ import sega.maimaidx_jp as maimaidx_jp
 import sega.maimaidx_intl as maimaidx_intl
 import sega.ongeki_jp as ongeki_jp
 import taito.music_diver as music_diver
+import taito.street_fighter as street_fighter
 import bandai_namco.taiko as taiko
 import bandai_namco.wmmt as wmmt
 import community.disc as disc
@@ -161,6 +162,13 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.MUSIC_DIVER_NEWS:
         api_data = download_site_as_html(news_url)
         news_posts = sorted(music_diver.parse_music_diver_news_json(api_data), key=lambda x: x['timestamp'], reverse=True)
+
+    elif news_url == constants.STREET_FIGHTER_NEWS_SITE:
+        site_data = download_site_as_html(news_url)
+        news_posts = sorted(street_fighter.parse_sf_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        print(news_posts)
+        exit()
+
 
     elif news_url == constants.TAIKO_BLOG_SITE:
         site_data = download_site_as_html(news_url)

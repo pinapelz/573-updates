@@ -25,6 +25,7 @@ MAIMAIDX_INTL_NEWS_SITE="https://maimai.sega.com/download/"
 ONGEKI_JP_NEWS_SITE="https://info-ongeki.sega.jp/"
 
 MUSIC_DIVER_NEWS="https://mypage.musicdiver.jp/api/news?lang=en"
+STREET_FIGHTER_NEWS_SITE="https://sf6ta.jp/info/list"
 
 TAIKO_BLOG_SITE="https://taiko-ch.net/blog/"
 WANGAN_MAXI_GENERIC="https://wanganmaxi-official.com/"
@@ -58,3 +59,6 @@ class WANGAN_MAXI_VERSION(Enum):
     SIX_R = 3,
     SIX_RR = 4,
     SIX_RR_PLUS = 5
+
+class STREET_FIGHTER_VERSION(Enum):
+    SIX = 1,

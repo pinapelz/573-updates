@@ -125,6 +125,9 @@ def generate_chunithm_intl_news_file():
 def generate_music_diver_news_file():
     return generate_news_file("music_diver_news", constants.MUSIC_DIVER_NEWS)
 
+def generate_street_fighter_news_file():
+    return generate_news_file("street_fighter_news", constants.STREET_FIGHTER_NEWS_SITE, constants.STREET_FIGHTER_VERSION.SIX)
+
 def generate_taiko_news_file():
     return generate_news_file("taiko_news", constants.TAIKO_BLOG_SITE)
 
@@ -161,6 +164,7 @@ if __name__ == "__main__":
     maimaidx_intl_news_data = generate_maimaidx_intl_news_file()
     chunithm_intl_news_data = generate_chunithm_intl_news_file()
     music_diver_news_data = generate_music_diver_news_file()
+    street_fighter_news_data = generate_street_fighter_news_file()
     taiko_news_data = generate_taiko_news_file()
     wacca_plus_news = generate_wacca_plus_news_file()
     museca_plus_news = generate_museca_plus_news_file()
@@ -183,6 +187,7 @@ if __name__ == "__main__":
         maimaidx_intl_news_data,
         chunithm_intl_news_data,
         music_diver_news_data,
+        street_fighter_news_data,
         taiko_news_data,
         wacca_plus_news,
         museca_plus_news,
