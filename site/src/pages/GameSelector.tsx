@@ -33,21 +33,29 @@ const gameInfo: GameCategory[] = [
       { id: "maimaidx_jp", title: "maimai DX (JAPAN)" },
       { id: "maimaidx_intl", title: "maimai DX (INTERNATIONAL)" },
       { id: "ongeki_jp", title: "O.N.G.E.K.I" },
+      { id: "idac", title: "INITIAL D (頭文字D)" },
     ],
   },
   {
     name: "TAITO",
     description: "",
-    games: [{ id: "music_diver", title: "MUSIC DIVER" }],
+    games: [
+      { id: "music_diver", title: "MUSIC DIVER" },
+      { id: "street_fighter", title: "STREET FIGHTER" },
+    ],
   },
   {
     name: "BANDAI NAMCO",
     description: "",
-    games: [{ id: "taiko", title: "Taiko no Tatsujin" }, { id: "wmmt", title: "WANGAN MIDNIGHT MAXIMUM TUNE" }],
+    games: [
+      { id: "taiko", title: "Taiko no Tatsujin" },
+      { id: "wmmt", title: "WANGAN MIDNIGHT MAXIMUM TUNE" },
+    ],
   },
   {
     name: "COMMUNITY",
-    description: "Community-driven projects to continue the legacy of dead/abandoned rhythm games",
+    description:
+      "Community-driven projects to continue the legacy of dead/abandoned rhythm games",
     games: [
       { id: "wacca_plus", title: "WACCA PLUS" },
       { id: "museca_plus", title: "MÚSECA PLUS" },
@@ -62,10 +70,18 @@ const GameSelector = () => {
 
   const renderCategory = (category: GameCategory) => (
     <div key={category.name} className="mb-6">
-      <h2 className={`text-lg font-bold ${isMoe ? "text-pink-700" : "text-gray-200"}`}>{category.name}</h2>
-      <p className={`text-sm ${isMoe ? "text-pink-600" : "text-gray-400"} mb-2`}>{category.description}</p>
+      <h2
+        className={`text-lg font-bold ${isMoe ? "text-pink-700" : "text-gray-200"}`}
+      >
+        {category.name}
+      </h2>
+      <p
+        className={`text-sm ${isMoe ? "text-pink-600" : "text-gray-400"} mb-2`}
+      >
+        {category.description}
+      </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-2">
-        {category.games.map(game => (
+        {category.games.map((game) => (
           <Link
             key={game.id}
             to={`/game/${game.id}?${searchParams.toString()}`}
@@ -80,18 +96,25 @@ const GameSelector = () => {
 
   return (
     <>
-    <TitleBar />
-    <div className={`min-h-screen px-4 py-6 ${isMoe ? "bg-pink-50" : "bg-gray-900"} sm:px-6 sm:py-8`}>
-      <div className="max-w-[1200px] mx-auto">
-        <h1 className={`text-2xl font-bold mb-4 ${isMoe ? "text-pink-800" : "text-white"} sm:mb-6`}>
-          Select a Game
-        </h1>
-        <h2 className={`text-base font-medium ${isMoe ? "text-pink-700" : "text-gray-300"} mb-4`}>
-          Individual game feeds keep a longer history of news relating to that game than the main feed.
-        </h2>
-        {gameInfo.map(renderCategory)}
+      <TitleBar />
+      <div
+        className={`min-h-screen px-4 py-6 ${isMoe ? "bg-pink-50" : "bg-gray-900"} sm:px-6 sm:py-8`}
+      >
+        <div className="max-w-[1200px] mx-auto">
+          <h1
+            className={`text-2xl font-bold mb-4 ${isMoe ? "text-pink-800" : "text-white"} sm:mb-6`}
+          >
+            Select a Game
+          </h1>
+          <h2
+            className={`text-base font-medium ${isMoe ? "text-pink-700" : "text-gray-300"} mb-4`}
+          >
+            Individual game feeds keep a longer history of news relating to that
+            game than the main feed.
+          </h2>
+          {gameInfo.map(renderCategory)}
+        </div>
       </div>
-    </div>
     </>
   );
 };

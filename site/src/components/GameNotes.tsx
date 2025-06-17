@@ -331,6 +331,20 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       </p>
     </>
   ),
+  idac: (
+    <>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
+      >
+        Official service only in Japan. No International Version
+      </p>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
+      >
+        You are on a private network if the cabinet is not in Japan
+      </p>
+    </>
+  ),
   chunithm_intl: (
     <>
       <ul className={`mt-2 ${isMoe ? "text-pink-900" : "text-white"}`}>
@@ -392,6 +406,18 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
         Online service available only at Round1 Japan and Round1 USA locations
+      </p>
+    </>
+  ),
+  street_fighter: (
+    <>
+      <div className="flex justify-center">
+        <NesicaMaintenancePopup isMoe={isMoe} />
+      </div>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
+      >
+        Online service in USA only at Round1 locations
       </p>
     </>
   ),
