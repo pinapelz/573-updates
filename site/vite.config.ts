@@ -20,6 +20,8 @@ export default defineConfig({
           icons: icons.icons
         },
         workbox: {
+          skipWaiting: true,
+          clientsClaim: true,
           globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
           runtimeCaching: [
             {
