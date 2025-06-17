@@ -5,14 +5,32 @@ from datetime import datetime
 from urllib.parse import urljoin
 from enum import Enum
 from constants import STREET_FIGHTER_NEWS_SITE
+import requests
+import base64
+
+IMAGE_LIMIT = 10 # only allow 10 images to be processed as b64 is expensive to store
 
 class ParserVersion(Enum):
     ALPHA = 1
+
+def _convert_image_to_base64(img_url: str):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    response = requests.get(img_url, headers=headers)
+    if response.status_code == 200:
+        img_data = response.content
+        img_base64 = base64.b64encode(img_data).decode('utf-8')
+        mime_type = response.headers['Content-Type']
+        return f"data:{mime_type};base64,{img_base64}"
+    else:
+        raise Exception(f"Failed to fetch image from URL: {img_url}, status code: {response.status_code}")
 
 def make_sf_parser(identifier: str, parser: ParserVersion):
     def alpha_parser(html: str):
         soup = BeautifulSoup(html, "html.parser")
         news_entries = []
+        img_processed = 0
         news_links = soup.find_all('a', class_='btn_latestnews')
         for link in news_links:
             try:
@@ -49,10 +67,16 @@ def make_sf_parser(identifier: str, parser: ParserVersion):
                         img_src = img_tag.get('src', '')
                         if img_src.startswith('/'):
                             img_src = urljoin('https://sf6ta.jp', img_src)
-                        images.append({
-                            'image': img_src,
-                            'link': url
-                        })
+                        if img_processed <= IMAGE_LIMIT:
+                            try:
+                                img_b64 = _convert_image_to_base64(img_src)
+                                images.append({
+                                    'image': img_b64,
+                                    'link': url
+                                })
+                            except Exception:
+                                pass # Failed likely due to 403. Just show no images in that case
+                            img_processed += 1
                 news_entry = {
                     'date': post_date.strftime("%Y-%m-%d %H:%M"),
                     'identifier': identifier,
