@@ -122,6 +122,9 @@ def generate_maimaidx_intl_news_file():
 def generate_chunithm_intl_news_file():
     return generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
 
+def generate_idac_news_file():
+    return generate_news_file("idac_news", constants.IDAC_NEWS_SITE)
+
 def generate_music_diver_news_file():
     return generate_news_file("music_diver_news", constants.MUSIC_DIVER_NEWS)
 
@@ -161,6 +164,7 @@ if __name__ == "__main__":
     chunithm_jp_news_data = generate_chunithm_jp_news_file()
     maimaidx_jp_news_data = generate_maimaidx_jp_news_file()
     ongeki_jp_news_data = generate_ongeki_jp_news_file()
+    idac_news_data = generate_idac_news_file()
     maimaidx_intl_news_data = generate_maimaidx_intl_news_file()
     chunithm_intl_news_data = generate_chunithm_intl_news_file()
     music_diver_news_data = generate_music_diver_news_file()
@@ -184,6 +188,7 @@ if __name__ == "__main__":
         chunithm_jp_news_data,
         maimaidx_jp_news_data,
         ongeki_jp_news_data,
+        idac_news_data,
         maimaidx_intl_news_data,
         chunithm_intl_news_data,
         music_diver_news_data,

@@ -23,6 +23,7 @@ CHUNITHM_INTL_NEWS_SITE="https://info-chunithm.sega.com/"
 MAIMAIDX_JP_NEWS_SITE="https://info-maimai.sega.jp/"
 MAIMAIDX_INTL_NEWS_SITE="https://maimai.sega.com/download/"
 ONGEKI_JP_NEWS_SITE="https://info-ongeki.sega.jp/"
+IDAC_NEWS_SITE="https://info-initialdac.sega.jp/"
 
 MUSIC_DIVER_NEWS="https://mypage.musicdiver.jp/api/news?lang=en"
 STREET_FIGHTER_NEWS_SITE="https://sf6ta.jp/info/list"
