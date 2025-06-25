@@ -23,10 +23,10 @@ export default function Home() {
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
-      const jsonFile = gameId ? `${gameId}_news.json` : "news.json";
+      const newsDataFileName = gameId ? `${gameId}_news.json` : "news.json";
       try {
         const response = await fetch(
-          "https://arcade-news.pinapelz.com/" + `${jsonFile}`,
+          "https://arcade-news.pinapelz.com/" + `${newsDataFileName}`,
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch news: ${response.statusText}`);
@@ -102,7 +102,7 @@ export default function Home() {
               </p>
             </div>
           )}
-          <NewsFeed newsItems={newsFeedData.news_posts} />
+          <NewsFeed newsItems={newsFeedData.news_posts}/>
         </div>
         <footer
           className={`mt-8 text-center text-sm ${isMoe ? "text-pink-800" : "text-gray-400"}`}

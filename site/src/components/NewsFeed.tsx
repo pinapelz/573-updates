@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getGameTitle } from "../utils.ts";
+import { getGameTitle, getShortenedGameName } from "../utils.ts";
 import { useSearchParams } from "react-router-dom";
 
 export interface NewsData {
@@ -83,11 +83,15 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
           <div id={newsId} key={newsId} className={`${isMoe ? "bg-pink-100 border-pink-300 text-pink-900 font-[Zen_Maru_Gothic]" : "bg-gray-900 border-gray-800 text-white font-sans"} border rounded-lg shadow-lg overflow-hidden`}>
             <div className="flex items-center p-3 justify-between">
               <div className="flex items-center space-x-3">
-                <div className={`${isMoe ? "bg-pink-400" : "bg-purple-700"} rounded-full h-8 w-8 flex items-center justify-center text-white text-xs font-bold`}>
-                  {news.identifier.charAt(0)}
-                </div>
+                <a href={`/game/${getShortenedGameName(news.identifier)}`}>
+                  <img
+                    src={`https://arcade-news.pinapelz.com/`+getShortenedGameName(news.identifier)+`.webp`}
+                    alt={getGameTitle(news.identifier) || ''}
+                    className="hover:animate-pulse rounded-full h-8 w-8 object-cover"
+                  />
+                </a>
                 <div className="flex flex-col leading-tight">
-                  <span className="text-sm font-semibold">{getGameTitle(news.identifier)}</span>
+                  <span className="text-sm font-semibold hover:underline"><a href={`/game/${getShortenedGameName(news.identifier)}`}>{getGameTitle(news.identifier)}</a></span>
                   <span className="text-xs opacity-80">{date}</span>
                   {news.type && <span className="text-xs italic">{news.type}</span>}
                 </div>

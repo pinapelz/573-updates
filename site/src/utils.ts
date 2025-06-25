@@ -33,3 +33,35 @@ export const getGameTitle = (gameId: string) => {
 
     return gameId.toUpperCase();
 };
+
+export const getShortenedGameName = (gameId: string) => {
+    if (!gameId) return null;
+    const lowerCaseGameId = gameId.toLowerCase();
+    if (lowerCaseGameId.startsWith("sdvx") || lowerCaseGameId.startsWith("sound_voltex")) return "sdvx";
+    if (lowerCaseGameId.startsWith("iidx")) return "iidx";
+    if (lowerCaseGameId.startsWith("chunithm_jp")) return "chunithm_jp";
+    if (lowerCaseGameId.startsWith("maimaidx_jp")) return "maimaidx_jp";
+    if (lowerCaseGameId.startsWith("maimaidx_intl")) return "maimaidx_intl";
+    if (lowerCaseGameId.startsWith("ongeki_jp")) return "ongeki_jp";
+    if (lowerCaseGameId.startsWith("idac")) return "idac";
+    if (lowerCaseGameId.startsWith("chunithm_intl")) return "chunithm_intl";
+    if (lowerCaseGameId.startsWith("ddr")) return "ddr";
+    if (lowerCaseGameId.startsWith("jubeat")) return "jubeat";
+    if (lowerCaseGameId.startsWith("gitadora")) return "gitadora";
+    if (lowerCaseGameId.startsWith("nostalgia")) return "nostalgia";
+    if (lowerCaseGameId.startsWith("popn_music")) return "popn_music";
+    if (lowerCaseGameId.startsWith("music_diver")) return "music_diver";
+    if (lowerCaseGameId.startsWith("street_fighter")) return "street_fighter";
+    if (lowerCaseGameId.startsWith("taiko")) return "taiko";
+    if (lowerCaseGameId.startsWith("wacca")) return "wacca";
+    if (lowerCaseGameId.startsWith("museca")) return "museca";
+    if (lowerCaseGameId.startsWith("reflec_beat") || lowerCaseGameId.startsWith("rb_deluxe")) return "rb_deluxe";
+    if (lowerCaseGameId.startsWith("dance_rush")) return "dance_rush";
+    if(lowerCaseGameId.startsWith("dance_around")) return "dance_around";
+    if(lowerCaseGameId.startsWith("polaris_chord")) return "polaris_chord";
+    if(lowerCaseGameId.startsWith("wmmt")) return "wmmt";
+    if(lowerCaseGameId.startsWith("wangan_maxi_jp")) return "wangan_maxi_jp";
+    if(lowerCaseGameId.startsWith("wangan_maxi_na")) return "wangan_maxi_na";
+    if(lowerCaseGameId.startsWith("wangan_maxi_asia_oce")) return "wangan_maxi_asia_oce";
+    return gameId.toUpperCase();
+};
