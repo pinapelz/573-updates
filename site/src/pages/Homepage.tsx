@@ -14,6 +14,7 @@ export default function Home() {
   const { gameId } = useParams<{ gameId?: string }>();
   const [searchParams] = useSearchParams();
   const isMoe = searchParams.has("moe");
+  const newsAPIBase = import.meta.env.VITE_NEWS_BASE_URL
 
   const [newsFeedData, setNewsFeedData] = useState<ArcadeNewsAPIData | null>(
     null,
@@ -26,7 +27,7 @@ export default function Home() {
       const newsDataFileName = gameId ? `${gameId}_news.json` : "news.json";
       try {
         const response = await fetch(
-          "https://arcade-news.pinapelz.com/" + `${newsDataFileName}`,
+          newsAPIBase+"/" + `${newsDataFileName}`,
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch news: ${response.statusText}`);
