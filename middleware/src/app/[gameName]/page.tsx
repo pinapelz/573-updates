@@ -89,7 +89,7 @@ export default async function GamePage({
   }
 
   const redirectUrl =
-    postId && mainNewsUrl ? `${mainNewsUrl}/game/${gameName}#${postId}` : null;
+    postId && mainNewsUrl ? `${mainNewsUrl}/game/${gameName}#${postId}` : mainNewsUrl;
 
   return (
     <main className="main">
