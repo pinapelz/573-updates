@@ -46,7 +46,8 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
     const initialImageIndex: Record<string, number> = {};
     newsItems.forEach((news) => {
       const contentHash = news.content.split('').reduce((hash, char) => ((hash << 5) + hash) + char.charCodeAt(0), 5381) >>> 0;
-      const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${news.headline}`;
+      const headlineHash = (news.headline || 'null').split('').reduce((hash, char) => ((hash << 5) + hash) + char.charCodeAt(0), 5381) >>> 0;
+      const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
       initialImageIndex[newsId] = 0;
     });
     setCurrentImageIndex(initialImageIndex);
@@ -70,7 +71,8 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
       {newsItems.map((news) => {
         const date = new Date(news.timestamp * 1000).toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" });
         const contentHash = news.content.split('').reduce((hash, char) => ((hash << 5) + hash) + char.charCodeAt(0), 5381) >>> 0;
-        const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${news.headline}`;
+        const headlineHash = (news.headline || 'null').split('').reduce((hash, char) => ((hash << 5) + hash) + char.charCodeAt(0), 5381) >>> 0;
+        const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
         const isEnglish = !!showEnglish[newsId];
         const hasTranslation = news.en_headline || news.en_content;
         const displayHeadline = isEnglish && news.en_headline ? news.en_headline : news.headline;

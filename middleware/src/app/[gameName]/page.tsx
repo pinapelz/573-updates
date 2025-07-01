@@ -35,8 +35,8 @@ export async function generateMetadata({
         news.content.split("").reduce((hash: number, char: string) => {
           return (hash << 5) + hash + char.charCodeAt(0);
         }, 5381) >>> 0;
-
-      const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${news.headline}`;
+      const headlineHash = (news.headline || 'null').split('').reduce((hash: number, char: string) => ((hash << 5) + hash) + char.charCodeAt(0), 5381) >>> 0;
+      const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
       return newsId === postId;
     });
     if (!matchingPost) {
