@@ -48,10 +48,10 @@ export async function generateMetadata({
     }
     return {
       title: matchingPost.headline,
-      description: matchingPost.content.slice(0, 100),
+      description: matchingPost.content.slice(0, 300),
       openGraph: {
         title: matchingPost.headline,
-        description: matchingPost.content.slice(0, 100),
+        description: matchingPost.content.slice(0, 300),
         images: matchingPost.images?.[0]?.image
           ? [matchingPost.images[0].image]
           : [],

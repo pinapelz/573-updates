@@ -129,7 +129,8 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                 href={`#${newsId}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  const url = `${window.location.origin}${window.location.pathname}#${newsId}`;
+                  const pathname = window.location.pathname === '/' ? '/news' : window.location.pathname.replace(/^\/game/, '');
+                  const url = `https://ac.moekyun.me${pathname}?post=${newsId}`;
                   navigator.clipboard.writeText(url);
                   alert("Copied Direct Link to Post (Older news are automatically culled after some time)");
                 }}
