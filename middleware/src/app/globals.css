@@ -49,7 +49,7 @@ body {
 
 .redirect-link {
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  font-size: 2rem;
   text-decoration: none;
   transition: color 0.3s ease;
   letter-spacing: 0.1rem;
@@ -65,7 +65,7 @@ body {
     font-size: 2rem;
     letter-spacing: 0.3rem;
   }
-  
+
   .redirect-link {
     font-size: 0.75rem;
   }
