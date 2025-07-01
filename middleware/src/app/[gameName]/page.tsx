@@ -85,11 +85,14 @@ export default async function GamePage({
 
   if (postId && mainNewsUrl && !ua.isBot) {
     const { redirect } = await import("next/navigation");
+    if(gameName === "news"){
+      redirect(`${mainNewsUrl}/#${postId}`);
+    }
     redirect(`${mainNewsUrl}/game/${gameName}#${postId}`);
   }
 
   const redirectUrl =
-    postId && mainNewsUrl ? `${mainNewsUrl}/game/${gameName}#${postId}` : mainNewsUrl;
+    postId && mainNewsUrl ? (gameName === "news" ? `${mainNewsUrl}/#${postId}` : `${mainNewsUrl}/game/${gameName}#${postId}`) : mainNewsUrl;
 
   return (
     <main className="main">
