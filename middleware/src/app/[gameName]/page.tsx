@@ -44,7 +44,6 @@ export async function generateMetadata({
     }
     if (!matchingPost.headline) {
       matchingPost.headline = matchingPost.content;
-      matchingPost.content = "";
     }
     return {
       title: matchingPost.headline,
