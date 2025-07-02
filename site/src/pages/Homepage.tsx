@@ -20,10 +20,12 @@ export default function Home() {
     null,
   );
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
+      setError(false);
       const newsDataFileName = gameId ? `${gameId}_news.json` : "news.json";
       try {
         const response = await fetch(
@@ -36,14 +38,15 @@ export default function Home() {
         setNewsFeedData(data);
       } catch (e) {
         console.error(e);
+        setError(true);
       } finally {
         setLoading(false);
       }
     };
     fetchNews();
-  }, [gameId]); // Re-fetch when gameId changes
+  }, [gameId, newsAPIBase]); // Re-fetch when gameId changes
 
-  if (loading || newsFeedData === null) {
+  if (loading) {
     return (
       <>
         <TitleBar />
@@ -53,6 +56,47 @@ export default function Home() {
           <div
             className={`animate-spin rounded-full h-16 w-16 border-t-4 ${isMoe ? "border-pink-500" : "border-purple-600"}`}
           ></div>
+        </div>
+      </>
+    );
+  }
+
+  if (error || newsFeedData === null) {
+    return (
+      <>
+        <TitleBar />
+        <div
+          className={`${isMoe ? "bg-pink-100" : "bg-gray-950"} min-h-screen flex items-center justify-center`}
+        >
+          <div className="text-center px-4">
+            <div className={`${isMoe ? "text-pink-500" : "text-purple-500"} text-8xl font-bold mb-4`}>
+              404
+            </div>
+            <h1 className={`${isMoe ? "text-pink-900" : "text-white"} text-3xl font-bold mb-4`}>
+              News Not Found
+            </h1>
+            <p className={`${isMoe ? "text-pink-700" : "text-gray-400"} text-lg mb-8`}>
+              {gameId
+                ? `Unable to fetch news for ${getGameTitle(gameId)}`
+                : "Unable to fetch news feed"
+              }
+            </p>
+            <div className={`${isMoe ? "bg-pink-200" : "bg-gray-800"} rounded-lg p-6 max-w-md mx-auto`}>
+              <p className={`${isMoe ? "text-pink-800" : "text-gray-300"} mb-4`}>
+                The news feed you're looking for might be temporarily unavailable or doesn't exist.
+              </p>
+              <a
+                href="/"
+                className={`inline-block px-6 py-3 rounded-lg font-semibold transition-colors ${
+                  isMoe
+                    ? "bg-pink-500 text-white hover:bg-pink-600"
+                    : "bg-purple-600 text-white hover:bg-purple-700"
+                }`}
+              >
+                Return Home
+              </a>
+            </div>
+          </div>
         </div>
       </>
     );
