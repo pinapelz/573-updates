@@ -107,7 +107,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
               5381,
             ) >>> 0;
         const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
-        const isEnglish = !!showEnglish[newsId];
+        const isEnglish = showEnglish[newsId];
         const hasTranslation = news.en_headline || news.en_content;
         const displayHeadline =
           isEnglish && news.en_headline ? news.en_headline : news.headline;
@@ -229,7 +229,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                       ? "/news"
                       : window.location.pathname.replace(/^\/game/, "");
                   const url = middlewareBase
-                    ? `${middlewareBase}${pathname}?post=${newsId}`
+                    ? `${middlewareBase}${pathname}?post=${newsId}${isEnglish ? '&lang=en' : ''}`
                     : `${window.location.origin}${pathname === "/news" ? "" : pathname}#${newsId}`;
                   navigator.clipboard.writeText(url);
                   alert(
