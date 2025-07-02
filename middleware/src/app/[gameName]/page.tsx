@@ -11,8 +11,8 @@ export async function generateMetadata({
   const resolvedSearchParams = await searchParams;
   let gameName = resolvedParams.gameName || "news";
   const postId = resolvedSearchParams.post as string | undefined;
+  const lang = resolvedSearchParams.lang as string | undefined;
   const apiUrlBase = process.env.NEXT_PUBLIC_API_URL;
-  const mainNewsUrl = process.env.NEXT_PUBLIC_MAIN_NEWS_URL;
 
   if (!postId) {
     return {
@@ -41,6 +41,14 @@ export async function generateMetadata({
     });
     if (!matchingPost) {
       return { title: "Post not found" };
+    }
+    if (lang === "en"){
+      if(matchingPost.en_headline !== null){
+        matchingPost.headline = matchingPost.en_headline;
+      }
+      if(matchingPost.en_content !== null){
+        matchingPost.content = matchingPost.en_content;
+      }
     }
     if (!matchingPost.headline) {
       matchingPost.headline = matchingPost.content;
