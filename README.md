@@ -28,7 +28,7 @@ Currently Supported:
 - STREET FIGHTER TYPE ARCADE (`street_fighter_news`)
 - Taiko no Tatsujin (`taiko_news`) -> Only official blog title and headings
 
-![image](https://github.com/user-attachments/assets/3fe4691f-610c-487c-84ef-8edfb045c000)
+![image](https://files.catbox.moe/vg03om.png)
 
 # News Scraper
 The news scraper is in the root directory of the repo. Running `python generate.py` will generate the news for all known games (exclude or include games by editing the files). Most games can be scrapped without further configuration, however some features require secrets to be configured (`.env` file, use the `.env.template` included)
@@ -56,5 +56,5 @@ pnpm install
 pnpm run dev
 ```
 
-# Middlware
+# Middleware
 The middleware dynamically generated OpenGraph and other metadata tags for posts. This is optional. Only deploy if you need this functionality (aka Discord previews)
