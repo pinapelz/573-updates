@@ -5,7 +5,7 @@ import hashlib
 import os
 
 load_dotenv()
-
+MAX_CHAR_CONTENT_CONSIDERATION_LENGTH = 1000
 
 def summarization_is_possible() -> bool:
     return os.getenv("OPENAI_API_KEY")
@@ -33,10 +33,14 @@ def _make_cache_key(game: str, img_urls: list[str]) -> str:
     return f"{normalized_game}_{hash_digest}"
 
 
-def generate_headline_and_content_from_images(img_urls: list[str], game: str):
+def generate_headline_and_content_from_images(img_urls: list[str], game: str, message_content: str=""):
     """
     Uses LLM to generate the headline and content when none provided by source, based on one or more images.
     """
+    # Limit message content to 500 characters
+    if len(message_content) > MAX_CHAR_CONTENT_CONSIDERATION_LENGTH:
+        message_content = message_content[:MAX_CHAR_CONTENT_CONSIDERATION_LENGTH]
+
     cache = _load_cache()
     cache_key = _make_cache_key(game, img_urls)
     if cache_key in cache:
@@ -47,7 +51,7 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str):
             "type": "function",
             "function": {
                 "name": "generate_update_text",
-                "description": "Generates a concise English headline and short description for a rhythm game update image.",
+                "description": "Generates a concise English headline and short description for a rhythm game update image and the original message content.",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -73,7 +77,7 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str):
                 {
                     "type": "text",
                     "text": (
-                        f"Given one or more update-related images for the arcade game {game}, return a short, professional English headline and a brief, stern and concise description summarizing the content. No need to repeat game name"
+                        f"Given one or more update-related images for the arcade game {game} and the original Discord message content (limited to 500 characters): '{message_content}', return a short, professional English headline and a brief, stern and concise description summarizing the content. No need to repeat game name"
                     ),
                 },
                 *[{"type": "image_url", "image_url": {"url": url}} for url in img_urls],

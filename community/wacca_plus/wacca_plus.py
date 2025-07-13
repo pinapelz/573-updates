@@ -92,6 +92,7 @@ def parse_announcement_messages(message_json: dict):
     cache = _load_cache()
     for message in message_json:
         type = None
+        message_content = message.get("content", "")
         if len(message["attachments"]) == 0:
             continue
         image_attachments = []
@@ -122,7 +123,7 @@ def parse_announcement_messages(message_json: dict):
         date = message["timestamp"].split("T")[0]
         date_obj = datetime.strptime(date, "%Y-%m-%d")
         unix_time = int(time.mktime(date_obj.timetuple()))
-        headline, content = generate_headline_and_content_from_images(image_urls, "WACCA PLUS")
+        headline, content = generate_headline_and_content_from_images(image_urls, "WACCA PLUS", message_content)
 
         news_posts.append({
             "date": date,
