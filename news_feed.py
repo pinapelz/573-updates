@@ -74,6 +74,7 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.POLARIS_CHORD_NEWS_SITE:
         scraper = SiteScraper(headless=True)
         site_data = scraper.get_page_source(news_url)
+        scraper.close()
         news_posts = sorted(polaris_chord.parse_polaris_chord_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
 

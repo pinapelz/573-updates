@@ -88,6 +88,9 @@ def download_site_as_html(url: str, timeout: int = 10, response_encoding=None) -
             response.encoding = response_encoding
         response.raise_for_status()
         return response.text
+    except requests.exceptions.Timeout as e:
+        print(f"Timeout error downloading {url}: {e}")
+        return None
     except requests.RequestException as e:
         print(f"Error downloading {url}: {e}")
-        return ""
+        return None
