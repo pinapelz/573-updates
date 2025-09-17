@@ -86,7 +86,7 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str, me
     ]
 
     response = openai.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5",
         messages=messages,
         tools=tools,
         tool_choice={
