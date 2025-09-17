@@ -43,11 +43,18 @@ import constants
 import translate
 import summarizer
 
+from datetime import datetime
+
 def _attach_llm_summaries(news_posts: list, game_name: str):
     for post in news_posts:
         image_urls = [img["image"] for img in post.get("images", []) if "image" in img]
         if image_urls:
             headline, content = summarizer.generate_headline_and_content_from_images(image_urls, game_name)
+            if headline is None and content is None:
+                datetime_str = datetime.now().strftime("%H:%M:%S")
+                post["headline"] = f"{game_name} Update"
+                post["content"] = f"573-UPDATES has found a news post for {game_name} at {datetime_str}, please refer to the image for more details!"
+                post["is_ai_summary"] = False
             post["headline"] = headline
             post["content"] = content
             post["is_ai_summary"] = True

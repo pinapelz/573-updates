@@ -33,7 +33,7 @@ def _make_cache_key(game: str, img_urls: list[str]) -> str:
     return f"{normalized_game}_{hash_digest}"
 
 
-def generate_headline_and_content_from_images(img_urls: list[str], game: str, message_content: str=""):
+def generate_headline_and_content_from_images(img_urls: list[str], game: str, message_content: str="") -> tuple:
     """
     Uses LLM to generate the headline and content when none provided by source, based on one or more images.
     """
@@ -85,20 +85,24 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str, me
         }
     ]
 
-    response = openai.chat.completions.create(
-        model="gpt-5",
-        messages=messages,
-        tools=tools,
-        tool_choice={
-            "type": "function",
-            "function": {"name": "generate_update_text"},
-        },
-    )
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-5",
+            messages=messages,
+            tools=tools,
+            tool_choice={
+                "type": "function",
+                "function": {"name": "generate_update_text"},
+            },
+        )
 
-    tool_result = response.choices[0].message.tool_calls[0].function.arguments
-    parsed_result = json.loads(tool_result)
-    headline = parsed_result["headline"]
-    content = parsed_result["content"]
-    cache[cache_key] = {"headline": headline, "content": content}
-    _save_cache(cache)
+        tool_result = response.choices[0].message.tool_calls[0].function.arguments
+        parsed_result = json.loads(tool_result)
+        headline = parsed_result["headline"]
+        content = parsed_result["content"]
+        cache[cache_key] = {"headline": headline, "content": content}
+        _save_cache(cache)
+    except openai.OpenAIError as e:
+        print(f"[ERROR] Function call to OpenAI for summarization failed ERROR -> {e} ")
+        return None, None
     return headline, content
