@@ -140,6 +140,9 @@ def generate_wmmt_news_file():
     return generate_news_file("wmmt_news", constants.WANGAN_MAXI_GENERIC)
 
 def generate_wacca_plus_news_file():
+    if not os.environ.get("OPENAI_API_KEY"):
+        print("[WARNING] Skipping WACCA PLUS generation, not possible without summarization key")
+        return {}
     return generate_news_file("wacca_plus_news", constants.WACCA_PLUS_MAGIC_STRING)
 
 def generate_museca_plus_news_file():
