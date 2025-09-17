@@ -8,9 +8,10 @@ import constants
 import json
 import hashlib
 import os
-
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
+load_dotenv()
 
 OUTPUT_DIR = "news"
 
@@ -27,6 +28,7 @@ def create_merged_feed(*news_lists, limit=constants.DAYS_LIMIT):
     recent_items = (
         item
         for news_list in news_lists
+        if news_list
         for item in news_list
         if datetime.fromtimestamp(item['timestamp']) >= cutoff
     )
