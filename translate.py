@@ -36,16 +36,23 @@ def _decode_links(raw_text: str, links: list) -> str:
         raw_text = raw_text.replace(link[0], link[1])
     return raw_text
 
-def _load_translation_cache() -> list:
+def _load_translation_cache() -> dict:
     cache_file = "tl_cache.json"
     tl_map = {}
     if os.path.exists(cache_file):
-        with open(cache_file, "r", encoding="utf-8") as file:
-            entries = json.load(file)
-            for entry in entries:
-                key = hashlib.sha256((entry["source_lang"] + entry["target_lang"] + entry["source_txt"]).encode('utf-8')).hexdigest()
-                tl_map[key] = entry["result_txt"]
-            return tl_map
+        try:
+            with open(cache_file, "r", encoding="utf-8") as file:
+                entries = json.load(file)
+                for entry in entries:
+                    key = hashlib.sha256((entry["source_lang"] + entry["target_lang"] + entry["source_txt"]).encode('utf-8')).hexdigest()
+                    tl_map[key] = entry["result_txt"]
+                return tl_map
+        except (UnicodeDecodeError, json.JSONDecodeError, KeyError) as e:
+            print(f"Translation cache corrupted ({e}), deleting and starting fresh...")
+            os.remove(cache_file)
+            with open(cache_file, "w", encoding="utf-8") as file:
+                json.dump([], file, ensure_ascii=False, indent=4)
+            return {}
     else:
         with open(cache_file, "w", encoding="utf-8") as file:
             json.dump([], file, ensure_ascii=False, indent=4)
@@ -59,14 +66,20 @@ def _add_to_translation_cache(source_lang: str, target_lang: str, source_txt: st
         "source_txt": source_txt,
         "result_txt": result_txt
     }
-    if os.path.exists(cache_file):
-        with open(cache_file, "r", encoding="utf-8") as file:
-            cache = json.load(file)
-    else:
-        cache = []
-    cache.append(cache_entry)
-    with open(cache_file, "w", encoding="utf-8") as file:
-        json.dump(cache, file, ensure_ascii=False, indent=4)
+    try:
+        if os.path.exists(cache_file):
+            with open(cache_file, "r", encoding="utf-8") as file:
+                cache = json.load(file)
+        else:
+            cache = []
+        cache.append(cache_entry)
+        with open(cache_file, "w", encoding="utf-8") as file:
+            json.dump(cache, file, ensure_ascii=False, indent=4)
+    except (UnicodeDecodeError, json.JSONDecodeError) as e:
+        print(f"Translation cache corrupted during write ({e}), starting fresh...")
+        cache = [cache_entry]
+        with open(cache_file, "w", encoding="utf-8") as file:
+            json.dump(cache, file, ensure_ascii=False, indent=4)
 
 def request_google_translate(text: str, source: str="ja", target="en", translation_cache=None) -> tuple:
     """

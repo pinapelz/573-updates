@@ -74,7 +74,7 @@ def generate_news_file(filename, url, version=None):
 def generate_iidx_news_file(eamuse_feed: bool=False):
     if eamuse_feed:
         return generate_news_file("iidx_news", constants.EAMUSE_APP_FEED, constants.IIDX_EAMUSE_APP_ID)
-    else:
+    else: # legacy should not be used,  use eamuse app feed above
         return generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
 
 def generate_sdvx_news_file():
