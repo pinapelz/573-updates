@@ -19,7 +19,7 @@ export default function NotFound() {
             <h2 className="text-2xl font-semibold mb-4">Page Not Found</h2>
             <div className="mb-6">
               <img
-                src="/xiatian.webp"
+                src="/liris.webp"
                 className="w-32 mx-auto mb-4 object-contain rounded-2xl opacity-50"
                 alt="Not found"
               />

@@ -127,7 +127,7 @@ export default function Home() {
               <h1 className="text-2xl font-bold">Welcome to 573-UPDATES</h1>
               <div className="floating">
                 <img
-                  src="/xiatian.webp"
+                  src="/liris.webp"
                   className="w-48 mx-auto mb-2 object-contain rounded-2xl"
                 />
               </div>
