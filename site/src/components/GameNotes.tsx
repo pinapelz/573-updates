@@ -275,7 +275,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       >
         (No official service in EU)
       </p>
-      <AllnetPrivateServerWarning isMoe={isMoe} />
+      <div className="flex justify-center">
+        <AllnetPrivateServerWarning isMoe={isMoe} />
+      </div>
     </>
   ),
   music_diver: (

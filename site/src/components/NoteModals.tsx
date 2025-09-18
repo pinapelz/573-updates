@@ -224,8 +224,8 @@ export const AllnetPrivateServerWarning: React.FC<{ isMoe: boolean }> = ({
             transferrable with official service. Please take care to know the
             difference.
             <br /> <br />
-            All information on this side refers to cabinets on the official
-            network.
+            These cabinets will typically be operating an older version of the game, and be updated trailing the latest official version.
+            All information on this site refers to the official version of the game.
           </p>
         </div>
         <div className="flex justify-end"></div>
