@@ -1,129 +1,5 @@
 import React from "react";
-import Popup from "reactjs-popup";
-
-const EamuseMaintenancePopup: React.FC<{ isMoe: boolean }> = ({ isMoe }) => {
-  return (
-    <Popup
-      trigger={
-        <button
-          className={`mt-4 rounded px-2 py-1 ${isMoe ? "bg-pink-300 text-pink-900 hover:bg-pink-400" : "bg-gray-500 text-white hover:bg-gray-400"}`}
-        >
-          e-amusement Maintenance
-        </button>
-      }
-      position="center center"
-      modal
-      closeOnDocumentClick
-    >
-      <div
-        className={`p-6 rounded-lg shadow-lg ${isMoe ? "bg-pink-100 text-pink-900" : "bg-gray-900 text-white"} max-w-md mx-auto`}
-      >
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-lg">e-amusement Maintenance Information</h3>
-        </div>
-        <div className="mb-4">
-          <p className="font-bold">Regular Daily Maintenance</p>
-          <p className="mt-1 font-semibold">
-            Every day from 5:00 AM to 7:00 AM (JST)
-          </p>
-          <p className="mt-1 text-right">
-            In your local time:{" "}
-            {(() => {
-              const jst5am = new Date();
-              jst5am.setUTCHours(20, 0, 0, 0); // 5AM JST is 8PM UTC the day before
-              const jst7am = new Date();
-              jst7am.setUTCHours(22, 0, 0, 0); // 7AM JST is 10PM UTC the day before
-              const options: Intl.DateTimeFormatOptions = {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true,
-              };
-              return `${jst5am.toLocaleTimeString([], options)} to ${jst7am.toLocaleTimeString([], options)}`;
-            })()}
-          </p>
-          <p>
-            e-amusement website, at-home Konasute games offline, Japan + Asia
-            cabinets offline. USA cabinets exempt
-          </p>
-          <p className="font-bold mt-4">Monthly Extended Maintenance</p>
-          <p className="mt-1 font-semibold">
-            Every Third Tuesday from 2:00 AM to 7:00 AM (JST)
-          </p>
-          <p className="mt-1 text-right">
-            In your local time:{" "}
-            {(() => {
-              const jst2am = new Date();
-              jst2am.setUTCHours(17, 0, 0, 0);
-              const jst7am = new Date();
-              jst7am.setUTCHours(22, 0, 0, 0);
-              const options: Intl.DateTimeFormatOptions = {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true,
-              };
-              return `${jst2am.toLocaleTimeString([], options)} to ${jst7am.toLocaleTimeString([], options)}`;
-            })()}
-          </p>
-          <p>
-            ALL Cabinets + e-amusement services offline. This is moved 1 day
-            earlier if that day is a Japanese Holiday.
-          </p>
-        </div>
-        <div className="flex justify-end"></div>
-      </div>
-    </Popup>
-  );
-};
-
-const NesicaMaintenancePopup: React.FC<{ isMoe: boolean }> = ({ isMoe }) => {
-  return (
-    <Popup
-      trigger={
-        <button
-          className={`mt-4 rounded px-2 py-1 ${isMoe ? "bg-pink-300 text-pink-900 hover:bg-pink-400" : "bg-gray-500 text-white hover:bg-gray-400"}`}
-        >
-          NESiCA Maintenance
-        </button>
-      }
-      position="center center"
-      modal
-      closeOnDocumentClick
-    >
-      <div
-        className={`p-6 rounded-lg shadow-lg ${isMoe ? "bg-pink-100 text-pink-900" : "bg-gray-900 text-white"} max-w-md mx-auto`}
-      >
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-lg">NESiCA Maintenance Information</h3>
-        </div>
-        <div className="mb-4">
-          <p className="font-bold">Regular Daily Maintenance</p>
-          <p className="mt-1 font-semibold">
-            Every day from 6:00 AM to 8:00 AM (JST)
-          </p>
-          <p className="mt-1 text-right">
-            In your local time:{" "}
-            {(() => {
-              const jst5am = new Date();
-              jst5am.setUTCHours(21, 0, 0, 0); // 6AM JST is 9PM UTC the day before
-              const jst7am = new Date();
-              jst7am.setUTCHours(23, 0, 0, 0); // 8AM JST is 11PM UTC the day before
-              const options: Intl.DateTimeFormatOptions = {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true,
-              };
-              return `${jst5am.toLocaleTimeString([], options)} to ${jst7am.toLocaleTimeString([], options)}`;
-            })()}
-          </p>
-          <p>
-            IC Cards are not accepted 15 minutes prior to start of maintenance
-          </p>
-        </div>
-        <div className="flex justify-end"></div>
-      </div>
-    </Popup>
-  );
-};
+import { NesicaMaintenancePopup, EamuseMaintenancePopup, AimeIntlMaintenanceInfo, AllnetPrivateServerWarning } from "./NoteModals";
 
 export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
   sdvx: (
@@ -329,6 +205,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       >
         You are on a private network if the cabinet is not in Japan
       </p>
+      <div className="flex justify-center">
+      <AllnetPrivateServerWarning isMoe={isMoe} />
+      </div>
     </>
   ),
   idac: (
@@ -364,15 +243,16 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
           See supported regions here
         </a>
       </p>
-      <p
-        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
-      >
-        If your region is not shown, you are likely on a private network
-      </p>
+      <div className="flex justify-center">
+      <AllnetPrivateServerWarning isMoe={isMoe} />
+      </div>
     </>
   ),
   maimaidx_intl: (
     <>
+      <div className="flex justify-center">
+        <AimeIntlMaintenanceInfo isMoe={isMoe} />
+      </div>
       <ul className={`mt-2 ${isMoe ? "text-pink-900" : "text-white"}`}>
         <li>
           • Updates behind JP version. International and JP are completely
@@ -382,7 +262,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        No official service in NA or EU.{" "}
+        Official service in USA/CAN.{" "}
         <a
           className="underline"
           href="https://location.am-all.net/alm/location?gm=98"
@@ -393,8 +273,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        If your region is not shown, you are likely on a private network
+        (No official service in EU)
       </p>
+      <AllnetPrivateServerWarning isMoe={isMoe} />
     </>
   ),
   music_diver: (
