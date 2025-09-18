@@ -64,7 +64,7 @@ def get_news(news_url: str, version=None) -> list:
     if news_url == constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(sound_voltex.parse_exceed_gear_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
-        news_posts = translate.add_translate_text_to_en(news_posts)
+        news_posts = translate.add_translate_text_to_en(news_posts, overrides=[("ボルテ", "SDVX")])
 
     elif news_url == constants.IIDX_PINKY_CRUSH_NEWS_SITE:
         site_data = download_site_as_html(news_url)
