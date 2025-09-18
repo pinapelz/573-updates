@@ -293,7 +293,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                         <button
                           key={idx}
                           onClick={() => changeImage(newsId, idx)}
-                          className={`w-9 h-9 flex-shrink-0 rounded-sm flex items-center justify-center ${
+                          className={`w-9 h-9 shrink-0 rounded-sm flex items-center justify-center ${
                             currentImageIndex[newsId] === idx
                               ? isMoe
                                 ? "bg-pink-500 text-white"
