@@ -364,6 +364,20 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       </p>
     </>
   ),
+  taiko: (
+    <>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
+      >
+        Information below only applies to the latest version of the game (LCD + Banapassport Reader)
+      </p>
+      <p
+        className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
+      >
+        Maintenance time is 1am - 7am JST (i think?)<br/>Applies to USA cabs as well (9am - 3pm PST)
+      </p>
+    </>
+  ),
   wmmt: (
     <>
       <p
