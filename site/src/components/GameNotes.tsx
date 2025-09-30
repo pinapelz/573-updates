@@ -258,11 +258,14 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
           • Updates behind JP version. International and JP are completely
           seperated
         </li>
+        <li>
+          • Certain charts are removed from USA region
+        </li>
       </ul>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official service in USA/CAN.{" "}
+        Official service in USA/CAN/ASIA{" "}
         <a
           className="underline"
           href="https://location.am-all.net/alm/location?gm=98"
