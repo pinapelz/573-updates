@@ -1,5 +1,10 @@
 import React from "react";
-import { NesicaMaintenancePopup, EamuseMaintenancePopup, AimeIntlMaintenanceInfo, AllnetPrivateServerWarning } from "./NoteModals";
+import {
+  NesicaMaintenancePopup,
+  EamuseMaintenancePopup,
+  AimeIntlMaintenanceInfo,
+  AllnetPrivateServerWarning,
+} from "./NoteModals";
 
 export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
   sdvx: (
@@ -29,7 +34,8 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
     <>
       <ul className={`mt-2 ${isMoe ? "text-pink-900" : "text-white"}`}>
         <li>
-          • [USA] Certain e-amusement features such as video upload unavailable{" "}
+          • [USA] Certain e-amusement features such as video upload
+          unavailable{" "}
         </li>
       </ul>
       <div className="flex justify-center">
@@ -114,6 +120,8 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         <br />
         Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
         networks which run older data
+        <br />
+        Note that USA GOLD cabinets follow Japanese daily maintenance schedule.
       </p>
     </>
   ),
@@ -206,7 +214,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         You are on a private network if the cabinet is not in Japan
       </p>
       <div className="flex justify-center">
-      <AllnetPrivateServerWarning isMoe={isMoe} />
+        <AllnetPrivateServerWarning isMoe={isMoe} />
       </div>
     </>
   ),
@@ -244,7 +252,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         </a>
       </p>
       <div className="flex justify-center">
-      <AllnetPrivateServerWarning isMoe={isMoe} />
+        <AllnetPrivateServerWarning isMoe={isMoe} />
       </div>
     </>
   ),
@@ -350,12 +358,14 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
       >
-        A continuation of the abandoned iOS version of REFLEC BEAT (REFLEC BEAT plus)
+        A continuation of the abandoned iOS version of REFLEC BEAT (REFLEC BEAT
+        plus)
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-      Needs to be sideloaded once you get a hold of the IPA. Network features supported. iOS ONLY
+        Needs to be sideloaded once you get a hold of the IPA. Network features
+        supported. iOS ONLY
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
@@ -391,5 +401,5 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         All regions run different versions of the game
       </p>
     </>
-  )
+  ),
 });
