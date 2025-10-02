@@ -14,6 +14,11 @@ class Database:
             self._cursor.executescript(f.read())
             self._conn.commit()
 
+    def close(self):
+        """Close the database connection"""
+        if self._conn:
+            self._conn.close()
+
     def _migrate_old_data(self):
         """
         Migrates old summarization, tl and wac files into DB
@@ -66,3 +71,34 @@ class Database:
                     (key, headline, content)
                 )
         self._conn.commit()
+
+    def get_summary(self, key: str):
+        self._cursor.execute(
+            "SELECT headline, content FROM summarization WHERE id = ?",
+                        (key,)
+        )
+        result = self._cursor.fetchone()
+        if result is None:
+            return None
+        return {"headline": result[0], "content": result[1]}
+
+    def get_translation(self, key: str):
+        self._cursor.execute(
+            "SELECT result FROM translation WHERE id = ?",
+                        (key,)
+        )
+        result = self._cursor.fetchone()
+        if result is None:
+            return None
+        return result[0]
+
+    def get_wac_entry(self, key: str):
+        self._cursor.execute(
+            "SELECT isNews, type FROM wacplus WHERE id = ?",
+                        (key,)
+        )
+        result = self._cursor.fetchone()
+        if result is None:
+            return None
+        is_news = True if result[0] == 1 else False
+        return is_news, result[1]

@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from database import Database
 import openai
 import json
 import hashlib
@@ -9,21 +10,6 @@ MAX_CHAR_CONTENT_CONSIDERATION_LENGTH = 1000
 
 def summarization_is_possible() -> bool:
     return os.getenv("OPENAI_API_KEY")
-
-
-def _load_cache():
-    cache_file = "summarization_cache.json"
-    if not os.path.exists(cache_file):
-        with open(cache_file, "w") as file:
-            json.dump({}, file)
-    with open(cache_file, "r") as file:
-        return json.load(file)
-
-
-def _save_cache(cache: dict):
-    cache_file = "summarization_cache.json"
-    with open(cache_file, "w") as file:
-        json.dump(cache, file)
 
 
 def _make_cache_key(game: str, img_urls: list[str]) -> str:
@@ -40,12 +26,11 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str, me
     # Limit message content to 500 characters
     if len(message_content) > MAX_CHAR_CONTENT_CONSIDERATION_LENGTH:
         message_content = message_content[:MAX_CHAR_CONTENT_CONSIDERATION_LENGTH]
-
-    cache = _load_cache()
+    database = Database()
     cache_key = _make_cache_key(game, img_urls)
-    if cache_key in cache:
-        cached = cache[cache_key]
-        return cached["headline"], cached["content"]
+    cache_entry = database.get_summary(cache_key)
+    if cache_entry:
+        return cache_entry["headline"], cache_entry["content"]
     tools = [
         {
             "type": "function",
@@ -100,9 +85,10 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str, me
         parsed_result = json.loads(tool_result)
         headline = parsed_result["headline"]
         content = parsed_result["content"]
-        cache[cache_key] = {"headline": headline, "content": content}
-        _save_cache(cache)
+        database.add_new_summary(cache_key, headline, content)
+        database.close()
     except openai.OpenAIError as e:
         print(f"[ERROR] Function call to OpenAI for summarization failed ERROR -> {e} ")
+        database.close()
         return None, None
     return headline, content

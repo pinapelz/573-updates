@@ -1,10 +1,11 @@
-import os
 from datetime import datetime
+from dotenv import load_dotenv
+from database import Database
+import os
 import time
 import requests
 import openai
 import json
-from dotenv import load_dotenv
 import base64
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
@@ -64,18 +65,6 @@ def check_is_announcement_image(img_url: str):
     parsed_result = json.loads(tool_args)
     return parsed_result["is_wacca_plus_related"], parsed_result["category"]
 
-def _load_cache():
-    cache_file = "wac_result_cache.json"
-    if not os.path.exists(cache_file):
-        with open(cache_file, "w") as file:
-            json.dump({}, file)
-    with open(cache_file, "r") as file:
-        return json.load(file)
-
-def _save_cache(cache: dict):
-    cache_file = "wac_result_cache.json"
-    with open(cache_file, "w") as file:
-        json.dump(cache, file)
 
 def _convert_image_to_base64(img_url: str):
     response = requests.get(img_url)
@@ -89,7 +78,7 @@ def _convert_image_to_base64(img_url: str):
 
 def parse_announcement_messages(message_json: dict):
     news_posts = []
-    cache = _load_cache()
+    database = Database()
     for message in message_json:
         type = None
         message_content = message.get("content", "")
@@ -107,12 +96,14 @@ def parse_announcement_messages(message_json: dict):
         image_urls = [] # save the images before they get encoded
         for image in image_attachments:
             image_urls.append(image["url"])
-            if image["id"] in cache:
-                is_related = cache[image["id"]][0]
-                type = cache[image["id"]][1]
+            entry = database.get_wac_entry(image["id"])
+            if entry:
+                is_related = entry[0]
+                type = entry[1]
             else:
                 is_related, type = check_is_announcement_image(image["url"])
-                cache[image["id"]] = [is_related, type]
+                database.add_new_wac_entry(key=image["id"], is_news=is_related, post_type=type)
+
             if not is_related:
                 continue
             filtered_images.append({"image": _convert_image_to_base64(image["url"]), "url": None})
@@ -136,6 +127,5 @@ def parse_announcement_messages(message_json: dict):
             "images": filtered_images,
             'is_ai_summary': True
         })
-
-    _save_cache(cache)
+    database.close()
     return news_posts
