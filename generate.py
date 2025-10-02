@@ -10,14 +10,24 @@ import hashlib
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
+from database import Database
 
 load_dotenv()
 
 OUTPUT_DIR = "news"
+ARCHIVE_NEWS = True
 
 def compute_json_hash(data):
     return hashlib.sha256(json.dumps(data, sort_keys=True).encode('utf-8')).hexdigest()
 
+
+def save_news_to_db(news_feed: list):
+    log_output("Writing news to local save database. This is purely for archival reasons")
+    database = Database()
+    for entry in news_feed:
+        key = compute_json_hash(entry)
+        database.add_news_entry(key, entry)
+    database.close()
 
 def create_merged_feed(*news_lists, limit=constants.DAYS_LIMIT):
     """
@@ -56,7 +66,13 @@ def log_output(message: str, type: str="DEBUG"):
 
 def generate_news_file(filename, url, version=None):
     log_output(f"Fetching {filename.upper()} News Data", "NEWS")
-    news_data = feed.get_news(url, version) if version else feed.get_news(url)
+    news_data = None
+    try:
+        news_data = feed.get_news(url, version) if version else feed.get_news(url)
+    except Exception as e:
+        print(e)
+        print("[ERROR] Wasn't able to fetch news. Skipping...")
+
     path = f"{OUTPUT_DIR}/{filename}.json"
     if news_data:
         log_output(f"Success. Got {filename.upper()} News Data. Saving to file...", "NEWS")
@@ -207,6 +223,8 @@ if __name__ == "__main__":
         wmmt_news
     )
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
+    if ARCHIVE_NEWS:
+        save_news_to_db(news)
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
         json.dump(attach_news_meta_data(news), json_file)
     log_output("JOB DONE", "TASK")

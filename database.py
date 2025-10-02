@@ -1,6 +1,7 @@
-import sqlite3
-import os
 import json
+import os
+import sqlite3
+
 
 class Database:
     def __init__(self):
@@ -36,9 +37,22 @@ class Database:
             with open("tl_cache.json", "r") as file:
                 tl_cache = json.load(file)
                 import hashlib
+
                 for entry in tl_cache:
-                    key = hashlib.sha256((entry["source_lang"] + entry["target_lang"] + entry["source_txt"]).encode('utf-8')).hexdigest()
-                    self.add_new_translation(key, entry["source_lang"], entry["target_lang"], entry["source_txt"], entry["result_txt"])
+                    key = hashlib.sha256(
+                        (
+                            entry["source_lang"]
+                            + entry["target_lang"]
+                            + entry["source_txt"]
+                        ).encode("utf-8")
+                    ).hexdigest()
+                    self.add_new_translation(
+                        key,
+                        entry["source_lang"],
+                        entry["target_lang"],
+                        entry["source_txt"],
+                        entry["result_txt"],
+                    )
                 os.rename("tl_cache.json", "tl_cache.json.bak")
 
         if os.path.exists("wac_result_cache.json"):
@@ -46,6 +60,7 @@ class Database:
             with open("wac_result_cache.json", "r") as file:
                 wac_cache = json.load(file)
                 import hashlib
+
                 for key, value in wac_cache.items():
                     self.add_new_wac_entry(key, value[0], value[1])
                 os.rename("wac_result_cache.json", "wac_result_cache.json.bak")
@@ -53,29 +68,65 @@ class Database:
     def add_new_wac_entry(self, key: str, is_news: bool, post_type: str):
         news_var = 0 if is_news is False else 1
         self._cursor.execute(
-                    "INSERT OR REPLACE INTO wacplus (id, isNews, type) VALUES (?, ?, ?)",
-                    (key, news_var, post_type)
-                )
+            "INSERT OR REPLACE INTO wacplus (id, isNews, type) VALUES (?, ?, ?)",
+            (key, news_var, post_type),
+        )
         self._conn.commit()
 
-    def add_new_translation(self, key: str, source_lang: str, target_lang: str, source_txt: str, result_txt: str):
+    def add_new_translation(
+        self,
+        key: str,
+        source_lang: str,
+        target_lang: str,
+        source_txt: str,
+        result_txt: str,
+    ):
         self._cursor.execute(
-                    "INSERT OR REPLACE INTO translation (id, source_lang, target_lang, source, result) VALUES (?, ?, ?, ?, ?)",
-                    (key, source_lang, target_lang, source_txt, result_txt)
-                )
+            "INSERT OR REPLACE INTO translation (id, source_lang, target_lang, source, result) VALUES (?, ?, ?, ?, ?)",
+            (key, source_lang, target_lang, source_txt, result_txt),
+        )
         self._conn.commit()
 
     def add_new_summary(self, key: str, headline: str, content: str):
         self._cursor.execute(
-                    "INSERT OR REPLACE INTO summarization (id, headline, content) VALUES (?, ?, ?)",
-                    (key, headline, content)
-                )
+            "INSERT OR REPLACE INTO summarization (id, headline, content) VALUES (?, ?, ?)",
+            (key, headline, content),
+        )
         self._conn.commit()
+
+    def add_news_entry(self, key: str, news_entry: dict):
+        is_ai_summary = 1 if news_entry.get("is_ai_summary", False) else 0
+        en_headline = news_entry.get("en_headline", None)
+        en_content = news_entry.get("en_content", None)
+        headline = news_entry.get("headline", None)
+        url = news_entry.get("url", None)
+        self._cursor.execute(
+            "INSERT OR REPLACE INTO news (news_id, date, identifier, type, timestamp, headline, content, url, is_ai_summary, en_headline, en_content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                key,
+                news_entry["date"],
+                news_entry["identifier"],
+                news_entry["type"],
+                news_entry["timestamp"],
+                headline,
+                news_entry["content"],
+                url,
+                is_ai_summary,
+                en_headline,
+                en_content,
+            ),
+        )
+        for image_entry in news_entry["images"]:
+            self._cursor.execute(
+                "INSERT OR REPLACE INTO news_images (news_id, image_url, link_url) VALUES (?, ?, ?)",
+                (key, image_entry["image"], image_entry["link"]),
+            )
+        self._conn.commit()
+
 
     def get_summary(self, key: str):
         self._cursor.execute(
-            "SELECT headline, content FROM summarization WHERE id = ?",
-                        (key,)
+            "SELECT headline, content FROM summarization WHERE id = ?", (key,)
         )
         result = self._cursor.fetchone()
         if result is None:
@@ -83,20 +134,14 @@ class Database:
         return {"headline": result[0], "content": result[1]}
 
     def get_translation(self, key: str):
-        self._cursor.execute(
-            "SELECT result FROM translation WHERE id = ?",
-                        (key,)
-        )
+        self._cursor.execute("SELECT result FROM translation WHERE id = ?", (key,))
         result = self._cursor.fetchone()
         if result is None:
             return None
         return result[0]
 
     def get_wac_entry(self, key: str):
-        self._cursor.execute(
-            "SELECT isNews, type FROM wacplus WHERE id = ?",
-                        (key,)
-        )
+        self._cursor.execute("SELECT isNews, type FROM wacplus WHERE id = ?", (key,))
         result = self._cursor.fetchone()
         if result is None:
             return None
