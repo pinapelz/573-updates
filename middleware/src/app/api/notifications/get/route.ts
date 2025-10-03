@@ -7,7 +7,7 @@ const redis = new Redis({
   token: process.env.KV_REST_API_TOKEN!,
 });
 
-// /api/fcm/list?topic=<topic>
+// /api/notification/get?topic=<topic>
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const topic = searchParams.get("topic");

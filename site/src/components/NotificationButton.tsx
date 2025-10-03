@@ -75,7 +75,10 @@ export default function NotificationButton({ className = "", isMoe = false, game
 
         // TODO: Subscribe to topic via backend API
         console.log(`Subscribing to topic: ${gameId} with token: ${token}`);
-        // Stub for now - will make actual API call to backend to subscribe to topic
+        await fetch(import.meta.env.VITE_MIDDLEWARE_BASE_URL+`/api/notifications/set?topic=${gameId}&token=${token}&action=subscribe`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
         // Update local storage to track subscribed topics
         const subscribedTopics = JSON.parse(localStorage.getItem('subscribed_topics') || '[]');
@@ -106,7 +109,11 @@ export default function NotificationButton({ className = "", isMoe = false, game
 
       // TODO: Unsubscribe from topic via backend API
       console.log(`Unsubscribing from topic: ${gameId} with token: ${token}`);
-      // Stub for now - will make actual API call to backend to unsubscribe from topic
+      await fetch(import.meta.env.VITE_MIDDLEWARE_BASE_URL+`/api/notifications/set?topic=${gameId}&token=${token}&action=unsubscribe`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
 
       // Update local storage to remove topic
       const subscribedTopics = JSON.parse(localStorage.getItem('subscribed_topics') || '[]');
