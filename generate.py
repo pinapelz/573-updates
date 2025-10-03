@@ -86,15 +86,6 @@ def generate_news_file(filename, url, version=None, formatted_name: str = None):
         with open(path, "w", encoding="utf-8") as f:
             json.dump(attach_news_meta_data(news_data), f, indent=2, ensure_ascii=False)
 
-        if GENERATE_RSS_FEEDS:
-            rss_file_path = f"{OUTPUT_DIR}/{filename}.xml"
-            log_output(f"Generating RSS Feed: {rss_file_path}")
-            if not formatted_name:
-                formatted_name = filename
-            title = f"{formatted_name} News RSS Feed"
-            description = f"The latest information for {formatted_name} from official sources"
-            build_rss_from_news_feed(title, description, path, rss_file_path)
-
     elif os.path.exists(path):
         log_output(
             f"Failed. Couldn't fetch {filename.upper()} data. Using previously scraped data",
@@ -105,6 +96,16 @@ def generate_news_file(filename, url, version=None, formatted_name: str = None):
 
     else:
         log_output(f"Failed. Couldn't fetch {filename.upper()} data. Skipping...", "NEWS")
+        return news_data
+
+    if GENERATE_RSS_FEEDS:
+        rss_file_path = f"{OUTPUT_DIR}/{filename}.xml"
+        log_output(f"Generating RSS Feed: {rss_file_path}")
+        if not formatted_name:
+            formatted_name = filename
+        title = f"{formatted_name} News RSS Feed"
+        description = f"The latest information for {formatted_name} from official sources"
+        build_rss_from_news_feed(title, description, path, rss_file_path)
 
     return news_data
 
