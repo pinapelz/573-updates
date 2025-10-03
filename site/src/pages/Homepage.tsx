@@ -167,6 +167,9 @@ export default function Home() {
               <div className="mt-4">
                 <NotificationButton gameId={gameId} isMoe={isMoe} />
               </div>
+              <p className="text-left">
+                Currently in testing, not all games will receive updates via notifications yet.
+              </p>
               <div className="mt-2">
                 <a href={rssFeedUrl} className="text-blue-400 hover:underline">
                   Subscribe via RSS
