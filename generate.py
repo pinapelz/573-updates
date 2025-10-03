@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 from database import Database
 from feed import build_rss_from_news_feed
 from notifications import check_can_send_notifs, broadcast_to_topic
+from sega import maimaidx_intl
 
 load_dotenv()
 
@@ -63,7 +64,7 @@ def attach_news_meta_data(news_data: list):
         "news_posts": news_data,
     }
 
-def attempt_broadcast_notifications(news_data: list, title: str, topic: str, image: str="http://arcade.moekyun.me/rasis.webp", limit=constants.DAYS_LIMIT):
+def attempt_broadcast_notifications(news_data: list, title: str, topic: str, image: str="http://arcade.moekyun.me/liris.webp", limit=constants.DAYS_LIMIT):
     if news_data and SEND_NOTIFICATIONS:
         if not check_can_send_notifs:
             print("[WARNING] Skipping notifications as env vars are not properly configured. See template")
@@ -78,7 +79,6 @@ def attempt_broadcast_notifications(news_data: list, title: str, topic: str, ima
                     continue
                 else:
                     print("[Notifications] Broadcasting Unique News with id: " + news_id)
-                    input()
                     if entry.get("en_headline"):
                         body_text = entry["en_headline"]
                     elif entry.get("en_content"):
@@ -89,6 +89,9 @@ def attempt_broadcast_notifications(news_data: list, title: str, topic: str, ima
                         body_text = entry.get("content", "")
                     if len(body_text) > 50:
                         body_text = body_text[:50] + "..."
+                    if entry.get("images"):
+                        if len(entry.get("images")) >= 1:
+                            image = entry.get("images")[0]["image"]
                     broadcast_to_topic(topic, title, body_text, image)
 
 
@@ -185,13 +188,18 @@ def generate_chunithm_jp_news_file():
     return generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
 
 def generate_maimaidx_jp_news_file():
-    return generate_news_file("maimaidx_jp_news", constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
+    news = generate_news_file("maimaidx_jp_news", constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
+    attempt_broadcast_notifications(news, "New information for maimai DX (Japan ver.)", "maimaidx_jp")
+    return news
 
+    return
 def generate_ongeki_jp_news_file():
     return generate_news_file("ongeki_jp_news", constants.ONGEKI_JP_NEWS_SITE, constants.ONGEKI_VERSION.REFRESH)
 
 def generate_maimaidx_intl_news_file():
-    return generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM)
+    news = generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM)
+    attempt_broadcast_notifications(news, "New information for maimai DX (International ver.)", "maimaidx_intl")
+    return news
 
 def generate_chunithm_intl_news_file():
     return generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
