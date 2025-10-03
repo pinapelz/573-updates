@@ -25,7 +25,7 @@ export default function NotificationButton({ className = "", isMoe = false }: No
       if ('serviceWorker' in navigator) {
         const registration = await navigator.serviceWorker.getRegistration('/firebase-messaging-sw.js');
         setIsRegistered(!!registration);
-        
+
         // Initialize foreground notifications if already registered
         if (registration && Notification.permission === "granted") {
           initializeForegroundNotifications();
@@ -45,15 +45,23 @@ export default function NotificationButton({ className = "", isMoe = false }: No
       setPermission(permissionResult);
 
       if (permissionResult === "granted") {
-        // Register service worker
-        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-        console.log("Service Worker registered:", registration);
-        const token = await getToken(messaging, { vapidKey: VAPID_KEY });
+        let registration = await navigator.serviceWorker.getRegistration('/firebase-messaging-sw.js');
+        if (!registration) {
+          registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+          console.log("Service Worker registered:", registration);
+        } else {
+          console.log("Reusing existing Service Worker:", registration);
+        }
+
+        const token = await getToken(messaging, {
+          vapidKey: VAPID_KEY,
+          serviceWorkerRegistration: registration,
+        });
         console.log("FCM Token:", token);
-        // Store token locally (you might want to send this to your server)
+
         localStorage.setItem('fcm_token', token);
 
-        // Initialize foreground notification handler
+        // Foreground notification listener
         initializeForegroundNotifications();
 
         setIsRegistered(true);
@@ -76,6 +84,7 @@ export default function NotificationButton({ className = "", isMoe = false }: No
       await deleteToken(messaging);
       console.log("FCM token deleted");
       localStorage.removeItem('fcm_token');
+
       if ('serviceWorker' in navigator) {
         const registration = await navigator.serviceWorker.getRegistration('/firebase-messaging-sw.js');
         if (registration) {
@@ -93,7 +102,7 @@ export default function NotificationButton({ className = "", isMoe = false }: No
     }
   };
 
-  // Determine button state and action
+  // Determine button content
   const getButtonContent = () => {
     if (loading) {
       return (
@@ -141,7 +150,6 @@ export default function NotificationButton({ className = "", isMoe = false }: No
 
   const handleClick = () => {
     if (permission === "denied") {
-      // Can't re-request permission if denied
       alert("Notifications are blocked. Please enable them in your browser settings.");
       return;
     }

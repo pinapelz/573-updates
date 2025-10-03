@@ -13,69 +13,43 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const messaging: Messaging = getMessaging(app);
+let foregroundInitialized = false;
 
 // Handle foreground messages
 export const initializeForegroundNotifications = () => {
+  if (foregroundInitialized) return; // Prevent double registration
+  foregroundInitialized = true;
+
   onMessage(messaging, (payload) => {
-    console.log('[firebase.ts] Message received in foreground:', payload);
+    console.log("[firebase.ts] Foreground message received", payload);
 
-    // Check if browser supports notifications
-    if (!("Notification" in window)) {
-      console.log("This browser does not support desktop notifications");
-      return;
-    }
+    if (Notification.permission !== "granted") return;
 
-    // Check notification permission
-    if (Notification.permission === "granted") {
-      // Create notification
-      const notificationTitle = payload.notification?.title || 'New Update';
-      const notificationOptions: NotificationOptions = {
-        body: payload.notification?.body || 'You have a new notification',
-        icon: payload.notification?.icon || '/android/android-launchericon-192-192.png',
-        badge: '/android/android-launchericon-72-72.png',
-        tag: payload.data?.tag || 'default-tag',
-        requireInteraction: payload.data?.requireInteraction === 'true',
-        silent: false,
-        data: {
-          url: payload.data?.url || '/',
-          gameId: payload.data?.gameId,
-          ...payload.data
-        }
-      };
+    const data = payload.data || {};
+    const title = data.title || "New Update";
+    const options: NotificationOptions = {
+      body: data.body || "You have a new notification",
+      icon: data.icon || "/android/android-launchericon-192-192.png",
+      badge: data.badge || "/android/android-launchericon-72-72.png",
+      tag: data.tag || "default-tag",
+      requireInteraction: data.requireInteraction === "true",
+      silent: false,
+      data,
+    };
 
-      // Add image if provided
-      if (payload.notification?.image) {
-        notificationOptions.badge = payload.notification.image;
-      }
+    const notification = new Notification(title, options);
 
-      // Create and show the notification
-      const notification = new Notification(notificationTitle, notificationOptions);
+    notification.onclick = (event) => {
+      event.preventDefault();
+      notification.close();
+      const url = data.url || "/";
+      window.open(url, "_blank");
+    };
 
-      // Handle notification click
-      notification.onclick = (event) => {
-        event.preventDefault();
-        notification.close();
-
-        // Navigate to the URL if provided
-        const url = payload.data?.url || '/';
-        window.open(url, '_blank');
-      };
-
-      // Handle notification error
-      notification.onerror = (event) => {
-        console.error('[firebase.ts] Notification error:', event);
-      };
-
-      // Auto-close notification after 10 seconds if not require interaction
-      if (payload.data?.requireInteraction !== 'true') {
-        setTimeout(() => {
-          notification.close();
-        }, 10000);
-      }
-    } else {
-      console.log('[firebase.ts] Notification permission not granted');
+    if (data.requireInteraction !== "true") {
+      setTimeout(() => notification.close(), 10000);
     }
   });
 
-  console.log('[firebase.ts] Foreground notification handler initialized');
+  console.log("[firebase.ts] Foreground notification handler initialized");
 };
