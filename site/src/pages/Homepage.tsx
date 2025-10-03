@@ -4,7 +4,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getGameTitle } from "../utils.ts";
 import TitleBar from "../components/TitleBar";
 import { GameNotes } from "../components/GameNotes";
-import NotificationButton from "../components/NotificationButton";
+// import NotificationButton from "../components/NotificationButton";
 
 interface ArcadeNewsAPIData {
   fetch_time: number;
