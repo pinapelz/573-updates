@@ -4,6 +4,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { getGameTitle } from "../utils.ts";
 import TitleBar from "../components/TitleBar";
 import { GameNotes } from "../components/GameNotes";
+import NotificationButton from "../components/NotificationButton";
 
 interface ArcadeNewsAPIData {
   fetch_time: number;
@@ -14,8 +15,9 @@ export default function Home() {
   const { gameId } = useParams<{ gameId?: string }>();
   const [searchParams] = useSearchParams();
   const isMoe = searchParams.has("moe");
-  const rssFeedUrl = import.meta.env.VITE_NEWS_BASE_URL + "/" +gameId + "_news.xml";
-  const newsAPIBase = import.meta.env.VITE_NEWS_BASE_URL
+  const rssFeedUrl =
+    import.meta.env.VITE_NEWS_BASE_URL + "/" + gameId + "_news.xml";
+  const newsAPIBase = import.meta.env.VITE_NEWS_BASE_URL;
 
   const [newsFeedData, setNewsFeedData] = useState<ArcadeNewsAPIData | null>(
     null,
@@ -29,9 +31,7 @@ export default function Home() {
       setError(false);
       const newsDataFileName = gameId ? `${gameId}_news.json` : "news.json";
       try {
-        const response = await fetch(
-          newsAPIBase+"/" + `${newsDataFileName}`,
-        );
+        const response = await fetch(newsAPIBase + "/" + `${newsDataFileName}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch news: ${response.statusText}`);
         }
@@ -70,21 +70,31 @@ export default function Home() {
           className={`${isMoe ? "bg-pink-100" : "bg-gray-950"} min-h-screen flex items-center justify-center`}
         >
           <div className="text-center px-4">
-            <div className={`${isMoe ? "text-pink-500" : "text-purple-500"} text-8xl font-bold mb-4`}>
+            <div
+              className={`${isMoe ? "text-pink-500" : "text-purple-500"} text-8xl font-bold mb-4`}
+            >
               404
             </div>
-            <h1 className={`${isMoe ? "text-pink-900" : "text-white"} text-3xl font-bold mb-4`}>
+            <h1
+              className={`${isMoe ? "text-pink-900" : "text-white"} text-3xl font-bold mb-4`}
+            >
               News Not Found
             </h1>
-            <p className={`${isMoe ? "text-pink-700" : "text-gray-400"} text-lg mb-8`}>
+            <p
+              className={`${isMoe ? "text-pink-700" : "text-gray-400"} text-lg mb-8`}
+            >
               {gameId
                 ? `Unable to fetch news for ${getGameTitle(gameId)}`
-                : "Unable to fetch news feed"
-              }
+                : "Unable to fetch news feed"}
             </p>
-            <div className={`${isMoe ? "bg-pink-200" : "bg-gray-800"} rounded-lg p-6 max-w-md mx-auto`}>
-              <p className={`${isMoe ? "text-pink-800" : "text-gray-300"} mb-4`}>
-                The news feed you're looking for might be temporarily unavailable or doesn't exist.
+            <div
+              className={`${isMoe ? "bg-pink-200" : "bg-gray-800"} rounded-lg p-6 max-w-md mx-auto`}
+            >
+              <p
+                className={`${isMoe ? "text-pink-800" : "text-gray-300"} mb-4`}
+              >
+                The news feed you're looking for might be temporarily
+                unavailable or doesn't exist.
               </p>
               <a
                 href="/"
@@ -127,43 +137,64 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div
-              className={`${isMoe ? "bg-pink-200 text-pink-900" : "bg-gray-800 text-white"} rounded-lg p-6 text-center shadow-lg`}
-            >
-              <h1 className="text-2xl font-bold">Welcome to 573-UPDATES</h1>
-              <h2
-                className={`text-2xl font-extrabold mb-4 tracking-widest text-center uppercase glow-neon ${
-                  isMoe ? "text-pink-500" : "text-[#00FF00]"
-                }`}
+            <>
+              <div
+                className={`${isMoe ? "bg-pink-200 text-pink-900" : "bg-gray-800 text-white"} rounded-lg p-6 text-center shadow-lg`}
               >
-                SECOND STYLE
-              </h2>
-              <div className="floating">
-                <img
-                  src="/liris.webp"
-                  className="w-48 mx-auto mb-2 object-contain rounded-2xl"
-                />
-              </div>
-              <p>
-                News and Information for various arcade games is aggregated
-                here!
-              </p>
-              <p className="mt-2">
-                RSS feeds are available on each game's individual page
-              </p>
-              <p className="mt-2">
-                Please see the{" "}
-                <a
-                  href="https://github.com/pinapelz/573-updates"
-                  className="text-blue-500 hover:underline"
+                <h1 className="text-2xl font-bold">Welcome to 573-UPDATES</h1>
+                <h2
+                  className={`text-2xl font-extrabold mb-4 tracking-widest text-center uppercase glow-neon ${
+                    isMoe ? "text-pink-500" : "text-[#00FF00]"
+                  }`}
                 >
-                  GitHub
-                </a>{" "}
-                for API information
-              </p>
-            </div>
+                  SECOND STYLE
+                </h2>
+                <div className="floating">
+                  <img
+                    src="/liris.webp"
+                    className="w-48 mx-auto mb-2 object-contain rounded-2xl"
+                  />
+                </div>
+                <p>
+                  News and Information for various arcade games is aggregated
+                  here!
+                </p>
+                <p className="mt-2">
+                  RSS feeds are available on each game's individual page
+                </p>
+                <p className="mt-2">
+                  Please see the{" "}
+                  <a
+                    href="https://github.com/pinapelz/573-updates"
+                    className="text-blue-500 hover:underline"
+                  >
+                    GitHub
+                  </a>{" "}
+                  for API information
+                </p>
+                <div className="mt-6">
+                  <details className="rounded-lg">
+                    <summary
+                      className={`cursor-pointer text-lg font-semibold ${
+                        isMoe
+                          ? "text-pink-700 hover:text-pink-500"
+                          : "text-gray-300 hover:text-white"
+                      }`}
+                    >
+                      Receive Notifications
+                    </summary>
+                    <div className="mt-4">
+                      <NotificationButton isMoe={isMoe} />
+                      <p className="mt-2">
+                        Enables notifications for the main feed
+                      </p>
+                    </div>
+                  </details>
+                </div>
+              </div>
+            </>
           )}
-          <NewsFeed newsItems={newsFeedData.news_posts}/>
+          <NewsFeed newsItems={newsFeedData.news_posts} />
         </div>
         <footer
           className={`mt-8 text-center text-sm ${isMoe ? "text-pink-800" : "text-gray-400"}`}
