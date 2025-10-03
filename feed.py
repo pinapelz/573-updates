@@ -57,7 +57,7 @@ def build_rss_from_news_feed(title: str, description: str, json_file_path: str, 
         if jp_content:
             desc_parts.append(jp_content.strip().replace("\n", "<br/>"))
         if en_headline or en_content:
-            desc_parts.append("<hr/><b>English Translation</b><br/>")
+            desc_parts.append("<br/>――――――――――――――――<br/><b>English Translation</b><br/>")
             if en_headline:
                 desc_parts.append(f"<i>{en_headline.strip()}</i><br/>")
             if en_content:
@@ -65,11 +65,9 @@ def build_rss_from_news_feed(title: str, description: str, json_file_path: str, 
 
         desc_combined = "\n".join(desc_parts)
 
-        # Placeholder for CDATA
         desc_el = ET.SubElement(item, "description")
-        desc_el.text = f"__CDATA_PLACEHOLDER__{desc_combined}__END__"
+        desc_el.text = desc_combined
 
-        # pubDate
         if "timestamp" in post and post["timestamp"]:
             pub_date = datetime.fromtimestamp(
                 post["timestamp"], timezone.utc
@@ -91,15 +89,25 @@ def build_rss_from_news_feed(title: str, description: str, json_file_path: str, 
                     pass
                 ET.SubElement(item, "enclosure", url=image_url, type=mime, length=length)
 
-    # Serialize XML
-    rough_xml = ET.tostring(rss, encoding="utf-8", xml_declaration=True)
+    # Convert to string for CDATA processing
+    xml_str = ET.tostring(rss, encoding="unicode", method="xml")
 
-    # Replace placeholders with real CDATA
-    final_xml = rough_xml.decode("utf-8").replace(
-        "__CDATA_PLACEHOLDER__", "<![CDATA[").replace("__END__", "]]>"
-    )
+    # Process the XML string to wrap description content in CDATA
+    import re
 
-    # Pretty print
-    dom = minidom.parseString(final_xml)
+    def replace_description(match):
+        content = match.group(1)
+        # Unescape the XML entities that were escaped by ET
+        content = content.replace('&lt;', '<')
+        content = content.replace('&gt;', '>')
+        content = content.replace('&amp;', '&')
+        content = content.replace('&quot;', '"')
+        content = content.replace('&apos;', "'")
+        return '<description><![CDATA[' + content + ']]></description>'
+    xml_str = re.sub(r'<description>([^<]*)</description>', replace_description, xml_str)
+    dom = minidom.parseString(xml_str)
+    pretty_xml = dom.toprettyxml(indent="  ")
+    pretty_xml = '\n'.join([line for line in pretty_xml.split('\n') if line.strip()])
+
     with open(output_path, "w", encoding="utf-8") as f:
-        f.write(dom.toprettyxml(indent="  "))
+        f.write(pretty_xml)
