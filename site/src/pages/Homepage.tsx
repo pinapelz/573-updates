@@ -14,6 +14,7 @@ export default function Home() {
   const { gameId } = useParams<{ gameId?: string }>();
   const [searchParams] = useSearchParams();
   const isMoe = searchParams.has("moe");
+  const rssFeedUrl = import.meta.env.VITE_NEWS_BASE_URL + "/" +gameId + "_news.xml";
   const newsAPIBase = import.meta.env.VITE_NEWS_BASE_URL
 
   const [newsFeedData, setNewsFeedData] = useState<ArcadeNewsAPIData | null>(
@@ -119,12 +120,24 @@ export default function Home() {
               {GameNotes(isMoe)[gameId] && (
                 <div className="text-left">{GameNotes(isMoe)[gameId]}</div>
               )}
+              <div className="mt-2">
+                <a href={rssFeedUrl} className="text-blue-400 hover:underline">
+                  Subscribe via RSS
+                </a>
+              </div>
             </div>
           ) : (
             <div
               className={`${isMoe ? "bg-pink-200 text-pink-900" : "bg-gray-800 text-white"} rounded-lg p-6 text-center shadow-lg`}
             >
               <h1 className="text-2xl font-bold">Welcome to 573-UPDATES</h1>
+              <h2
+                className={`text-2xl font-extrabold mb-4 tracking-widest text-center uppercase glow-neon ${
+                  isMoe ? "text-pink-500" : "text-[#00FF00]"
+                }`}
+              >
+                SECOND STYLE
+              </h2>
               <div className="floating">
                 <img
                   src="/liris.webp"
@@ -134,6 +147,9 @@ export default function Home() {
               <p>
                 News and Information for various arcade games is aggregated
                 here!
+              </p>
+              <p className="mt-2">
+                RSS feeds are available on each game's individual page
               </p>
               <p className="mt-2">
                 Please see the{" "}
