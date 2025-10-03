@@ -3,13 +3,10 @@ import json
 import requests
 import mimetypes
 import xml.etree.ElementTree as ET
+from xml.dom import minidom
 from datetime import datetime, timezone
 from constants import RSS_FEED_URL
 
-def _wrap_cdata(text: str) -> str:
-    if text is None:
-        return ""
-    return f"<![CDATA[{text}]]>"
 
 def build_rss_from_news_feed(title: str, description: str, json_file_path: str, output_path: str, limit: int = 12):
     """
@@ -43,19 +40,22 @@ def build_rss_from_news_feed(title: str, description: str, json_file_path: str, 
 
     for post in news_feeds:
         item = ET.SubElement(channel, "item")
+
         # Title
         post_title = post.get("headline") or post.get("en_headline") or post.get("content", "")[:50]
         ET.SubElement(item, "title").text = post_title
+
         # Link
         ET.SubElement(item, "link").text = post.get("url") or "https://arcade.moekyun.me"
-        # Description (combine JP + EN if available)
+
+        # Description (JP + EN combined)
         jp_content = post.get("content", "")
         en_headline = post.get("en_headline")
         en_content = post.get("en_content")
+
         desc_parts = []
         if jp_content:
             desc_parts.append(jp_content.strip().replace("\n", "<br/>"))
-
         if en_headline or en_content:
             desc_parts.append("<hr/><b>English Translation</b><br/>")
             if en_headline:
@@ -64,11 +64,16 @@ def build_rss_from_news_feed(title: str, description: str, json_file_path: str, 
                 desc_parts.append(en_content.strip().replace("\n", "<br/>"))
 
         desc_combined = "\n".join(desc_parts)
-        ET.SubElement(item, "description").text = _wrap_cdata(desc_combined)
+
+        # Placeholder for CDATA
+        desc_el = ET.SubElement(item, "description")
+        desc_el.text = f"__CDATA_PLACEHOLDER__{desc_combined}__END__"
 
         # pubDate
         if "timestamp" in post and post["timestamp"]:
-            pub_date = datetime.fromtimestamp(post["timestamp"], timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+            pub_date = datetime.fromtimestamp(
+                post["timestamp"], timezone.utc
+            ).strftime("%a, %d %b %Y %H:%M:%S +0000")
             ET.SubElement(item, "pubDate").text = pub_date
 
         # First image enclosure (if any)
@@ -86,7 +91,15 @@ def build_rss_from_news_feed(title: str, description: str, json_file_path: str, 
                     pass
                 ET.SubElement(item, "enclosure", url=image_url, type=mime, length=length)
 
-    # Write out
-    tree = ET.ElementTree(rss)
-    ET.indent(tree, space="  ")
-    tree.write(output_path, encoding="utf-8", xml_declaration=True)
+    # Serialize XML
+    rough_xml = ET.tostring(rss, encoding="utf-8", xml_declaration=True)
+
+    # Replace placeholders with real CDATA
+    final_xml = rough_xml.decode("utf-8").replace(
+        "__CDATA_PLACEHOLDER__", "<![CDATA[").replace("__END__", "]]>"
+    )
+
+    # Pretty print
+    dom = minidom.parseString(final_xml)
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(dom.toprettyxml(indent="  "))
