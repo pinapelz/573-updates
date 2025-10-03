@@ -164,12 +164,12 @@ export default function Home() {
               {GameNotes(isMoe)[gameId] && (
                 <div className="text-left">{GameNotes(isMoe)[gameId]}</div>
               )}
-              <div className="mt-4">
+              {/* <div className="mt-4">
                 <NotificationButton gameId={gameId} isMoe={isMoe} />
               </div>
               <p className="text-left">
                 Currently in testing, not all games will receive updates via notifications yet.
-              </p>
+              </p> */}
               <div className="mt-2">
                 <a href={rssFeedUrl} className="text-blue-400 hover:underline">
                   Subscribe via RSS
@@ -214,7 +214,7 @@ export default function Home() {
                 </p>
                 <div className="mt-6">
                   <div className="mt-4">
-                    <NotificationButton isMoe={isMoe} />
+                    {/* <NotificationButton isMoe={isMoe} /> */}
 
                     {/* Subscribed Games Display */}
                     {subscribedGames.length > 0 && (
