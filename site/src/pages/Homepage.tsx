@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NewsData, NewsFeed } from "../components/NewsFeed";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getGameTitle } from "../utils.ts";
 import TitleBar from "../components/TitleBar";
 import { GameNotes } from "../components/GameNotes";
@@ -24,6 +24,29 @@ export default function Home() {
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
+  const [subscribedGames, setSubscribedGames] = useState<string[]>([]);
+  const [showSubscribedDropdown, setShowSubscribedDropdown] = useState(false);
+
+  useEffect(() => {
+    // Load subscribed games from localStorage
+    const loadSubscribedGames = () => {
+      const topics = JSON.parse(localStorage.getItem('subscribed_topics') || '[]');
+      setSubscribedGames(topics);
+    };
+
+    loadSubscribedGames();
+
+    // Listen for storage changes to update subscribed games list
+    const handleStorageChange = () => {
+      loadSubscribedGames();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -46,6 +69,17 @@ export default function Home() {
     };
     fetchNews();
   }, [gameId, newsAPIBase]); // Re-fetch when gameId changes
+
+  // Update subscribed games when localStorage changes locally
+  useEffect(() => {
+    const checkSubscriptions = () => {
+      const topics = JSON.parse(localStorage.getItem('subscribed_topics') || '[]');
+      setSubscribedGames(topics);
+    };
+
+    const interval = setInterval(checkSubscriptions, 500);
+    return () => clearInterval(interval);
+  }, []);
 
   if (loading) {
     return (
@@ -130,6 +164,9 @@ export default function Home() {
               {GameNotes(isMoe)[gameId] && (
                 <div className="text-left">{GameNotes(isMoe)[gameId]}</div>
               )}
+              <div className="mt-4">
+                <NotificationButton gameId={gameId} isMoe={isMoe} />
+              </div>
               <div className="mt-2">
                 <a href={rssFeedUrl} className="text-blue-400 hover:underline">
                   Subscribe via RSS
@@ -173,23 +210,53 @@ export default function Home() {
                   for API information
                 </p>
                 <div className="mt-6">
-                  <details className="rounded-lg">
-                    <summary
-                      className={`cursor-pointer text-lg font-semibold ${
-                        isMoe
-                          ? "text-pink-700 hover:text-pink-500"
-                          : "text-gray-300 hover:text-white"
-                      }`}
-                    >
-                      Receive Notifications
-                    </summary>
-                    <div className="mt-4">
-                      <NotificationButton isMoe={isMoe} />
-                      <p className="mt-2">
-                        Enables notifications for the main feed
-                      </p>
-                    </div>
-                  </details>
+                  <div className="mt-4">
+                    <NotificationButton isMoe={isMoe} />
+
+                    {/* Subscribed Games Display */}
+                    {subscribedGames.length > 0 && (
+                      <div className="mt-3">
+                        <button
+                          onClick={() => setShowSubscribedDropdown(!showSubscribedDropdown)}
+                          className={`text-sm ${
+                            isMoe ? "text-pink-700 hover:text-pink-500" : "text-gray-300 hover:text-white"
+                          } flex items-center gap-1 mx-auto transition-colors`}
+                        >
+                          <span>Subscribed to {subscribedGames.length} game{subscribedGames.length !== 1 ? 's' : ''}</span>
+                          <svg
+                            className={`w-4 h-4 transition-transform ${showSubscribedDropdown ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+
+                        {showSubscribedDropdown && (
+                          <div className={`mt-2 p-3 rounded-lg ${
+                            isMoe ? "bg-pink-300 bg-opacity-50" : "bg-gray-700 bg-opacity-50"
+                          }`}>
+                            <div className="grid grid-cols-2 gap-2 text-sm">
+                              {subscribedGames.map((gameId) => (
+                                <Link
+                                  key={gameId}
+                                  to={`/game/${gameId}`}
+                                  className={`${
+                                    isMoe
+                                      ? "text-pink-700 hover:text-pink-500 hover:bg-pink-200"
+                                      : "text-gray-300 hover:text-white hover:bg-gray-600"
+                                  } px-2 py-1 rounded transition-all`}
+                                >
+                                  {getGameTitle(gameId)}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </>
