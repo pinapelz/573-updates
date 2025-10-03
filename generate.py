@@ -12,12 +12,14 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from database import Database
 from feed import build_rss_from_news_feed
+from notifications import check_can_send_notifs, broadcast_to_topic
 
 load_dotenv()
 
 OUTPUT_DIR = "news"
 ARCHIVE_NEWS = True
 GENERATE_RSS_FEEDS = True
+SEND_NOTIFICATIONS = True
 
 
 def compute_json_hash(data):
@@ -60,6 +62,35 @@ def attach_news_meta_data(news_data: list):
         "fetch_time": int(datetime.now().timestamp()),
         "news_posts": news_data,
     }
+
+def attempt_broadcast_notifications(news_data: list, title: str, topic: str, image: str="http://arcade.moekyun.me/rasis.webp", limit=constants.DAYS_LIMIT):
+    if news_data and SEND_NOTIFICATIONS:
+        if not check_can_send_notifs:
+            print("[WARNING] Skipping notifications as env vars are not properly configured. See template")
+        else:
+            database = Database()
+            cutoff = datetime.now() - timedelta(days=limit)
+            for entry in news_data:
+                if datetime.fromtimestamp(entry["timestamp"]) < cutoff:
+                    continue
+                news_id = compute_json_hash(entry)
+                if database.check_news_id_exists(news_id):
+                    continue
+                else:
+                    print("[Notifications] Broadcasting Unique News with id: " + news_id)
+                    input()
+                    if entry.get("en_headline"):
+                        body_text = entry["en_headline"]
+                    elif entry.get("en_content"):
+                        body_text = entry["en_content"]
+                    elif entry.get("headline"):
+                        body_text = entry["headline"]
+                    else:
+                        body_text = entry.get("content", "")
+                    if len(body_text) > 50:
+                        body_text = body_text[:50] + "..."
+                    broadcast_to_topic(topic, title, body_text, image)
+
 
 
 def log_output(message: str, type: str = "DEBUG"):
@@ -119,7 +150,9 @@ def generate_iidx_news_file(eamuse_feed: bool=False):
         return generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
 
 def generate_sdvx_news_file():
-    return generate_news_file("sdvx_news", constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
+    news = generate_news_file("sdvx_news", constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
+    attempt_broadcast_notifications(news, "New Information for SOUND VOLTEX","sdvx")
+    return news
 
 def generate_ddr_news_file(eamuse_feed: bool=False):
     if eamuse_feed:
@@ -195,9 +228,9 @@ if __name__ == "__main__":
     if not os.path.exists(OUTPUT_DIR):
         log_output(f"{OUTPUT_DIR} was not found. Creating this directory...")
         os.makedirs(OUTPUT_DIR)
+    sdvx_news_data = generate_sdvx_news_file()
     polaris_news_data = generate_polaris_chord_news_file()
     iidx_news_data = generate_iidx_news_file(eamuse_feed=True)
-    sdvx_news_data = generate_sdvx_news_file()
     ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
     dance_rush_news_data = generate_dance_rush_news_file()
     dance_around_news_data = generate_dance_around_news_file()

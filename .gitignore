@@ -176,3 +176,4 @@ wac_result_cache.json
 summarization_cache.json
 *.bak
 *.db
+*.json

@@ -147,3 +147,14 @@ class Database:
             return None
         is_news = True if result[0] == 1 else False
         return is_news, result[1]
+
+    def check_news_id_exists(self, key: str) -> bool:
+        """
+        Check if a news entry with the given ID exists in the database.
+
+        :param key: The ID of the news entry to check.
+        :return: True if the news entry exists, False otherwise.
+        """
+        self._cursor.execute("SELECT 1 FROM news WHERE news_id = ?", (key,))
+        result = self._cursor.fetchone()
+        return result is not None
