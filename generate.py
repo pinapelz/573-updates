@@ -11,14 +11,19 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from database import Database
+from feed import build_rss_from_news_feed
 
 load_dotenv()
 
 OUTPUT_DIR = "news"
 ARCHIVE_NEWS = True
+GENERATE_RSS_FEEDS = True
+
 
 def compute_json_hash(data):
-    return hashlib.sha256(json.dumps(data, sort_keys=True).encode('utf-8')).hexdigest()
+    return hashlib.sha256(
+        json.dumps(data, sort_keys=True).encode("utf-8")
+    ).hexdigest()
 
 
 def save_news_to_db(news_feed: list):
@@ -28,6 +33,7 @@ def save_news_to_db(news_feed: list):
         key = compute_json_hash(entry)
         database.add_news_entry(key, entry)
     database.close()
+
 
 def create_merged_feed(*news_lists, limit=constants.DAYS_LIMIT):
     """
@@ -40,9 +46,9 @@ def create_merged_feed(*news_lists, limit=constants.DAYS_LIMIT):
         for news_list in news_lists
         if news_list
         for item in news_list
-        if datetime.fromtimestamp(item['timestamp']) >= cutoff
+        if datetime.fromtimestamp(item["timestamp"]) >= cutoff
     )
-    return sorted(recent_items, key=lambda x: x['timestamp'], reverse=True)
+    return sorted(recent_items, key=lambda x: x["timestamp"], reverse=True)
 
 
 def attach_news_meta_data(news_data: list):
@@ -52,11 +58,11 @@ def attach_news_meta_data(news_data: list):
     """
     return {
         "fetch_time": int(datetime.now().timestamp()),
-        "news_posts": news_data
+        "news_posts": news_data,
     }
 
 
-def log_output(message: str, type: str="DEBUG"):
+def log_output(message: str, type: str = "DEBUG"):
     """
     Prints a log line output with a timestamp
     """
@@ -64,7 +70,7 @@ def log_output(message: str, type: str="DEBUG"):
     print(f"[{timestamp}] [{type}]: {message}")
 
 
-def generate_news_file(filename, url, version=None):
+def generate_news_file(filename, url, version=None, formatted_name: str = None):
     log_output(f"Fetching {filename.upper()} News Data", "NEWS")
     news_data = None
     try:
@@ -74,16 +80,32 @@ def generate_news_file(filename, url, version=None):
         print("[ERROR] Wasn't able to fetch news. Skipping...")
 
     path = f"{OUTPUT_DIR}/{filename}.json"
+
     if news_data:
         log_output(f"Success. Got {filename.upper()} News Data. Saving to file...", "NEWS")
-        with open(path, 'w') as f:
-            json.dump(attach_news_meta_data(news_data), f, indent=2)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(attach_news_meta_data(news_data), f, indent=2, ensure_ascii=False)
+
+        if GENERATE_RSS_FEEDS:
+            rss_file_path = f"{OUTPUT_DIR}/{filename}.xml"
+            log_output(f"Generating RSS Feed: {rss_file_path}")
+            if not formatted_name:
+                formatted_name = filename
+            title = f"{formatted_name} News RSS Feed"
+            description = f"The latest information for {formatted_name} from official sources"
+            build_rss_from_news_feed(title, description, path, rss_file_path)
+
     elif os.path.exists(path):
-        log_output(f"Failed. Couldn't fetch {filename.upper()} data. Using previously scraped data", "NEWS")
-        with open(path, 'r') as json_file:
-            news_data = json.load(json_file)['news_posts']
+        log_output(
+            f"Failed. Couldn't fetch {filename.upper()} data. Using previously scraped data",
+            "NEWS",
+        )
+        with open(path, "r", encoding="utf-8") as json_file:
+            news_data = json.load(json_file)["news_posts"]
+
     else:
         log_output(f"Failed. Couldn't fetch {filename.upper()} data. Skipping...", "NEWS")
+
     return news_data
 
 

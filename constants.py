@@ -43,6 +43,8 @@ WACCA_PLUS_MAGIC_STRING="1206017527864369262"
 MUSECA_PLUS_NEWS_SITE="https://museca.plus/"
 RB_DELUXE_PLUS_NEWS="https://dxplus.chilundui.com/"
 
+RSS_FEED_URL="https://arcade-news.pinapelz.com"
+
 class CHUNITHM_VERSION(Enum):
     LUMINOUS_PLUS = 1
     VERSE = 2
