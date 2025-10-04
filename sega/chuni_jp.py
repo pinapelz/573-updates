@@ -108,7 +108,7 @@ def make_image_extractor(version: ParserVersion):
         raise ValueError("Unknown Parser Version")
 
 
-parse_chuni_jp_verse_news_site = make_chuni_jp_parser(
-    "CHUNITHM_JP_VERSE", ParserVersion.ALPHA
+parse_chuni_jp_news_site = make_chuni_jp_parser(
+    "CHUNITHM_JP", ParserVersion.ALPHA
 )
-parse_chuni_jp_verse_post_images = make_image_extractor(ParserVersion.ALPHA)
+parse_chuni_jp_post_images = make_image_extractor(ParserVersion.ALPHA)

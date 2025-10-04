@@ -202,12 +202,12 @@ def generate_gitadora_news_file():
     return news
 
 def generate_chunithm_jp_news_file():
-    news = generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
+    news = generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.X_VERSE)
     attempt_broadcast_notifications(news, "New information for CHUNITHM (Japan ver.)", "chunithm_jp")
     return news
 
 def generate_maimaidx_jp_news_file():
-    news = generate_news_file("maimaidx_jp_news", constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
+    news = generate_news_file("maimaidx_jp_news", constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.CIRCLE)
     attempt_broadcast_notifications(news, "New information for maimai DX (Japan ver.)", "maimaidx_jp")
     return news
 
@@ -217,7 +217,7 @@ def generate_ongeki_jp_news_file():
     return news
 
 def generate_maimaidx_intl_news_file():
-    news = generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM)
+    news = generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
     attempt_broadcast_notifications(news, "New information for maimai DX (International ver.)", "maimaidx_intl")
     return news
 

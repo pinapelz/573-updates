@@ -1,10 +1,13 @@
-from bs4 import BeautifulSoup
-from datetime import datetime
 import time
+from datetime import datetime
 from enum import Enum
 
+from bs4 import BeautifulSoup
+
+
 class ParserVersion(Enum):
-    ALPHA=1
+    ALPHA = 1
+
 
 def make_ongeki_parser(identifier: str, parser: ParserVersion):
     def alpha_parser(html: str):
@@ -21,8 +24,16 @@ def make_ongeki_parser(identifier: str, parser: ParserVersion):
             image_link = url if image_url else None
 
             date_type_text = li.select_one(".p-news__listTextUpper")
-            date_text = date_type_text.text.strip().split("/")[0].strip() if date_type_text else None
-            type_text = date_type_text.text.strip().split("/")[-1].strip() if "/" in date_type_text.text else None
+            date_text = (
+                date_type_text.text.strip().split("/")[0].strip()
+                if date_type_text
+                else None
+            )
+            type_text = (
+                date_type_text.text.strip().split("/")[-1].strip()
+                if "/" in date_type_text.text
+                else None
+            )
 
             timestamp = None
             if date_text:
@@ -40,17 +51,18 @@ def make_ongeki_parser(identifier: str, parser: ParserVersion):
                 "headline": None,
                 "content": image_alt,
                 "url": url,
-                'is_ai_summary': False,
-                "images": [{
-                    "image": image_url,
-                    "link": image_link
-                }] if image_url else []
+                "is_ai_summary": False,
+                "images": [{"image": image_url, "link": image_link}]
+                if image_url
+                else [],
             }
 
             items.append(entry)
 
         return items
+
     if parser == ParserVersion.ALPHA:
         return alpha_parser
 
-parse_ongeki_refresh_news_site = make_ongeki_parser("ONGEKI_JPN_REFRESH", ParserVersion.ALPHA)
+
+parse_ongeki_news_site = make_ongeki_parser("ONGEKI_JPN", ParserVersion.ALPHA)

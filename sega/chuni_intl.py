@@ -95,11 +95,7 @@ def make_image_extractor(version: ParserVersion):
         raise ValueError("Unknown Parser Version")
 
 
-parse_chuni_intl_luminous_plus_news_site = make_chuni_intl_parser(
-    "CHUNITHM_INTL_LUMINOUS_PLUS", ParserVersion.ALPHA
+parse_chuni_intl_news_site = make_chuni_intl_parser(
+    "CHUNITHM_INTL", ParserVersion.ALPHA
 )
-
-parse_chuni_intl_verse_news_site = make_chuni_intl_parser(
-    "CHUNITHM_INTL_VERSE", ParserVersion.ALPHA
-)
-parse_chuni_intl_verse_post_images = make_image_extractor(ParserVersion.ALPHA)
+parse_chuni_intl_post_images = make_image_extractor(ParserVersion.ALPHA)

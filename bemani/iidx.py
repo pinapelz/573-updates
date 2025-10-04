@@ -7,6 +7,7 @@ KEY_TERMS_TL = [
     ("クプロ", "QPro")
 ]
 
+# Legacy code. e-amuse feed provides better data
 def parse_pinky_crush_news_site(html: str):
     base_url = "https://p.eagate.573.jp"
     type_map = {
@@ -54,7 +55,7 @@ def parse_pinky_crush_news_site(html: str):
         content = re.sub(r'\s*/\s*', '/', content)
         news_items.append({
             "date": date_str,
-            "identifier": "IIDX_PINKY_CRUSH",
+            "identifier": "IIDX",
             "type": type_map[type_class],
             "timestamp": timestamp,
             "headline": headline,

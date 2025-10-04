@@ -48,10 +48,12 @@ RSS_FEED_URL="https://arcade-news.pinapelz.com"
 class CHUNITHM_VERSION(Enum):
     LUMINOUS_PLUS = 1
     VERSE = 2
+    X_VERSE = 3
 
 class MAIMAIDX_VERSION(Enum):
     PRISM = 1
     PRISM_PLUS = 2
+    CIRCLE = 3
 
 class ONGEKI_VERSION(Enum):
     REFRESH = 1

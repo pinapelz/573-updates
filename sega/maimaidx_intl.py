@@ -45,4 +45,4 @@ def make_maimaidx_intl_parser(identifier: str, parser: ParserVersion):
     if parser == ParserVersion.ALPHA:
         return alpha_parser
 
-parse_maimaidx_intl_prism_news_site = make_maimaidx_intl_parser("MAIMAIDX_INTL_PRISM", ParserVersion.ALPHA)
+parse_maimaidx_intl_news_site = make_maimaidx_intl_parser("MAIMAIDX_INTL", ParserVersion.ALPHA)

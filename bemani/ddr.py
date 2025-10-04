@@ -50,7 +50,7 @@ def parse_ddr_world_news_site(html: str):
 
         news_entries.append({
             "date":       date_iso,
-            "identifier": "DDR_WORLD",
+            "identifier": "DDR",
             "type":       None,
             "timestamp":  timestamp,
             "headline":   headline,
