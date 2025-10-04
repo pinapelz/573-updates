@@ -42,24 +42,21 @@ def broadcast_to_topic(topic: str, title: str, body: str, image):
         print(f"No tokens found for topic '{topic}'")
         return
 
-    for token in tokens:
-        message = messaging.Message(
-            notification=messaging.Notification(
-                title=title,
-                body=body,
-                image=image
-            ),
-            token=token
-        )
-        try:
-            response = messaging.send(message)
-            print(f"Sent to {token}: {response}")
-        except Exception as e:
-            print(f"Error sending to {token}: {e}")
-
-if __name__ == "__main__":
-    topic = "sdvx"
-    title = "New sdvx Update!"
-    body = "Check out the latest DDR content now!"
-
-    broadcast_to_topic(topic, title, body)
+    multicast_message = messaging.MulticastMessage(
+        notification=messaging.Notification(
+            title=title,
+            body=body,
+            image=image
+        ),
+        tokens=tokens
+    )
+    try:
+        response = messaging.send_each_for_multicast(multicast_message)
+        print(f"Successfully sent {response.success_count} messages out of {len(tokens)}")
+        if response.failure_count > 0:
+            print(f"Failed to send {response.failure_count} messages")
+            for idx, error in enumerate(response.responses):
+                if not error.success:
+                    print(f"Error for token {tokens[idx]}: {error.exception}")
+    except Exception as e:
+        print(f"Error sending multicast message: {e}")
