@@ -169,7 +169,9 @@ export default function Home() {
                 <div className="text-left">{GameNotes(isMoe)[gameId]}</div>
               )}
               <div className="mt-4">
-                <NotificationButton gameId={gameId} isMoe={isMoe} />
+                {gameId !== "rb_deluxe_plus" && (
+                  <NotificationButton gameId={gameId} isMoe={isMoe} />
+                )}
               </div>
               <div className="mt-2">
                 <a
