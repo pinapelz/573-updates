@@ -266,7 +266,6 @@ def generate_museca_plus_news_file():
 
 def generate_rbdx_plus_news_file():
     news = generate_news_file("rb_deluxe_plus_news", constants.RB_DELUXE_PLUS_NEWS)
-    attempt_broadcast_notifications(news, "New information for REFLEC BEAT", "rbdx_plus")
     return news
 
 if __name__ == "__main__":

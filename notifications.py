@@ -55,8 +55,21 @@ def broadcast_to_topic(topic: str, title: str, body: str, image):
         print(f"Successfully sent {response.success_count} messages out of {len(tokens)}")
         if response.failure_count > 0:
             print(f"Failed to send {response.failure_count} messages")
+            upstash_rest_api_url = os.environ.get("KV_REST_API_URL")
+            upstash_token = os.environ.get("KV_REST_API_TOKEN")
             for idx, error in enumerate(response.responses):
                 if not error.success:
-                    print(f"Error for token {tokens[idx]}: {error.exception}")
+                    failed_token = tokens[idx]
+                    print(f"Error for token {failed_token}: {error.exception}")
+                    url = f"{upstash_rest_api_url}/srem/fcm-{topic}"
+                    resp = requests.post(
+                        url,
+                        headers={"Authorization": f"Bearer {upstash_token}"},
+                        json={"value": failed_token}
+                    )
+                    if resp.status_code != 200:
+                        print(f"Failed to remove token {failed_token} from topic '{topic}': {resp.text}")
+                    else:
+                        print(f"Removed token {failed_token} from topic '{topic}'")
     except Exception as e:
         print(f"Error sending multicast message: {e}")
