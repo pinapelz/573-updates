@@ -58,3 +58,12 @@ pnpm run dev
 
 # Middleware
 The middleware dynamically generated OpenGraph and other metadata tags for posts. This is optional. Only deploy if you need this functionality (aka Discord previews)
+
+# Notifications
+**Requires Middleware to be running**
+
+Foreground and Background + PWA notifications are available using Firebase Cloud Messaging. Replace the credentials in `site/public/firebase-messaging-sw.js` as well as the necessary Firebase environment variables as shown in `site/.env.template`
+
+Subscription to individual games are tracked in Redis/Vercel KV as an edge funtion. This is necessary to both track which devices are subscribed to what topic. There is also no existing way in FCM to send a notification to every device without having the tokens stored somewhere.
+
+Notifications are only sent out each run of `generate.py` for uniquely hashed news entries.
