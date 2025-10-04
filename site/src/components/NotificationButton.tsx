@@ -178,6 +178,9 @@ export default function NotificationButton({ className = "", isMoe = false, game
       console.log("FCM token deleted");
       localStorage.removeItem('fcm_token');
 
+      // Clear all subscribed topics
+      localStorage.removeItem('subscribed_topics');
+
       if ('serviceWorker' in navigator) {
         const registration = await navigator.serviceWorker.getRegistration('/firebase-messaging-sw.js');
         if (registration) {

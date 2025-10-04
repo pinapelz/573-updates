@@ -4,7 +4,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getGameTitle } from "../utils.ts";
 import TitleBar from "../components/TitleBar";
 import { GameNotes } from "../components/GameNotes";
-// import NotificationButton from "../components/NotificationButton";
+import NotificationButton from "../components/NotificationButton";
 
 interface ArcadeNewsAPIData {
   fetch_time: number;
@@ -30,7 +30,9 @@ export default function Home() {
   useEffect(() => {
     // Load subscribed games from localStorage
     const loadSubscribedGames = () => {
-      const topics = JSON.parse(localStorage.getItem('subscribed_topics') || '[]');
+      const topics = JSON.parse(
+        localStorage.getItem("subscribed_topics") || "[]",
+      );
       setSubscribedGames(topics);
     };
 
@@ -41,10 +43,10 @@ export default function Home() {
       loadSubscribedGames();
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
@@ -73,7 +75,9 @@ export default function Home() {
   // Update subscribed games when localStorage changes locally
   useEffect(() => {
     const checkSubscriptions = () => {
-      const topics = JSON.parse(localStorage.getItem('subscribed_topics') || '[]');
+      const topics = JSON.parse(
+        localStorage.getItem("subscribed_topics") || "[]",
+      );
       setSubscribedGames(topics);
     };
 
@@ -164,15 +168,46 @@ export default function Home() {
               {GameNotes(isMoe)[gameId] && (
                 <div className="text-left">{GameNotes(isMoe)[gameId]}</div>
               )}
-              {/* <div className="mt-4">
+              <div className="mt-4">
                 <NotificationButton gameId={gameId} isMoe={isMoe} />
               </div>
-              <p className="text-left">
-                Currently in testing, not all games will receive updates via notifications yet.
-              </p> */}
               <div className="mt-2">
-                <a href={rssFeedUrl} className="text-blue-400 hover:underline">
-                  Subscribe via RSS
+                <a
+                  href={rssFeedUrl}
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium transition-colors ${
+                    isMoe
+                      ? "bg-pink-300 text-pink-800 hover:bg-pink-400"
+                      : "bg-gray-700 text-white hover:bg-gray-600"
+                  }`}
+                >
+                  <svg
+                    fill="#FFFFFF"
+                    height="24px"
+                    width="24px"
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    viewBox="-271 273 256 256"
+                    xmlSpace="preserve"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      {" "}
+                      <g>
+                        {" "}
+                        <path d="M-271,360v48.9c31.9,0,62.1,12.6,84.7,35.2c22.6,22.6,35.1,52.8,35.1,84.8v0.1h49.1c0-46.6-19-88.7-49.6-119.4 C-182.2,379-224.4,360.1-271,360z"></path>{" "}
+                        <path d="M-237,460.9c-9.4,0-17.8,3.8-24,10s-10,14.6-10,24c0,9.3,3.8,17.7,10,23.9c6.2,6.1,14.6,9.9,24,9.9s17.8-3.7,24-9.9 s10-14.6,10-23.9c0-9.4-3.8-17.8-10-24C-219.2,464.7-227.6,460.9-237,460.9z"></path>{" "}
+                        <path d="M-90.1,348.1c-46.3-46.4-110.2-75.1-180.8-75.1v48.9C-156.8,322-64.1,414.9-64,529h49C-15,458.4-43.7,394.5-90.1,348.1z"></path>{" "}
+                      </g>{" "}
+                    </g>
+                  </svg>
+                  RSS Feed
                 </a>
               </div>
             </div>
@@ -214,32 +249,48 @@ export default function Home() {
                 </p>
                 <div className="mt-6">
                   <div className="mt-4">
-                    {/* <NotificationButton isMoe={isMoe} /> */}
+                    <NotificationButton isMoe={isMoe} />
 
                     {/* Subscribed Games Display */}
                     {subscribedGames.length > 0 && (
                       <div className="mt-3">
                         <button
-                          onClick={() => setShowSubscribedDropdown(!showSubscribedDropdown)}
+                          onClick={() =>
+                            setShowSubscribedDropdown(!showSubscribedDropdown)
+                          }
                           className={`text-sm ${
-                            isMoe ? "text-pink-700 hover:text-pink-500" : "text-gray-300 hover:text-white"
+                            isMoe
+                              ? "text-pink-700 hover:text-pink-500"
+                              : "text-gray-300 hover:text-white"
                           } flex items-center gap-1 mx-auto transition-colors`}
                         >
-                          <span>Subscribed to {subscribedGames.length} game{subscribedGames.length !== 1 ? 's' : ''}</span>
+                          <span>
+                            Subscribed to {subscribedGames.length} game
+                            {subscribedGames.length !== 1 ? "s" : ""}
+                          </span>
                           <svg
-                            className={`w-4 h-4 transition-transform ${showSubscribedDropdown ? 'rotate-180' : ''}`}
+                            className={`w-4 h-4 transition-transform ${showSubscribedDropdown ? "rotate-180" : ""}`}
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
                           >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 9l-7 7-7-7"
+                            />
                           </svg>
                         </button>
 
                         {showSubscribedDropdown && (
-                          <div className={`mt-2 p-3 rounded-lg ${
-                            isMoe ? "bg-pink-300 bg-opacity-50" : "bg-gray-700 bg-opacity-50"
-                          }`}>
+                          <div
+                            className={`mt-2 p-3 rounded-lg ${
+                              isMoe
+                                ? "bg-pink-300 bg-opacity-50"
+                                : "bg-gray-700 bg-opacity-50"
+                            }`}
+                          >
                             <div className="grid grid-cols-2 gap-2 text-sm">
                               {subscribedGames.map((gameId) => (
                                 <Link
