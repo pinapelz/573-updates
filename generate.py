@@ -13,7 +13,6 @@ from datetime import datetime, timedelta
 from database import Database
 from feed import build_rss_from_news_feed
 from notifications import check_can_send_notifs, broadcast_to_topic
-from sega import maimaidx_intl
 
 load_dotenv()
 
@@ -148,9 +147,11 @@ def generate_news_file(filename, url, version=None, formatted_name: str = None):
 # by the e-amusement app. Information is different
 def generate_iidx_news_file(eamuse_feed: bool=False):
     if eamuse_feed:
-        return generate_news_file("iidx_news", constants.EAMUSE_APP_FEED, constants.IIDX_EAMUSE_APP_ID)
+        news = generate_news_file("iidx_news", constants.EAMUSE_APP_FEED, constants.IIDX_EAMUSE_APP_ID)
     else: # legacy should not be used,  use eamuse app feed above
-        return generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
+        news = generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
+    attempt_broadcast_notifications(news, "New information for beatmania IIDX", "iidx")
+    return news
 
 def generate_sdvx_news_file():
     news = generate_news_file("sdvx_news", constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
@@ -159,42 +160,61 @@ def generate_sdvx_news_file():
 
 def generate_ddr_news_file(eamuse_feed: bool=False):
     if eamuse_feed:
-        return generate_news_file("ddr_news", constants.EAMUSE_APP_FEED, constants.DDR_EAMUSE_APP_ID)
+        news = generate_news_file("ddr_news", constants.EAMUSE_APP_FEED, constants.DDR_EAMUSE_APP_ID)
     else:
-        return generate_news_file("ddr_news", constants.DDR_WORLD_NEWS_SITE)
+        news = generate_news_file("ddr_news", constants.DDR_WORLD_NEWS_SITE)
+    attempt_broadcast_notifications(news, "New information for DanceDanceRevolution", "ddr")
+    return news
 
 def generate_polaris_chord_news_file():
-    return generate_news_file("polaris_chord_news", constants.POLARIS_CHORD_NEWS_SITE)
+    news = generate_news_file("polaris_chord_news", constants.POLARIS_CHORD_NEWS_SITE)
+    attempt_broadcast_notifications(news, "New information for POLARIS CHORD", "polaris_chord")
+    return news
 
 def generate_dance_around_news_file():
-    return generate_news_file("dance_around_news", constants.EAMUSE_APP_FEED, constants.DANCE_AROUND_APP_ID)
+    news = generate_news_file("dance_around_news", constants.EAMUSE_APP_FEED, constants.DANCE_AROUND_APP_ID)
+    attempt_broadcast_notifications(news, "New information for DANCE aROUND", "dance_around")
+    return news
 
 def generate_dance_rush_news_file():
-    return generate_news_file("dance_rush_news", constants.EAMUSE_APP_FEED, constants.DANCE_RUSH_APP_ID)
+    news = generate_news_file("dance_rush_news", constants.EAMUSE_APP_FEED, constants.DANCE_RUSH_APP_ID)
+    attempt_broadcast_notifications(news, "New information for DANCERUSH STARDOM", "dance_rush")
+    return news
 
 def generate_popn_music_news_file():
-    return generate_news_file("popn_music_news", constants.EAMUSE_APP_FEED, constants.POPN_MUSIC_EAMUSE_APP_ID)
+    news = generate_news_file("popn_music_news", constants.EAMUSE_APP_FEED, constants.POPN_MUSIC_EAMUSE_APP_ID)
+    attempt_broadcast_notifications(news, "New information for pop'n music", "popn_music")
+    return news
 
 def generate_jubeat_news_file():
-    return generate_news_file("jubeat_news", constants.EAMUSE_APP_FEED, constants.JUBEAT_EAMUSE_APP_ID)
+    news = generate_news_file("jubeat_news", constants.EAMUSE_APP_FEED, constants.JUBEAT_EAMUSE_APP_ID)
+    attempt_broadcast_notifications(news, "New information for jubeat", "jubeat")
+    return news
 
 def generate_nostalgia_news_file():
-    return generate_news_file("nostalgia_news", constants.EAMUSE_APP_FEED, constants.NOSTALGIA_EAMUSE_APP_ID)
+    news = generate_news_file("nostalgia_news", constants.EAMUSE_APP_FEED, constants.NOSTALGIA_EAMUSE_APP_ID)
+    attempt_broadcast_notifications(news, "New information for NOSTALGIA", "nostalgia")
+    return news
 
 def generate_gitadora_news_file():
-    return generate_news_file("gitadora_news", constants.EAMUSE_APP_FEED, constants.GITADORA_EAMUSE_APP_ID)
+    news = generate_news_file("gitadora_news", constants.EAMUSE_APP_FEED, constants.GITADORA_EAMUSE_APP_ID)
+    attempt_broadcast_notifications(news, "New information for GITADORA", "gitadora")
+    return news
 
 def generate_chunithm_jp_news_file():
-    return generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
+    news = generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
+    attempt_broadcast_notifications(news, "New information for CHUNITHM (Japan ver.)", "chunithm_jp")
+    return news
 
 def generate_maimaidx_jp_news_file():
     news = generate_news_file("maimaidx_jp_news", constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
     attempt_broadcast_notifications(news, "New information for maimai DX (Japan ver.)", "maimaidx_jp")
     return news
 
-    return
 def generate_ongeki_jp_news_file():
-    return generate_news_file("ongeki_jp_news", constants.ONGEKI_JP_NEWS_SITE, constants.ONGEKI_VERSION.REFRESH)
+    news = generate_news_file("ongeki_jp_news", constants.ONGEKI_JP_NEWS_SITE, constants.ONGEKI_VERSION.REFRESH)
+    attempt_broadcast_notifications(news, "New information for ONGEKI/オンゲキ", "ongeki_jp")
+    return news
 
 def generate_maimaidx_intl_news_file():
     news = generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM)
@@ -202,34 +222,52 @@ def generate_maimaidx_intl_news_file():
     return news
 
 def generate_chunithm_intl_news_file():
-    return generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
+    news = generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
+    attempt_broadcast_notifications(news, "New information for CHUNITHM (International ver.)", "chunithm_intl")
+    return news
 
 def generate_idac_news_file():
-    return generate_news_file("idac_news", constants.IDAC_NEWS_SITE)
+    news = generate_news_file("idac_news", constants.IDAC_NEWS_SITE)
+    attempt_broadcast_notifications(news, "New information for Initial D THE ARCADE", "idac")
+    return news
 
 def generate_music_diver_news_file():
-    return generate_news_file("music_diver_news", constants.MUSIC_DIVER_NEWS)
+    news = generate_news_file("music_diver_news", constants.MUSIC_DIVER_NEWS)
+    attempt_broadcast_notifications(news, "New information for MUSIC DIVER", "music_diver")
+    return news
 
 def generate_street_fighter_news_file():
-    return generate_news_file("street_fighter_news", constants.STREET_FIGHTER_NEWS_SITE, constants.STREET_FIGHTER_VERSION.SIX)
+    news = generate_news_file("street_fighter_news", constants.STREET_FIGHTER_NEWS_SITE, constants.STREET_FIGHTER_VERSION.SIX)
+    attempt_broadcast_notifications(news, "New information for Street Fighter", "street_fighter")
+    return news
 
 def generate_taiko_news_file():
-    return generate_news_file("taiko_news", constants.TAIKO_BLOG_SITE)
+    news = generate_news_file("taiko_news", constants.TAIKO_BLOG_SITE)
+    attempt_broadcast_notifications(news, "New information for Taiko/太鼓の達人", "taiko")
+    return news
 
 def generate_wmmt_news_file():
-    return generate_news_file("wmmt_news", constants.WANGAN_MAXI_GENERIC)
+    news = generate_news_file("wmmt_news", constants.WANGAN_MAXI_GENERIC)
+    attempt_broadcast_notifications(news, "New information for Wangan Midnight Maximum Tune", "wmmt")
+    return news
 
 def generate_wacca_plus_news_file():
     if not os.environ.get("OPENAI_API_KEY"):
         print("[WARNING] Skipping WACCA PLUS generation, not possible without summarization key")
         return {}
-    return generate_news_file("wacca_plus_news", constants.WACCA_PLUS_MAGIC_STRING)
+    news = generate_news_file("wacca_plus_news", constants.WACCA_PLUS_MAGIC_STRING)
+    attempt_broadcast_notifications(news, "New information for WACCA", "wacca_plus")
+    return news
 
 def generate_museca_plus_news_file():
-    return generate_news_file("museca_plus_news", constants.MUSECA_PLUS_NEWS_SITE)
+    news = generate_news_file("museca_plus_news", constants.MUSECA_PLUS_NEWS_SITE)
+    attempt_broadcast_notifications(news, "New information for MUSECA", "museca_plus")
+    return news
 
 def generate_rbdx_plus_news_file():
-    return generate_news_file("rb_deluxe_plus_news", constants.RB_DELUXE_PLUS_NEWS)
+    news = generate_news_file("rb_deluxe_plus_news", constants.RB_DELUXE_PLUS_NEWS)
+    attempt_broadcast_notifications(news, "New information for REFLEC BEAT", "rbdx_plus")
+    return news
 
 if __name__ == "__main__":
     log_output("JOB START", "TASK")
