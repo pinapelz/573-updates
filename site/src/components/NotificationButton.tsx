@@ -3,8 +3,7 @@ import { messaging, initializeForegroundNotifications } from "../firebase.ts";
 import { getToken, deleteToken } from "firebase/messaging";
 import { getGameTitle } from "../utils.ts";
 
-const VAPID_KEY =
-  "BK7tpLF5Loy8Ew8bKxhTi-vOEJdxJSnu-jPyagWecLdD_SrEAt_OQS7nu0Xu3hR7AQpn0cOmgcdeeQd5zq5-Gyo";
+const VAPID_KEY = import.meta.env.VITE_VAPID_KEY;
 
 interface NotificationButtonProps {
   className?: string;
