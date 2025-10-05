@@ -57,4 +57,4 @@ def make_maimaidx_jpn_parser(identifier: str, parser: ParserVersion):
     if parser == ParserVersion.ALPHA:
         return alpha_parser
 
-parse_maimaidx_jp_news_site = make_maimaidx_jpn_parser("MAIMAIDX", ParserVersion.ALPHA)
+parse_maimaidx_jp_news_site = make_maimaidx_jpn_parser("MAIMAIDX_JP", ParserVersion.ALPHA)
