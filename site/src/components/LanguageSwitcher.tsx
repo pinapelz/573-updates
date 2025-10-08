@@ -7,11 +7,7 @@ const languages = [
   { code: 'ja', name: '日本語' }
 ];
 
-interface LanguageSwitcherProps {
-  variant?: 'compact' | 'standard';
-}
-
-function LanguageSwitcher({ variant = 'standard' }: LanguageSwitcherProps) {
+const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
   const [searchParams] = useSearchParams();
   const isMoe = searchParams.has("moe");
@@ -41,7 +37,7 @@ function LanguageSwitcher({ variant = 'standard' }: LanguageSwitcherProps) {
         className={`
           flex items-center justify-between
           transition-all duration-200 text-sm rounded
-          ${variant === 'compact' ? 'px-2 py-0.5 min-w-[80px]' : 'px-3 py-1.5 min-w-[100px]'}
+          px-2 py-0.5 min-w-[80px]
           ${isMoe
             ? 'bg-pink-200 text-pink-800 hover:bg-pink-300'
             : 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white'
@@ -71,8 +67,7 @@ function LanguageSwitcher({ variant = 'standard' }: LanguageSwitcherProps) {
       {isOpen && (
         <div
           className={`
-            absolute right-0 mt-1 z-10 shadow-lg rounded-md overflow-hidden
-            ${variant === 'compact' ? 'w-24' : 'w-32'}
+            absolute right-0 mt-1 z-10 shadow-lg rounded-md overflow-hidden w-24
             ${isMoe ? 'bg-pink-100 border border-pink-300' : 'bg-gray-800 border border-gray-700'}
           `}
         >

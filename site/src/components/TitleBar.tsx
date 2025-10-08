@@ -92,7 +92,7 @@ const TitleBar: React.FC = () => {
             >
               {t('game_selector')}
             </Link>
-            <LanguageSwitcher variant="compact" />
+            <LanguageSwitcher />
           </div>
         </div>
       </div>
