@@ -5,12 +5,15 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 const TitleBar: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isMoe = searchParams.has("moe");
+  const { t } = useTranslation();
 
   const toggleTheme = () => {
     const params = new URLSearchParams(searchParams);
@@ -56,7 +59,7 @@ const TitleBar: React.FC = () => {
               onClick={toggleTheme}
               className={`text-sm ${isMoe ? "bg-pink-100 text-pink-800 hover:bg-pink-200 hover:text-pink-600" : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white"} font-medium px-3 py-1 rounded`}
             >
-              {isMoe ? "🌙 Dark" : "🌸 Light"}
+              {isMoe ? "🌙 "+t('dark_theme_text') : "🌸 "+t("light_theme_text")}
             </button>
             <img
               src="/rasis.webp"
@@ -81,14 +84,15 @@ const TitleBar: React.FC = () => {
               to={`/${isMoe ? "?moe" : ""}`}
               className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium text-sm sm:text-base`}
             >
-              Main News Feed
+              {t('news_feed')}
             </Link>
             <Link
               to={`/games${isMoe ? "?moe" : ""}`}
               className={`${isMoe ? "text-pink-800 hover:text-pink-600" : "text-gray-300 hover:text-white"} font-medium text-sm sm:text-base`}
             >
-              Game Selector
+              {t('game_selector')}
             </Link>
+            <LanguageSwitcher variant="compact" />
           </div>
         </div>
       </div>

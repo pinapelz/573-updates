@@ -65,3 +65,16 @@ export const getShortenedGameName = (gameId: string) => {
     if(lowerCaseGameId.startsWith("wangan_maxi_asia_oce")) return "wangan_maxi_asia_oce";
     return gameId.toUpperCase();
 };
+
+export const updateHtmlLang = (language: string): void => {
+    document.documentElement.lang = language;
+    const metaLang = document.querySelector('meta[name="language"]');
+    if (metaLang) {
+        metaLang.setAttribute('content', language);
+    } else {
+        const meta = document.createElement('meta');
+        meta.setAttribute('name', 'language');
+        meta.setAttribute('content', language);
+        document.head.appendChild(meta);
+    }
+};

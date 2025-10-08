@@ -5,17 +5,16 @@ import {
   AimeIntlMaintenanceInfo,
   AllnetPrivateServerWarning,
 } from "./NoteModals";
+import i18next from 'i18next';
 
 export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
   sdvx: (
     <>
       <ul className={`mt-2 ${isMoe ? "text-pink-900" : "text-white"}`}>
-        <li>
-          • [USA] PREMIUM GENERATOR gacha available only ONLINE (No PASELI)
-        </li>
-        <li>• VP/VOLTEFACTORY rewards only available in Japan</li>
-        <li>• [USA] Some cover art and/or charts have been removed </li>
-        <li>• Official Online play is cross-region (including Japan)</li>
+        <li>{i18next.t('gamenotes.sdvx.premium_generator')}</li>
+        <li>{i18next.t('gamenotes.sdvx.voltefactory')}</li>
+        <li>{i18next.t('gamenotes.sdvx.cover_art')}</li>
+        <li>{i18next.t('gamenotes.sdvx.crossregion')}</li>
       </ul>
       <div className="flex justify-center">
         <EamuseMaintenancePopup isMoe={isMoe} />
@@ -23,20 +22,16 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official e-amusement service in NA available only at Round1 USA
+        {i18next.t('gamenotes.common.na_service_note')}
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
   iidx: (
     <>
       <ul className={`mt-2 ${isMoe ? "text-pink-900" : "text-white"}`}>
-        <li>
-          • [USA] Certain e-amusement features such as video upload
-          unavailable{" "}
-        </li>
+        <li>{i18next.t('gamenotes.iidx.features')}</li>
       </ul>
       <div className="flex justify-center">
         <EamuseMaintenancePopup isMoe={isMoe} />
@@ -44,10 +39,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official e-amusement service in NA available only at Round1 USA
+        {i18next.t('gamenotes.common.na_service_note')}
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
@@ -59,10 +53,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official e-amusement service in NA available only at Round1 USA
+        {i18next.t('gamenotes.common.na_service_note')}
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
@@ -74,10 +67,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official e-amusement service in NA available only at Round1 USA
+        {i18next.t('gamenotes.common.na_service_note')}
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
@@ -89,10 +81,9 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official e-amusement service in NA available only at Round1 USA
+        {i18next.t('gamenotes.common.na_service_note')}
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
@@ -104,7 +95,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official e-amusement service only in Japan.
+        {i18next.t('gamenotes.polaris_chord.online_note')}
       </p>
     </>
   ),
@@ -116,12 +107,11 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official e-amusement service in NA available only at Round1 USA
+        {i18next.t('gamenotes.common.na_service_note')}
         <br />
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
         <br />
-        Note that USA GOLD cabinets follow Japanese daily maintenance schedule.
+        {i18next.t('gamenotes.ddr.maintenance_note')}
       </p>
     </>
   ),
@@ -130,14 +120,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        Online only in Japan and Asia regions. No online service in the US (only
-        old versions running offline-kit)
+        {i18next.t('gamenotes.jubeat.online_note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
@@ -146,14 +134,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        Online only in Japan and Asia regions. Japan and Asia only. No online
-        service in the US (only old versions running offline-kit)
+        {i18next.t('gamenotes.popn_music.online_note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
@@ -162,14 +148,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        Online only in Japan and Asia regions. Japan and Asia only. No online
-        service in the US
+        {i18next.t('gamenotes.nostalgia.online_note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Online Cabinets in non-supported regions (CAN/EU/AUS) are on private
-        networks which run older data
+        {i18next.t('gamenotes.common.private_network_note')}
       </p>
     </>
   ),
@@ -178,12 +162,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        This version of the game is only available in Japan
+        {i18next.t('gamenotes.common.japan_only_note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        You may be on the International version if you are outside of Japan
+        {i18next.t('gamenotes.common.international_note')}
       </p>
     </>
   ),
@@ -192,12 +176,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        This version of the game is only available in Japan
+        {i18next.t('gamenotes.common.japan_only_note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        You may be on the International version if you are outside of Japan
+        {i18next.t('gamenotes.common.international_note')}
       </p>
     </>
   ),
@@ -206,12 +190,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        Official service only in Japan. No International Version
+        {i18next.t('gamenotes.ongeki_jp.japan_only')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        You are on a private network if the cabinet is not in Japan
+        {i18next.t('gamenotes.ongeki_jp.private_network')}
       </p>
       <div className="flex justify-center">
         <AllnetPrivateServerWarning isMoe={isMoe} />
@@ -223,32 +207,29 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        Official service only in Japan. No International Version
+        {i18next.t('gamenotes.idac.japan_only')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        You are on a private network if the cabinet is not in Japan
+        {i18next.t('gamenotes.idac.private_network')}
       </p>
     </>
   ),
   chunithm_intl: (
     <>
       <ul className={`mt-2 ${isMoe ? "text-pink-900" : "text-white"}`}>
-        <li>
-          • Updates behind JP version. International and JP are completely
-          seperated
-        </li>
+        <li>{i18next.t('gamenotes.chunithm_intl.updates')}</li>
       </ul>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        No official service in NA or EU.{" "}
+        {i18next.t('gamenotes.chunithm_intl.no_service')}{" "}
         <a
           className="underline"
           href="https://location.am-all.net/alm/location?gm=104&lang=en"
         >
-          See supported regions here
+          {i18next.t('gamenotes.chunithm_intl.regions_link')}
         </a>
       </p>
       <div className="flex justify-center">
@@ -262,29 +243,24 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
         <AimeIntlMaintenanceInfo isMoe={isMoe} />
       </div>
       <ul className={`mt-2 ${isMoe ? "text-pink-900" : "text-white"}`}>
-        <li>
-          • Updates behind JP version. International and JP are completely
-          seperated
-        </li>
-        <li>
-          • Certain charts are removed from USA region
-        </li>
+        <li>{i18next.t('gamenotes.maimaidx_intl.updates')}</li>
+        <li>{i18next.t('gamenotes.maimaidx_intl.charts')}</li>
       </ul>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Official service in USA/CAN/ASIA{" "}
+        {i18next.t('gamenotes.maimaidx_intl.service')}{" "}
         <a
           className="underline"
           href="https://location.am-all.net/alm/location?gm=98"
         >
-          See supported regions here
+          {i18next.t('gamenotes.maimaidx_intl.regions_link')}
         </a>
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        (No official service in EU)
+        {i18next.t('gamenotes.maimaidx_intl.no_eu')}
       </p>
       <div className="flex justify-center">
         <AllnetPrivateServerWarning isMoe={isMoe} />
@@ -299,7 +275,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        Online service available only at Round1 Japan and Round1 USA locations
+        {i18next.t('gamenotes.music_diver.online_service')}
       </p>
     </>
   ),
@@ -311,7 +287,7 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-center`}
       >
-        Online service in USA only at Round1 locations
+        {i18next.t('gamenotes.street_fighter.online_service')}
       </p>
     </>
   ),
@@ -320,14 +296,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
       >
-        WACCA PLUS is a community continuation of WACCA REVERSE after online
-        services ended in 2022
+        {i18next.t('gamenotes.wacca_plus.community')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Runs on Mythos networked cabs. Not all cabinets have WACCA PLUS as these
-        updates are opt-in by operators.
+        {i18next.t('gamenotes.wacca_plus.note')}
       </p>
     </>
   ),
@@ -336,19 +310,18 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
       >
-        MÚSECA PLUS is a fan continuation project for MÚSECA 1+1/2.
+        {i18next.t('gamenotes.museca_plus.community')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Runs on various e-amusement private networks. Not all cabinets have
-        MÚSECA PLUS as it is opt-in.
+        {i18next.t('gamenotes.museca_plus.note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
         <a className="underline" href="https://museca.plus/downloads">
-          You can also download it as a data_mod
+          {i18next.t('gamenotes.museca_plus.download')}
         </a>
       </p>
     </>
@@ -358,19 +331,17 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
       >
-        A continuation of the abandoned iOS version of REFLEC BEAT (REFLEC BEAT
-        plus)
+        {i18next.t('gamenotes.rb_deluxe_plus.community')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Needs to be sideloaded once you get a hold of the IPA. Network features
-        supported. iOS ONLY
+        {i18next.t('gamenotes.rb_deluxe_plus.note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        *Not in main feed as date data is unavailable from this source
+        {i18next.t('gamenotes.rb_deluxe_plus.feed_note')}
       </p>
     </>
   ),
@@ -379,12 +350,13 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
       >
-        Information below only applies to the latest version of the game (LCD + Banapassport Reader)
+        {i18next.t('gamenotes.taiko.version_note')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        Maintenance time is 1am - 7am JST (i think?)<br/>Applies to USA cabs as well (9am - 3pm PST)
+        {i18next.t('gamenotes.taiko.maintenance')}<br/>
+        {i18next.t('gamenotes.taiko.usa_note')}
       </p>
     </>
   ),
@@ -393,12 +365,12 @@ export const GameNotes = (isMoe: boolean): Record<string, React.ReactNode> => ({
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-white"} text-center`}
       >
-        Singular news feed for NA, ASIA/OCE, and JPN
+        {i18next.t('gamenotes.wmmt.feed')}
       </p>
       <p
         className={`mt-3 ${isMoe ? "text-pink-800" : "text-pink-300"} text-right`}
       >
-        All regions run different versions of the game
+        {i18next.t('gamenotes.wmmt.version')}
       </p>
     </>
   ),

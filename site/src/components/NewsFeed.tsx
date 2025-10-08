@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getGameTitle, getShortenedGameName } from "../utils.ts";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export interface NewsData {
   date: string;
@@ -24,6 +25,7 @@ interface NewsFeedProps {
 }
 
 export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
+  const { t } = useTranslation();
   const [showEnglish, setShowEnglish] = useState<Record<string, boolean>>({});
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [currentImageIndex, setCurrentImageIndex] = useState<
@@ -168,7 +170,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                   onClick={() => toggleLanguage(newsId)}
                   className={`${isMoe ? "bg-pink-200 hover:bg-pink-300" : "bg-gray-800 hover:bg-gray-700"} text-xs py-1 px-2 rounded`}
                 >
-                  {isEnglish ? "View Original" : "View in English"}
+                  {isEnglish ? t("view_in_original_text") : t("view_in_english_text")}
                 </button>
               )}
             </div>
@@ -233,13 +235,13 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
                     : `${window.location.origin}${pathname === "/news" ? "" : pathname}#${newsId}`;
                   navigator.clipboard.writeText(url);
                   alert(
-                    "Copied Direct Link to Post (Older news are automatically culled after some time)",
+                    `${t('copy_link_notif')}`
                   );
                 }}
                 title="Copy permalink"
                 className="text-xs text-blue-400 hover:underline cursor-pointer"
               >
-                🔗 Copy Link to Post
+                🔗 {`${t('copy_link_to_post')}`}
               </a>
             </div>
 
@@ -248,8 +250,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
               <div
                 className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-2 text-xs text-center`}
               >
-                The information above is written by AI /
-                上記の情報はAIによって生成されました。
+                {`${t('ai_summary_note')}`}
               </div>
             )}
 
@@ -258,8 +259,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
               <div
                 className={`${isMoe ? "bg-pink-200 text-pink-800" : "bg-gray-800 text-white"} px-3 py-2 text-xs text-center`}
               >
-                The information above is machine translated and may contain
-                inaccuracies
+              {`${t('machine_tl_note')}`}
               </div>
             )}
 

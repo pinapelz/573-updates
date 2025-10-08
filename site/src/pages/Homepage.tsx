@@ -5,6 +5,7 @@ import { getGameTitle } from "../utils.ts";
 import TitleBar from "../components/TitleBar";
 import { GameNotes } from "../components/GameNotes";
 import NotificationButton from "../components/NotificationButton";
+import { useTranslation } from "react-i18next";
 
 interface ArcadeNewsAPIData {
   fetch_time: number;
@@ -12,6 +13,8 @@ interface ArcadeNewsAPIData {
 }
 
 export default function Home() {
+  const { t } = useTranslation();
+
   const { gameId } = useParams<{ gameId?: string }>();
   const [searchParams] = useSearchParams();
   const isMoe = searchParams.has("moe");
@@ -116,7 +119,7 @@ export default function Home() {
             <h1
               className={`${isMoe ? "text-pink-900" : "text-white"} text-3xl font-bold mb-4`}
             >
-              News Not Found
+              {t('news_not_found')}
             </h1>
             <p
               className={`${isMoe ? "text-pink-700" : "text-gray-400"} text-lg mb-8`}
@@ -142,7 +145,7 @@ export default function Home() {
                     : "bg-purple-600 text-white hover:bg-purple-700"
                 }`}
               >
-                Return Home
+                {t('return_home')}
               </a>
             </div>
           </div>
@@ -218,7 +221,7 @@ export default function Home() {
               <div
                 className={`${isMoe ? "bg-pink-200 text-pink-900" : "bg-gray-800 text-white"} rounded-lg p-6 text-center shadow-lg`}
               >
-                <h1 className="text-2xl font-bold">Welcome to 573-UPDATES</h1>
+                <h1 className="text-2xl font-bold">{t('homepage.welcome')}</h1>
                 <h2
                   className={`text-2xl font-extrabold mb-4 tracking-widest text-center uppercase glow-neon ${
                     isMoe ? "text-pink-500" : "text-[#00FF00]"
@@ -233,21 +236,20 @@ export default function Home() {
                   />
                 </div>
                 <p>
-                  News and Information for various arcade games is aggregated
-                  here!
+                  {t('homepage.news_aggregation_note')}
                 </p>
                 <p className="mt-2">
-                  RSS feeds are available on each game's individual page
+                  {t('homepage.rss_feeds')}
                 </p>
                 <p className="mt-2">
-                  Please see the{" "}
+                  {t('homepage.github_info').split('GitHub')[0]}{" "}
                   <a
                     href="https://github.com/pinapelz/573-updates"
                     className="text-blue-500 hover:underline"
                   >
                     GitHub
                   </a>{" "}
-                  for API information
+                  {t('homepage.github_info').split('GitHub')[1] || ''}
                 </p>
                 <div className="mt-6">
                   <div className="mt-4">
@@ -267,8 +269,7 @@ export default function Home() {
                           } flex items-center gap-1 mx-auto transition-colors`}
                         >
                           <span>
-                            Subscribed to {subscribedGames.length} game
-                            {subscribedGames.length !== 1 ? "s" : ""}
+                            {`${t('subscribed_to_games_count')}`} {subscribedGames.length} {`${t('games')}`}
                           </span>
                           <svg
                             className={`w-4 h-4 transition-transform ${showSubscribedDropdown ? "rotate-180" : ""}`}

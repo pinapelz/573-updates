@@ -1,0 +1,121 @@
+{
+  "homepage": {
+    "welcome": "Welcome to 573 Updates",
+    "news_aggregation_note": "News and Information for various arcade games is aggregated here!",
+    "rss_feeds": "RSS feeds are available on each game's individual page",
+    "github_info": "Please see the GitHub for API information"
+  },
+  "news_feed": "Main News Feed",
+  "game_selector": "Game Selector",
+  "loading": "Loading...",
+  "news_not_found": "News Not Found",
+  "return_home": "Return Home",
+  "dark_theme_text": "Dark",
+  "light_theme_text": "Light",
+  "view_in_english_text": "View in English",
+  "view_in_original_text": "View Original",
+  "machine_tl_note": "The information above is machine translated and may contain inaccuracies",
+  "ai_summary_note": "The information above is written by AI",
+  "read_more": "READ MORE",
+  "copy_link_to_post": "Copy Link to Post",
+  "copy_link_notif": "Copied Direct Link to Post (Older news are automatically culled after some time)",
+  "subscribed_to_games_count": "Subscribed to",
+  "games": "game(s)",
+  "gameselector": {
+    "title": "Select a Game",
+    "subtitle": "Individual game feeds keep a longer history of news relating to that game than the main feed.",
+    "categories": {
+      "konami": "KONAMI",
+      "sega": "SEGA",
+      "taito": "TAITO",
+      "bandai_namco": "BANDAI NAMCO",
+      "community": "COMMUNITY"
+    },
+    "community_description": "Community-driven projects to continue the legacy of dead/abandoned rhythm games"
+  },
+  "gamenotes": {
+    "common": {
+      "eamuse_maintenance": "e-amusement Maintenance",
+      "nesica_maintenance": "NESiCA Maintenance",
+      "aime_maintenance": "Aime Maintenance",
+      "allnet_warning": "Private Server Warning",
+      "na_service_note": "Official e-amusement service in NA available only at Round1 USA",
+      "private_network_note": "Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data",
+      "japan_only_note": "This version of the game is only available in Japan",
+      "international_note": "You may be on the International version if you are outside of Japan"
+    },
+    "sdvx": {
+      "premium_generator": "• [USA] PREMIUM GENERATOR gacha available only ONLINE (No PASELI)",
+      "voltefactory": "• VP/VOLTEFACTORY rewards only available in Japan",
+      "cover_art": "• [USA] Some cover art and/or charts have been removed",
+      "crossregion": "• Official Online play is cross-region (including Japan)"
+    },
+    "iidx": {
+      "features": "• [USA] Certain e-amusement features such as video upload unavailable"
+    },
+    "chunithm_intl": {
+      "updates": "• Updates behind JP version. International and JP are completely seperated",
+      "no_service": "No official service in NA or EU.",
+      "regions_link": "See supported regions here"
+    },
+    "maimaidx_intl": {
+      "updates": "• Updates behind JP version. International and JP are completely seperated",
+      "charts": "• Certain charts are removed from USA region",
+      "service": "Official service in USA/CAN/ASIA",
+      "regions_link": "See supported regions here",
+      "no_eu": "(No official service in EU)"
+    },
+    "ongeki_jp": {
+      "japan_only": "Official service only in Japan. No International Version",
+      "private_network": "You are on a private network if the cabinet is not in Japan"
+    },
+    "idac": {
+      "japan_only": "Official service only in Japan. No International Version",
+      "private_network": "You are on a private network if the cabinet is not in Japan"
+    },
+    "music_diver": {
+      "online_service": "Online service available only at Round1 Japan and Round1 USA locations"
+    },
+    "street_fighter": {
+      "online_service": "Online service in USA only at Round1 locations"
+    },
+    "wacca_plus": {
+      "community": "WACCA PLUS is a community continuation of WACCA REVERSE after online services ended in 2022",
+      "note": "Runs on Mythos networked cabs. Not all cabinets have WACCA PLUS as these updates are opt-in by operators."
+    },
+    "museca_plus": {
+      "community": "MÚSECA PLUS is a fan continuation project for MÚSECA 1+1/2.",
+      "note": "Runs on various e-amusement private networks. Not all cabinets have MÚSECA PLUS as it is opt-in.",
+      "download": "You can also download it as a data_mod"
+    },
+    "rb_deluxe_plus": {
+      "community": "A continuation of the abandoned iOS version of REFLEC BEAT (REFLEC BEAT plus)",
+      "note": "Needs to be sideloaded once you get a hold of the IPA. Network features supported. iOS ONLY",
+      "feed_note": "*Not in main feed as date data is unavailable from this source"
+    },
+    "taiko": {
+      "version_note": "Information below only applies to the latest version of the game (LCD + Banapassport Reader)",
+      "maintenance": "Maintenance time is 1am - 7am JST (i think?)",
+      "usa_note": "Applies to USA cabs as well (9am - 3pm PST)"
+    },
+    "wmmt": {
+      "feed": "Singular news feed for NA, ASIA/OCE, and JPN",
+      "version": "All regions run different versions of the game"
+    },
+    "ddr": {
+      "maintenance_note": "Note that USA GOLD cabinets follow Japanese daily maintenance schedule."
+    },
+    "jubeat": {
+      "online_note": "Online only in Japan and Asia regions. No online service in the US (only old versions running offline-kit)"
+    },
+    "popn_music": {
+      "online_note": "Online only in Japan and Asia regions. Japan and Asia only. No online service in the US (only old versions running offline-kit)"
+    },
+    "nostalgia": {
+      "online_note": "Online only in Japan and Asia regions. Japan and Asia only. No online service in the US"
+    },
+    "polaris_chord": {
+      "online_note": "Official e-amusement service only in Japan."
+    }
+  }
+}

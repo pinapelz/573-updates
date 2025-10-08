@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import TitleBar from "../components/TitleBar";
+import { useTranslation } from "react-i18next";
 
 interface GameCategory {
   name: string;
@@ -67,18 +68,19 @@ const gameInfo: GameCategory[] = [
 const GameSelector = () => {
   const [searchParams] = useSearchParams();
   const isMoe = searchParams.has("moe");
+  const { t } = useTranslation();
 
   const renderCategory = (category: GameCategory) => (
     <div key={category.name} className="mb-6">
       <h2
         className={`text-lg font-bold ${isMoe ? "text-pink-700" : "text-gray-200"}`}
       >
-        {category.name}
+        {t(`gameselector.categories.${category.name.toLowerCase().replace(' ', '_')}`)}
       </h2>
       <p
         className={`text-sm ${isMoe ? "text-pink-600" : "text-gray-400"} mb-2`}
       >
-        {category.description}
+        {category.name === "COMMUNITY" ? t('gameselector.community_description') : category.description}
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mt-2">
         {category.games.map((game) => (
@@ -104,13 +106,12 @@ const GameSelector = () => {
           <h1
             className={`text-2xl font-bold mb-4 ${isMoe ? "text-pink-800" : "text-white"} sm:mb-6`}
           >
-            Select a Game
+            {t('gameselector.title')}
           </h1>
           <h2
             className={`text-base font-medium ${isMoe ? "text-pink-700" : "text-gray-300"} mb-4`}
           >
-            Individual game feeds keep a longer history of news relating to that
-            game than the main feed.
+            {t('gameselector.subtitle')}
           </h2>
           {gameInfo.map(renderCategory)}
         </div>

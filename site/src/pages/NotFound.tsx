@@ -1,7 +1,9 @@
 import { useSearchParams } from "react-router-dom";
 import TitleBar from "../components/TitleBar";
+import { useTranslation } from "react-i18next";
 
 export default function NotFound() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const isMoe = searchParams.has("moe");
 
@@ -16,7 +18,7 @@ export default function NotFound() {
             className={`${isMoe ? "bg-pink-200 text-pink-900" : "bg-gray-800 text-white"} rounded-lg p-8 shadow-lg`}
           >
             <h1 className="text-6xl font-bold mb-4">404</h1>
-            <h2 className="text-2xl font-semibold mb-4">Page Not Found</h2>
+            <h2 className="text-2xl font-semibold mb-4">{t('notFound.title')}</h2>
             <div className="mb-6">
               <img
                 src="/liris.webp"
@@ -25,7 +27,7 @@ export default function NotFound() {
               />
             </div>
             <p className="text-lg mb-6">
-              The page you're looking for doesn't exist or has been moved.
+              {t('notFound.description')}
             </p>
             <div className="space-y-3">
               <a
@@ -36,7 +38,7 @@ export default function NotFound() {
                     : "bg-purple-600 text-white hover:bg-purple-700"
                 }`}
               >
-                Go to Homepage
+                {t('return_home')}
               </a>
               <div className="mt-4">
                 <a
@@ -45,7 +47,7 @@ export default function NotFound() {
                     isMoe ? "text-pink-600 hover:text-pink-800" : "text-blue-400 hover:text-blue-300"
                   } underline`}
                 >
-                  View All Games
+                  {t('notFound.view_all_games')}
                 </a>
               </div>
             </div>

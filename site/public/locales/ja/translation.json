@@ -1,0 +1,36 @@
+{
+  "homepage": {
+    "welcome": "573-UPDATES へようこそ",
+    "news_aggregation_note": "様々なアーケードゲームのニュースと情報がここに集約されています！",
+    "rss_feeds": "RSSフィードは各ゲームの個別ページで利用可能です",
+    "github_info": "API情報についてはGitHubをご覧ください"
+  },
+  "news_feed": "メインニュースフィード",
+  "game_selector": "ゲームセレクタ",
+  "loading": "読み込み中...",
+  "news_not_found": "ニュースが見つかりません",
+  "return_home": "ホームに戻る",
+  "dark_theme_text": "ダーク",
+  "light_theme_text": "ライト",
+  "view_in_english_text": "英語で表示",
+  "view_in_original_text": "原文で表示",
+  "machine_tl_note": "上記の情報は機械翻訳されており、不正確な内容が含まれる可能性があります",
+  "ai_summary_note": "上記の情報はAIによって生成されました",
+  "read_more": "続きを読む",
+  "copy_link_to_post": "投稿へのリンクをコピー",
+  "copy_link_notif": "投稿への直接リンクをコピーしました（古いニュースは一定時間後に自動的に削除されます）",
+  "subscribed_to_games_count": "通知購読中",
+  "games": "ゲーム",
+  "gameselector": {
+    "title": "ゲームを選択",
+    "subtitle": "個別のゲームフィードは、メインフィードよりも長い期間のニュース履歴を保持しています。",
+    "categories": {
+      "konami": "KONAMI",
+      "sega": "SEGA",
+      "taito": "TAITO",
+      "bandai_namco": "バンダイナムコ",
+      "community": "コミュニティ"
+    },
+    "community_description": "サービス終了した/放棄されたリズムゲームの遺産を継承するコミュニティ主導のプロジェクト"
+  }
+}
