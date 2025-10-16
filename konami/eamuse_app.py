@@ -1,11 +1,15 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 from urllib.parse import urljoin
+import json
 import time
 
 BASE_URL = "https://eam.573.jp"
 
 def parse_news_page(html: str, identifier: str):
+    """
+    Legacy method of scraping. Should not be used if API method works since it will be much faster
+    """
     soup = BeautifulSoup(html, "html.parser")
     entries = []
 
@@ -49,4 +53,35 @@ def parse_news_page(html: str, identifier: str):
         }
         entries.append(entry)
 
+    return entries
+
+def parse_news_api_route(raw_api_data: str, identifier: str, eam_news_site: str=""):
+    """
+    Re-maps eamuse news app API routes to 573Updates JSON
+    """
+    route_data = json.loads(raw_api_data)
+    entries = []
+    for post_data in route_data["post_list"]:
+        date_str = post_data["entry_date"]
+        timestamp = post_data["entry_time"]
+        content = post_data["content"]
+        url = eam_news_site + "?post_id="+post_data["post_id"]
+        images = []
+        if "image_url" in post_data:
+            images = [{
+                "image": post_data["image_url"],
+                "link": url
+        }]
+        entry = {
+            "date": date_str,
+            "identifier": identifier,
+            "type": None,
+            "timestamp": timestamp,
+            "headline": None,
+            "content": content,
+            "url": url,
+            "images": images,
+            "is_ai_summary": False
+        }
+        entries.append(entry)
     return entries

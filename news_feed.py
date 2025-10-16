@@ -72,43 +72,39 @@ def get_news(news_url: str, version=None) -> list:
         news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
 
     elif news_url == constants.POLARIS_CHORD_NEWS_SITE:
-        scraper = SiteScraper(headless=True)
-        site_data = scraper.get_page_source(news_url)
-        scraper.close()
+        site_data = download_site_as_html(news_url)
         news_posts = sorted(polaris_chord.parse_polaris_chord_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
 
-    elif news_url == constants.EAMUSE_APP_FEED:
-        scraper = SiteScraper(headless=True)
-        site_data = scraper.get_page_source(news_url+"/?uuid_to="+version)
-        scraper.close()
+    elif news_url == constants.EAMUSE_APP_API_ROUTE:
+        site_data = download_site_as_html(news_url+"/?uuid_to="+version+"&format=json")
         match version:
             case constants.IIDX_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "IIDX_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "IIDX_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
             case constants.DDR_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "DDR_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "DDR_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.SDVX_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "SOUND_VOLTEX_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "SOUND_VOLTEX_EAMUSEMENT", constants.EAMUSE_POST_SITE ), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.JUBEAT_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "JUBEAT_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "JUBEAT_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.POPN_MUSIC_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "POPN_MUSIC_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "POPN_MUSIC_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.GITADORA_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "GITADORA_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "GITADORA_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.NOSTALGIA_EAMUSE_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "NOSTALGIA_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "NOSTALGIA_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.DANCE_RUSH_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "DANCE_RUSH_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "DANCE_RUSH_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case constants.DANCE_AROUND_APP_ID:
-                news_posts= sorted(eamuse_app.parse_news_page(site_data, "DANCE_AROUND_EAMUSEMENT"), key=lambda x: x['timestamp'], reverse=True)
+                news_posts= sorted(eamuse_app.parse_news_api_route(site_data, "DANCE_AROUND_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 news_posts = translate.add_translate_text_to_en(news_posts)
             case _:
                 raise ValueError("Cannot find provided e-amuse app gameId", version)
