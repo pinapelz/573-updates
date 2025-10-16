@@ -73,7 +73,7 @@ def get_news(news_url: str, version=None) -> list:
 
     elif news_url == constants.POLARIS_CHORD_NEWS_SITE:
         site_data = download_site_as_html(news_url)
-        news_posts = sorted(polaris_chord.parse_polaris_chord_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = sorted(polaris_chord.parse_polaris_chord_news_site(site_data, constants.POLARIS_CHORD_RECENT_NEWS_LIMIT), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts, iidx.KEY_TERMS_TL)
 
     elif news_url == constants.EAMUSE_APP_API_ROUTE:

@@ -6,6 +6,7 @@ SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE ="https://p.eagate.573.jp/game/sdvx/vi/news/i
 IIDX_PINKY_CRUSH_NEWS_SITE="https://p.eagate.573.jp/game/2dx/32/info/index.html"  # legacy should not be used,  eamuse feed is more verbose
 DDR_WORLD_NEWS_SITE="https://p.eagate.573.jp/game/ddr/ddrworld/info/index.html"
 POLARIS_CHORD_NEWS_SITE="https://p.eagate.573.jp/game/polarischord/pc/news/news.html"
+POLARIS_CHORD_RECENT_NEWS_LIMIT=15
 
 EAMUSE_APP_FEED="https://eam.573.jp/app/web/post/official"
 EAMUSE_APP_API_ROUTE="https://eam.573.jp/app/web/post/official"

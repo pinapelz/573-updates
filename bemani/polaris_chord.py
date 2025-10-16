@@ -11,12 +11,16 @@ CATEGORY_MAP = {
     "i_04": "OTHER"
 }
 
-def parse_polaris_chord_news_site(html: str) -> list[dict]:
+def parse_polaris_chord_news_site(html: str, limit: int) -> list[dict]:
     base_url = "https://eacache.s.konaminet.jp/game/polarischord/pc/"
     soup = BeautifulSoup(html, 'html.parser')
     news_list = []
 
     for li in soup.select('li.news'):
+        # Check if we've reached the limit
+        if len(news_list) >= limit:
+            break
+
         raw_type = li.get('data-category')
         post_type = CATEGORY_MAP.get(raw_type, "OTHER")
 
