@@ -23,7 +23,7 @@ DANCE_RUSH_APP_ID="ns3maqirvf08ddhp"
 CHUNITHM_JP_NEWS_SITE="https://info-chunithm.sega.jp/"
 CHUNITHM_INTL_NEWS_SITE="https://info-chunithm.sega.com/"
 MAIMAIDX_JP_NEWS_SITE="https://info-maimai.sega.jp/"
-MAIMAIDX_INTL_NEWS_SITE="https://maimai.sega.com/download/"
+MAIMAIDX_INTL_NEWS_SITE="https://maimai.sega.com/assets/data/index.json"
 ONGEKI_JP_NEWS_SITE="https://info-ongeki.sega.jp/"
 IDAC_NEWS_SITE="https://info-initialdac.sega.jp/"
 

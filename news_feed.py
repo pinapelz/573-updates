@@ -149,12 +149,9 @@ def get_news(news_url: str, version=None) -> list:
             news_posts = translate.add_translate_text_to_en(news_posts)
 
     elif news_url == constants.MAIMAIDX_INTL_NEWS_SITE:
-        scraper = SiteScraper(headless=True)
-        site_data = scraper.get_page_source(news_url)
-        scraper.close()
-        if version in [ constants.MAIMAIDX_VERSION.PRISM, constants.MAIMAIDX_VERSION.PRISM_PLUS ]:
-            news_posts = sorted(maimaidx_intl.parse_maimaidx_intl_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
-            _attach_llm_summaries(news_posts, "maimai DX International")
+        site_data = download_site_as_html(news_url)
+        news_posts = sorted(maimaidx_intl.parse_maimaidx_intl_api_route(site_data, "MAIMAIDX_INTL"), key=lambda x: x['timestamp'], reverse=True)
+        _attach_llm_summaries(news_posts, "maimai DX International")
 
     elif news_url == constants.ONGEKI_JP_NEWS_SITE:
         site_data = download_site_as_html(news_url)

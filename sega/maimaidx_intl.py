@@ -1,11 +1,15 @@
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone, timedelta
 from enum import Enum
+import json
 
 class ParserVersion(Enum):
     ALPHA=1
 
 def make_maimaidx_intl_parser(identifier: str, parser: ParserVersion):
+    """
+    Parses the download page of maimai dx intl site. API route method below is preferred as information is the same
+    """
     def alpha_parser(html: str):
         """
         Confirmed on:
@@ -44,5 +48,37 @@ def make_maimaidx_intl_parser(identifier: str, parser: ParserVersion):
         return entries
     if parser == ParserVersion.ALPHA:
         return alpha_parser
+
+def parse_maimaidx_intl_api_route(raw_api_data: str, identifier: str):
+    route_data = json.loads(raw_api_data)
+    entries = []
+    for post_data in route_data:
+        date_data = post_data["date"]
+        date_str = ".".join([str(x) for x in date_data[:3]]) # YYYY.MM.DD
+        dt = datetime.strptime(date_str, "%Y.%m.%d").replace(tzinfo=timezone(timedelta(hours=9)))
+        timestamp = int(dt.timestamp())
+        full_image_url = f"https://maimai.sega.com/assets/assets/img/download/pop/download/{date_data[0]}-{date_data[1]}-{date_data[2]}/{post_data['thumb']}"
+        if len(date_data) == 4:
+            full_image_url = f"https://maimai.sega.com/assets/assets/img/download/pop/download/{date_data[0]}-{date_data[1]}-{date_data[2]}-{date_data[3]}/{post_data['thumb']}"
+        content = post_data["desc"] + f"\n\nNew maimai DX International News / maimai DX International の新しいお知らせ\n\n{full_image_url}"
+        headline = post_data["title"]
+        images = [{
+            "image": full_image_url,
+            "link": None
+        }]
+        entry = {
+            "date": date_str,
+            "identifier": identifier,
+            "type": None,
+            "timestamp": timestamp,
+            "headline": headline,
+            "content": content,
+            "url": None,
+            "images": images,
+            "is_ai_summary": False
+        }
+        entries.append(entry)
+    return entries
+
 
 parse_maimaidx_intl_news_site = make_maimaidx_intl_parser("MAIMAIDX_INTL", ParserVersion.ALPHA)
