@@ -1,9 +1,7 @@
-import json
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
 from urllib.parse import urljoin
-from constants import IDAC_NEWS_SITE
 
 
 def parse_idac_news_site(site_data: str):

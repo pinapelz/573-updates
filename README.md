@@ -43,6 +43,11 @@ python generate.py
 
 This will generate JSONs for each scraped news site in the `news` directory
 
+> [!IMPORTANT]
+> The scraper codebase will always attempt to keep legacy code for compatability reasons. Please check `DEPREACATIONS.md` to see if there is a better way of getting some source of information.
+>
+> If there is no note for your game, it means that all modules only have up-to-date functionality
+
 # Site
 The frontend acts as a news site that serves the scraped information. You'll need to configure the `.env` file using the template for it to work properly.
 ```
