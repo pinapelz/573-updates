@@ -58,9 +58,9 @@ def parse_maimaidx_intl_api_route(raw_api_data: str, identifier: str, limit: int
         date_str = ".".join([str(x) for x in date_data[:3]]) # YYYY.MM.DD
         dt = datetime.strptime(date_str, "%Y.%m.%d").replace(tzinfo=timezone(timedelta(hours=9)))
         timestamp = int(dt.timestamp())
-        full_image_url = f"https://maimai.sega.com/assets/assets/img/download/pop/download/{date_data[0]}-{date_data[1]}-{date_data[2]}/{post_data['thumb']}"
+        full_image_url = f"https://maimai.sega.com/assets/img/download/pop/download/{date_data[0]}-{date_data[1]}-{date_data[2]}/{post_data['thumb']}"
         if len(date_data) == 4:
-            full_image_url = f"https://maimai.sega.com/assets/assets/img/download/pop/download/{date_data[0]}-{date_data[1]}-{date_data[2]}-{date_data[3]}/{post_data['thumb']}"
+            full_image_url = f"https://maimai.sega.com/assets/img/download/pop/download/{date_data[0]}-{date_data[1]}-{date_data[2]}-{date_data[3]}/{post_data['thumb']}"
         content = post_data["desc"] + f"\n\nNew maimai DX International News / maimai DX International の新しいお知らせ\n\n{full_image_url}"
         headline = post_data["title"]
         images = [{
