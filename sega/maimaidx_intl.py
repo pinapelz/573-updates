@@ -49,8 +49,9 @@ def make_maimaidx_intl_parser(identifier: str, parser: ParserVersion):
     if parser == ParserVersion.ALPHA:
         return alpha_parser
 
-def parse_maimaidx_intl_api_route(raw_api_data: str, identifier: str):
+def parse_maimaidx_intl_api_route(raw_api_data: str, identifier: str, limit: int):
     route_data = json.loads(raw_api_data)
+    route_data = route_data[:limit]
     entries = []
     for post_data in route_data:
         date_data = post_data["date"]

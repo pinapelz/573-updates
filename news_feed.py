@@ -131,15 +131,16 @@ def get_news(news_url: str, version=None) -> list:
 
     elif news_url == constants.CHUNITHM_INTL_NEWS_SITE:
         site_data = download_site_as_html(news_url)
-        if version in [constants.CHUNITHM_VERSION.LUMINOUS_PLUS, constants.CHUNITHM_VERSION.VERSE]:
-            news_posts = sorted(chuni_intl.parse_chuni_intl_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
-            if constants.CHUNI_RECURSIVE_IMAGE:
-                for i in range(len(news_posts)):
-                    if not news_posts[i]["url"]:
-                        continue
-                    post_site_data = download_site_as_html(news_posts[i]["url"])
-                    post_images = chuni_intl.parse_chuni_intl_post_images(post_site_data)
-                    news_posts[i]["images"].extend([image for image in post_images if not any(existing_image['image'] == image['image'] for existing_image in news_posts[i]["images"])])
+        news_posts = sorted(chuni_intl.parse_chuni_intl_api_route(site_data, "CHUNITHM_INTL", constants.CHUNITHM_INTL_RECENT_NEWS_LIMIT), key=lambda x: x['timestamp'], reverse=True)
+        print(news_posts)
+        exit()
+        if constants.CHUNI_RECURSIVE_IMAGE:
+            for i in range(len(news_posts)):
+                if not news_posts[i]["url"]:
+                    continue
+                post_site_data = download_site_as_html(news_posts[i]["url"])
+                post_images = chuni_intl.parse_chuni_intl_post_images(post_site_data)
+                news_posts[i]["images"].extend([image for image in post_images if not any(existing_image['image'] == image['image'] for existing_image in news_posts[i]["images"])])
 
 
     elif news_url == constants.MAIMAIDX_JP_NEWS_SITE:
@@ -150,7 +151,7 @@ def get_news(news_url: str, version=None) -> list:
 
     elif news_url == constants.MAIMAIDX_INTL_NEWS_SITE:
         site_data = download_site_as_html(news_url)
-        news_posts = sorted(maimaidx_intl.parse_maimaidx_intl_api_route(site_data, "MAIMAIDX_INTL"), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = sorted(maimaidx_intl.parse_maimaidx_intl_api_route(site_data, "MAIMAIDX_INTL", constants.MAIMAIDX_INTL_RECENT_NEWS_LIMIT), key=lambda x: x['timestamp'], reverse=True)
         _attach_llm_summaries(news_posts, "maimai DX International")
 
     elif news_url == constants.ONGEKI_JP_NEWS_SITE:

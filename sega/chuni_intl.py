@@ -1,6 +1,7 @@
 import re
 from datetime import datetime, timedelta, timezone
 from enum import Enum
+import json
 from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
@@ -93,6 +94,36 @@ def make_image_extractor(version: ParserVersion):
         return image_extractor_alpha
     else:
         raise ValueError("Unknown Parser Version")
+
+def parse_chuni_intl_api_route(raw_api_data: str, identifier: str, limit: int):
+    route_data = json.loads(raw_api_data)
+    route_data = route_data[:limit]
+    entries = []
+    for post_data in route_data:
+        date_str = post_data["date"]
+        dt = datetime.strptime(date_str, "%Y.%m.%d").replace(tzinfo=timezone(timedelta(hours=9)))
+        timestamp = int(dt.timestamp())
+        full_image_url = post_data["thumbnail"]
+        content = post_data["desc"]
+        headline = post_data["title"]
+        url = post_data["permalink"]
+        images = [{
+            "image": full_image_url,
+            "link": None
+        }]
+        entry = {
+            "date": date_str,
+            "identifier": identifier,
+            "type": None,
+            "timestamp": timestamp,
+            "headline": headline,
+            "content": content,
+            "url": url,
+            "images": images,
+            "is_ai_summary": False
+        }
+        entries.append(entry)
+    return entries
 
 
 parse_chuni_intl_news_site = make_chuni_intl_parser(

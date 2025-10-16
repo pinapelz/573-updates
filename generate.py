@@ -147,7 +147,7 @@ def generate_news_file(filename, url, version=None, formatted_name: str = None):
 # by the e-amusement app. Information is different
 def generate_iidx_news_file(eamuse_feed: bool=False):
     if eamuse_feed:
-        news = generate_news_file("iidx_news", constants.EAMUSE_APP_FEED, constants.IIDX_EAMUSE_APP_ID)
+        news = generate_news_file("iidx_news", constants.EAMUSE_APP_API_ROUTE, constants.IIDX_EAMUSE_APP_ID)
     else: # legacy should not be used,  use eamuse app feed above
         news = generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
     attempt_broadcast_notifications(news, "New information for beatmania IIDX", "iidx")
@@ -217,12 +217,12 @@ def generate_ongeki_jp_news_file():
     return news
 
 def generate_maimaidx_intl_news_file():
-    news = generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE, constants.MAIMAIDX_VERSION.PRISM_PLUS)
+    news = generate_news_file("maimaidx_intl_news", constants.MAIMAIDX_INTL_NEWS_SITE)
     attempt_broadcast_notifications(news, "New information for maimai DX (International ver.)", "maimaidx_intl")
     return news
 
 def generate_chunithm_intl_news_file():
-    news = generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE, constants.CHUNITHM_VERSION.VERSE)
+    news = generate_news_file("chunithm_intl_news", constants.CHUNITHM_INTL_NEWS_SITE)
     attempt_broadcast_notifications(news, "New information for CHUNITHM (International ver.)", "chunithm_intl")
     return news
 

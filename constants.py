@@ -21,9 +21,11 @@ DANCE_AROUND_APP_ID="kmhqpindcodm0mkh"
 DANCE_RUSH_APP_ID="ns3maqirvf08ddhp"
 
 CHUNITHM_JP_NEWS_SITE="https://info-chunithm.sega.jp/"
-CHUNITHM_INTL_NEWS_SITE="https://info-chunithm.sega.com/"
+CHUNITHM_INTL_NEWS_SITE="https://info-chunithm.sega.com/wp-json/thistheme/v1/articlesRest"
+CHUNITHM_INTL_RECENT_NEWS_LIMIT = 15 # gets the last 15 news posts
 MAIMAIDX_JP_NEWS_SITE="https://info-maimai.sega.jp/"
 MAIMAIDX_INTL_NEWS_SITE="https://maimai.sega.com/assets/data/index.json"
+MAIMAIDX_INTL_RECENT_NEWS_LIMIT = 15 # gets the last 15 news posts
 ONGEKI_JP_NEWS_SITE="https://info-ongeki.sega.jp/"
 IDAC_NEWS_SITE="https://info-initialdac.sega.jp/"
 
