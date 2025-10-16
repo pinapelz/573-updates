@@ -132,8 +132,6 @@ def get_news(news_url: str, version=None) -> list:
     elif news_url == constants.CHUNITHM_INTL_NEWS_SITE:
         site_data = download_site_as_html(news_url)
         news_posts = sorted(chuni_intl.parse_chuni_intl_api_route(site_data, "CHUNITHM_INTL", constants.CHUNITHM_INTL_RECENT_NEWS_LIMIT), key=lambda x: x['timestamp'], reverse=True)
-        print(news_posts)
-        exit()
         if constants.CHUNI_RECURSIVE_IMAGE:
             for i in range(len(news_posts)):
                 if not news_posts[i]["url"]:
