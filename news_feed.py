@@ -118,7 +118,7 @@ def get_news(news_url: str, version=None) -> list:
 
     elif news_url == constants.CHUNITHM_JP_NEWS_SITE:
         site_data = download_site_as_html(news_url)
-        if version == [ constants.CHUNITHM_VERSION.VERSE, constants.CHUNITHM_VERSION.X_VERSE ]:
+        if version in [ constants.CHUNITHM_VERSION.VERSE, constants.CHUNITHM_VERSION.X_VERSE ]:
             news_posts = sorted(chunithm_jp.parse_chuni_jp_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
             news_posts = translate.add_translate_text_to_en(news_posts)
             if constants.CHUNI_RECURSIVE_IMAGE:
