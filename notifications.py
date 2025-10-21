@@ -61,11 +61,10 @@ def broadcast_to_topic(topic: str, title: str, body: str, image):
                 if not error.success:
                     failed_token = tokens[idx]
                     print(f"Error for token {failed_token}: {error.exception}")
-                    url = f"{upstash_rest_api_url}/srem/fcm-{topic}"
+                    url = f"{upstash_rest_api_url}/srem/fcm-{topic}/{failed_token}"
                     resp = requests.post(
                         url,
-                        headers={"Authorization": f"Bearer {upstash_token}"},
-                        json={"value": failed_token}
+                        headers={"Authorization": f"Bearer {upstash_token}"}
                     )
                     if resp.status_code != 200:
                         print(f"Failed to remove token {failed_token} from topic '{topic}': {resp.text}")
