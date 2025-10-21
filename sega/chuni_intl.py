@@ -105,7 +105,7 @@ def parse_chuni_intl_api_route(raw_api_data: str, identifier: str, limit: int):
         timestamp = int(dt.timestamp())
         full_image_url = post_data["thumbnail"]
         content = post_data["desc"]
-        headline = post_data["title"]
+        # headline = post_data["title"] kinda useless cause its always just the same as content
         url = post_data["permalink"]
         images = [{
             "image": full_image_url,
@@ -116,7 +116,7 @@ def parse_chuni_intl_api_route(raw_api_data: str, identifier: str, limit: int):
             "identifier": identifier,
             "type": None,
             "timestamp": timestamp,
-            "headline": headline,
+            "headline": None,
             "content": content,
             "url": url,
             "images": images,
