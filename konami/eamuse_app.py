@@ -67,7 +67,7 @@ def parse_news_api_route(raw_api_data: str, identifier: str, eam_news_site: str=
         content = post_data["content"]
         url = eam_news_site + "?post_id="+post_data["post_id"]
         images = []
-        if "image_url" in post_data:
+        if "image_url" in post_data and post_data["image_url"] != "":
             images = [{
                 "image": post_data["image_url"],
                 "link": url
