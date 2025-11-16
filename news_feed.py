@@ -163,7 +163,10 @@ def get_news(news_url: str, version=None) -> list:
         news_posts = sorted(idac.parse_idac_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         for news in news_posts:
             promo_image_url = idac.get_promo_image(download_site_as_html(news["url"]))
-            news["images"] = [{'image': promo_image_url, 'link': None}]
+            if promo_image_url.endswith("png") or promo_image_url.endswith("jpg"):
+                news["images"] = [{'image': promo_image_url, 'link': None}]
+            else:
+                news["images"] = []
         news_posts = translate.add_translate_text_to_en(news_posts)
 
     elif news_url == constants.MUSIC_DIVER_NEWS:
