@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from database import Database
+from common import create_database_connection
 import openai
 import json
 import hashlib
@@ -26,7 +26,7 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str, me
     # Limit message content to 500 characters
     if len(message_content) > MAX_CHAR_CONTENT_CONSIDERATION_LENGTH:
         message_content = message_content[:MAX_CHAR_CONTENT_CONSIDERATION_LENGTH]
-    database = Database()
+    database = create_database_connection()
     cache_key = _make_cache_key(game, img_urls)
     cache_entry = database.get_summary(cache_key)
     if cache_entry:

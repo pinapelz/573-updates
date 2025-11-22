@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from database import Database
+from common import create_database_connection
 import requests
 import constants
 import re
@@ -41,7 +41,7 @@ def request_google_translate(text: str, source: str="ja", target="en") -> tuple:
     Translates input text and returns the translated text using Google Cloud Translation API.
     """
     key = hashlib.sha256((source + target + text).encode('utf-8')).hexdigest()
-    database = Database()
+    database = create_database_connection()
     tl_result = database.get_translation(key)
     if tl_result:
         return tl_result

@@ -1,6 +1,6 @@
 from datetime import datetime
 from dotenv import load_dotenv
-from database import Database
+from common import create_database_connection
 import os
 import time
 import requests
@@ -78,7 +78,7 @@ def _convert_image_to_base64(img_url: str):
 
 def parse_announcement_messages(message_json: dict):
     news_posts = []
-    database = Database()
+    database = create_database_connection()
     for message in message_json:
         type = None
         message_content = message.get("content", "")

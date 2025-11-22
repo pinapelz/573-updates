@@ -10,7 +10,7 @@ import hashlib
 import os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
-from database import Database
+from common import create_database_connection
 from feed import build_rss_from_news_feed
 from notifications import check_can_send_notifs, broadcast_to_topic
 
@@ -27,10 +27,9 @@ def compute_json_hash(data):
         json.dumps(data, sort_keys=True).encode("utf-8")
     ).hexdigest()
 
-
 def save_news_to_db(news_feed: list):
     log_output("Writing news to local save database. This is purely for archival reasons")
-    database = Database()
+    database = create_database_connection()
     for entry in news_feed:
         key = compute_json_hash(entry)
         database.add_news_entry(key, entry)
@@ -68,7 +67,7 @@ def attempt_broadcast_notifications(news_data: list, title: str, topic: str, ima
         if not check_can_send_notifs:
             print("[WARNING] Skipping notifications as env vars are not properly configured. See template")
         else:
-            database = Database()
+            database = create_database_connection()
             cutoff = datetime.now() - timedelta(days=limit)
             for entry in news_data:
                 if datetime.fromtimestamp(entry["timestamp"]) < cutoff:

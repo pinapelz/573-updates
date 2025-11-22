@@ -1,18 +1,37 @@
-import json
-import os
-import sqlite3
+from database.base_database import BaseDatabase
+import libsql
 
 
-class Database:
-    def __init__(self):
-        self._conn = sqlite3.connect("news.db")
-        self._cursor = self._conn.cursor()
+class RemoteDatabase(BaseDatabase):
+    def __init__(self, url: str = None, auth_token: str = None, local_replica: str = None):
+        """
+        Initialize connection to Remote database using libsql (designed for Turso)
+        """
+        self._url = url
+        self._auth_token = auth_token
+        self._local_replica = local_replica or "new_db.db"
+
+        if not self._url:
+            raise ValueError("Database URL must be provided either as parameter or TURSO_DATABASE_URL environment variable")
+
+        if not self._auth_token:
+            raise ValueError("Auth token must be provided either as parameter or TURSO_AUTH_TOKEN environment variable")
+
+        self._conn = libsql.connect(
+            self._local_replica,
+            sync_url=self._url,
+            auth_token=self._auth_token
+        )
+
+        # Initial sync to get latest data
+        self._conn.sync()
         self._initialize_db()
-        self._migrate_old_data()
 
     def _initialize_db(self):
+        """Initialize database schema"""
         with open("schema.sql") as f:
-            self._cursor.executescript(f.read())
+            # Execute schema creation
+            self._conn.executescript(f.read())
             self._conn.commit()
 
     def close(self):
@@ -20,54 +39,10 @@ class Database:
         if self._conn:
             self._conn.close()
 
-    def _migrate_old_data(self):
-        """
-        Migrates old summarization, tl and wac files into DB
-        """
-        if os.path.exists("summarization_cache.json"):
-            print("[Database] Migrating old summarization_cache to DB")
-            with open("summarization_cache.json", "r") as file:
-                summ_cache = json.load(file)
-                for key, val in summ_cache.items():
-                    self.add_new_summary(key, val["headline"], val["content"])
-            os.rename("summarization_cache.json", "summarization_cache.json.bak")
-
-        if os.path.exists("tl_cache.json"):
-            print("[Database] Migrating old translation cache (tl_cache.json) to DB")
-            with open("tl_cache.json", "r") as file:
-                tl_cache = json.load(file)
-                import hashlib
-
-                for entry in tl_cache:
-                    key = hashlib.sha256(
-                        (
-                            entry["source_lang"]
-                            + entry["target_lang"]
-                            + entry["source_txt"]
-                        ).encode("utf-8")
-                    ).hexdigest()
-                    self.add_new_translation(
-                        key,
-                        entry["source_lang"],
-                        entry["target_lang"],
-                        entry["source_txt"],
-                        entry["result_txt"],
-                    )
-                os.rename("tl_cache.json", "tl_cache.json.bak")
-
-        if os.path.exists("wac_result_cache.json"):
-            print("[Database] Migrating old WAC Data cache to DB")
-            with open("wac_result_cache.json", "r") as file:
-                wac_cache = json.load(file)
-                import hashlib
-
-                for key, value in wac_cache.items():
-                    self.add_new_wac_entry(key, value[0], value[1])
-                os.rename("wac_result_cache.json", "wac_result_cache.json.bak")
-
     def add_new_wac_entry(self, key: str, is_news: bool, post_type: str):
+        """Add a new WAC entry to the database"""
         news_var = 0 if is_news is False else 1
-        self._cursor.execute(
+        self._conn.execute(
             "INSERT OR REPLACE INTO wacplus (id, isNews, type) VALUES (?, ?, ?)",
             (key, news_var, post_type),
         )
@@ -81,26 +56,30 @@ class Database:
         source_txt: str,
         result_txt: str,
     ):
-        self._cursor.execute(
+        """Add a new translation to the database"""
+        self._conn.execute(
             "INSERT OR REPLACE INTO translation (id, source_lang, target_lang, source, result) VALUES (?, ?, ?, ?, ?)",
             (key, source_lang, target_lang, source_txt, result_txt),
         )
         self._conn.commit()
 
     def add_new_summary(self, key: str, headline: str, content: str):
-        self._cursor.execute(
+        """Add a new summary to the database"""
+        self._conn.execute(
             "INSERT OR REPLACE INTO summarization (id, headline, content) VALUES (?, ?, ?)",
             (key, headline, content),
         )
         self._conn.commit()
 
     def add_news_entry(self, key: str, news_entry: dict):
+        """Add a new news entry to the database"""
         is_ai_summary = 1 if news_entry.get("is_ai_summary", False) else 0
         en_headline = news_entry.get("en_headline", None)
         en_content = news_entry.get("en_content", None)
         headline = news_entry.get("headline", None)
         url = news_entry.get("url", None)
-        self._cursor.execute(
+
+        self._conn.execute(
             "INSERT OR REPLACE INTO news (news_id, date, identifier, type, timestamp, headline, content, url, is_ai_summary, en_headline, en_content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 key,
@@ -116,36 +95,37 @@ class Database:
                 en_content,
             ),
         )
+
+        # Add associated images
         for image_entry in news_entry["images"]:
             if image_entry["image"].startswith("data:"):
                 continue
             link_url = image_entry.get("link", None)
-            self._cursor.execute(
+            self._conn.execute(
                 "INSERT OR REPLACE INTO news_images (news_id, image_url, link_url) VALUES (?, ?, ?)",
                 (key, image_entry["image"], link_url),
             )
         self._conn.commit()
 
-
     def get_summary(self, key: str):
-        self._cursor.execute(
+        """Get a summary by key"""
+        result = self._conn.execute(
             "SELECT headline, content FROM summarization WHERE id = ?", (key,)
-        )
-        result = self._cursor.fetchone()
+        ).fetchone()
         if result is None:
             return None
         return {"headline": result[0], "content": result[1]}
 
     def get_translation(self, key: str):
-        self._cursor.execute("SELECT result FROM translation WHERE id = ?", (key,))
-        result = self._cursor.fetchone()
+        """Get a translation by key"""
+        result = self._conn.execute("SELECT result FROM translation WHERE id = ?", (key,)).fetchone()
         if result is None:
             return None
         return result[0]
 
     def get_wac_entry(self, key: str):
-        self._cursor.execute("SELECT isNews, type FROM wacplus WHERE id = ?", (key,))
-        result = self._cursor.fetchone()
+        """Get a WAC entry by key"""
+        result = self._conn.execute("SELECT isNews, type FROM wacplus WHERE id = ?", (key,)).fetchone()
         if result is None:
             return None
         is_news = True if result[0] == 1 else False
@@ -158,6 +138,22 @@ class Database:
         :param key: The ID of the news entry to check.
         :return: True if the news entry exists, False otherwise.
         """
-        self._cursor.execute("SELECT 1 FROM news WHERE news_id = ?", (key,))
-        result = self._cursor.fetchone()
+        result = self._conn.execute("SELECT 1 FROM news WHERE news_id = ?", (key,)).fetchone()
         return result is not None
+
+    def sync(self):
+        """Sync local changes with the remote database (Turso specific)"""
+        self._conn.sync()
+
+    def get_stats(self):
+        """Get database statistics (useful for monitoring)"""
+        stats = {}
+
+        # Count records in each table
+        tables = ['news', 'news_images', 'summarization', 'translation', 'wacplus']
+        for table in tables:
+            result = self._conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()
+            count = result[0] if result else 0
+            stats[f"{table}_count"] = count
+
+        return stats

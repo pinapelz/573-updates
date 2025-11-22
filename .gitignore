@@ -180,3 +180,7 @@ summarization_cache.json
 wac_result_cache.json
 tl_cache.json
 key.json
+serviceAccount.json
+.db-info
+.db-wal
+.db-shm
