@@ -117,6 +117,8 @@ class Database:
             ),
         )
         for image_entry in news_entry["images"]:
+            if image_entry["image"].startswith("data:"):
+                continue
             link_url = image_entry.get("link", None)
             self._cursor.execute(
                 "INSERT OR REPLACE INTO news_images (news_id, image_url, link_url) VALUES (?, ?, ?)",
