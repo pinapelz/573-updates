@@ -255,7 +255,10 @@ export default async function GamePage({
             is_ai_summary: Boolean(row.is_ai_summary),
             en_headline: row.en_headline as string | null,
             en_content: row.en_content as string | null,
-            images,
+            images: images.map(img => ({
+              image: String(img.image),
+              link: img.link ? String(img.link) : null
+            })),
           };
         }
       }
