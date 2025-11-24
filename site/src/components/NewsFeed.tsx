@@ -18,6 +18,7 @@ export interface NewsData {
   en_headline: string | null;
   en_content: string | null;
   is_ai_summary: boolean | null;
+  archive_hash: string | null;
 }
 
 interface NewsFeedProps {
@@ -108,7 +109,8 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
               (hash, char) => (hash << 5) + hash + char.charCodeAt(0),
               5381,
             ) >>> 0;
-        const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
+        const legacyId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
+        const newsId = news.archive_hash || legacyId;
         const isEnglish = showEnglish[newsId];
         const hasTranslation = news.en_headline || news.en_content;
         const displayHeadline =
