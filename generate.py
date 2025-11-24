@@ -8,6 +8,7 @@ import constants
 import json
 import hashlib
 import os
+from functools import lru_cache
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from common import create_database_connection
@@ -22,16 +23,19 @@ GENERATE_RSS_FEEDS = True
 SEND_NOTIFICATIONS = True
 
 
+@lru_cache(maxsize=1000)
 def compute_json_hash(data):
-    return hashlib.sha256(
-        json.dumps(data, sort_keys=True).encode("utf-8")
-    ).hexdigest()
+    if isinstance(data, dict):
+        data_str = json.dumps(data, sort_keys=True)
+    else:
+        data_str = str(data)
+    return hashlib.sha256(data_str.encode("utf-8")).hexdigest()
 
 def save_news_to_db(news_feed: list):
     log_output("Writing news to local save database. This is purely for archival reasons")
     database = create_database_connection()
     for entry in news_feed:
-        key = entry.get('archive_hash') or compute_json_hash(entry)
+        key = entry.get('archive_hash') or compute_json_hash(json.dumps(entry, sort_keys=True))
         database.add_news_entry(key, entry)
     database.close()
 
@@ -72,7 +76,7 @@ def attempt_broadcast_notifications(news_data: list, title: str, topic: str, ima
             for entry in news_data:
                 if datetime.fromtimestamp(entry["timestamp"]) < cutoff:
                     continue
-                news_id = compute_json_hash(entry)
+                news_id = compute_json_hash(json.dumps(entry, sort_keys=True))
                 if database.check_news_id_exists(news_id):
                     continue
                 else:
@@ -109,7 +113,7 @@ def generate_news_file(filename, url, version=None, formatted_name: str = None):
         news_data = feed.get_news(url, version) if version else feed.get_news(url)
         log_output("Computing and Attaching Archived IDs")
         for item in news_data:
-            hash_value = compute_json_hash(item)
+            hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
             item['archive_hash'] = hash_value
     except Exception as e:
         print(e)
@@ -277,7 +281,6 @@ if __name__ == "__main__":
         log_output(f"{OUTPUT_DIR} was not found. Creating this directory...")
         os.makedirs(OUTPUT_DIR)
     sdvx_news_data = generate_sdvx_news_file()
-    exit()
     polaris_news_data = generate_polaris_chord_news_file()
     iidx_news_data = generate_iidx_news_file(eamuse_feed=True)
     ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
@@ -328,6 +331,11 @@ if __name__ == "__main__":
         wmmt_news
     )
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
+    log_output("Computing and Attaching Archived IDs for merged feed")
+    for item in news:
+        if 'archive_hash' not in item:
+            hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
+            item['archive_hash'] = hash_value
     if ARCHIVE_NEWS:
         save_news_to_db(news)
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
