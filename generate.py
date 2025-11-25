@@ -76,7 +76,11 @@ def attempt_broadcast_notifications(news_data: list, title: str, topic: str, ima
             for entry in news_data:
                 if datetime.fromtimestamp(entry["timestamp"]) < cutoff:
                     continue
-                news_id = compute_json_hash(json.dumps(entry, sort_keys=True))
+                cleaned_entry = entry
+                if "archive_hash" in cleaned_entry:
+                    cleaned_entry = entry.copy()
+                    del cleaned_entry["archive_hash"]
+                news_id = compute_json_hash(json.dumps(cleaned_entry, sort_keys=True))
                 if database.check_news_id_exists(news_id):
                     continue
                 else:
