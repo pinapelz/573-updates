@@ -1,12 +1,11 @@
 from datetime import datetime
 from dotenv import load_dotenv
 from common import create_database_connection
+from catboxpy.catbox import CatboxClient
 import os
 import time
-import requests
 import openai
 import json
-import base64
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
@@ -66,15 +65,12 @@ def check_is_announcement_image(img_url: str):
     return parsed_result["is_wacca_plus_related"], parsed_result["category"]
 
 
-def _convert_image_to_base64(img_url: str):
-    response = requests.get(img_url)
-    if response.status_code == 200:
-        img_data = response.content
-        img_base64 = base64.b64encode(img_data).decode('utf-8')
-        mime_type = response.headers['Content-Type']
-        return f"data:{mime_type};base64,{img_base64}"
-    else:
-        raise Exception(f"Failed to fetch image from URL: {img_url}, status code: {response.status_code}")
+def _upload_image_to_catbox(image_url: str):
+    client = CatboxClient()
+    file_url = client.upload(image_url)
+    if not file_url or file_url == "":
+        return image_url
+    return file_url
 
 def parse_announcement_messages(message_json: dict):
     news_posts = []
@@ -106,7 +102,7 @@ def parse_announcement_messages(message_json: dict):
 
             if not is_related:
                 continue
-            filtered_images.append({"image": _convert_image_to_base64(image["url"]), "url": None})
+            filtered_images.append({"image": _upload_image_to_catbox(image["url"]), "url": None})
 
         if len(filtered_images) == 0:
             continue
