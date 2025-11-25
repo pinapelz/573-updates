@@ -56,6 +56,20 @@ def create_merged_feed(*news_lists, limit=constants.DAYS_LIMIT):
     return sorted(recent_items, key=lambda x: x["timestamp"], reverse=True)
 
 
+def create_all_merged_feed(*news_lists):
+    """
+    Generator-based memory-efficient merging of multiple news feeds.
+    Includes ALL news items regardless of age.
+    """
+    all_items = (
+        item
+        for news_list in news_lists
+        if news_list
+        for item in news_list
+    )
+    return sorted(all_items, key=lambda x: x["timestamp"], reverse=True)
+
+
 def attach_news_meta_data(news_data: list):
     """
     Attaches additional metadata to news data files
@@ -306,7 +320,8 @@ if __name__ == "__main__":
 
 
 
-    news = create_merged_feed(
+    # First, create a merged feed with ALL posts (no date limit) for archival
+    all_news_data_lists = [
         iidx_news_data,
         sdvx_news_data,
         ddr_news_data,
@@ -329,15 +344,27 @@ if __name__ == "__main__":
         dance_rush_news_data,
         dance_around_news_data,
         wmmt_news
-    )
+    ]
+
+    if ARCHIVE_NEWS:
+        log_output("Archiving ALL news posts to database (no date limit)")
+        all_news = list(create_all_merged_feed(*all_news_data_lists))
+        log_output("Computing and Attaching Archived IDs for all posts")
+        for item in all_news:
+            if 'archive_hash' not in item:
+                hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
+                item['archive_hash'] = hash_value
+        save_news_to_db(all_news)
+
+    # Now create the limited feed for the output file
     log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
+    recent_news = list(create_merged_feed(*all_news_data_lists))
     log_output("Computing and Attaching Archived IDs for merged feed")
-    for item in news:
+    for item in recent_news:
         if 'archive_hash' not in item:
             hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
             item['archive_hash'] = hash_value
-    if ARCHIVE_NEWS:
-        save_news_to_db(news)
+
     with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
-        json.dump(attach_news_meta_data(news), json_file)
+        json.dump(attach_news_meta_data(recent_news), json_file)
     log_output("JOB DONE", "TASK")
