@@ -91,7 +91,7 @@ export async function generateMetadata({
         const images = imagesResult.rows.map((img) => ({
           image: img.image_url,
           link: img.link_url,
-        }));
+      }));
         const dbPost = {
           news_id: row.news_id,
           date: row.date,
@@ -356,92 +356,36 @@ function NewsPostPage({
     : null;
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        color: "white",
-        fontFamily: "system-ui, -apple-system, sans-serif",
-      }}
-    >
-      <div style={{
-        width: '100%',
-        maxWidth: '600px',
-        margin: '0 auto',
-        padding: '10px',
-        paddingTop: '20px',
-        paddingBottom: '20px',
-        boxSizing: 'border-box'
-      }}>
-        <div style={{
-          backgroundColor: '#1e293b',
-          border: '1px solid #334155',
-          borderRadius: '8px',
-          boxShadow: '0 10px 20px -5px rgba(0, 0, 0, 0.3)',
-          overflow: 'hidden',
-          width: '100%',
-          boxSizing: 'border-box'
-        }}>
+    <main className="min-h-screen text-white font-sans bg-black">
+      <div className="w-full max-w-xl mx-auto px-3 sm:px-4 py-5 box-border">
+        <div className="w-full bg-slate-800 border border-slate-700 rounded-lg shadow-xl shadow-black/30 overflow-hidden box-border">
           {/* Post Header */}
-          <div style={{
-            padding: '12px',
-            borderBottom: '1px solid #475569'
-          }}>
-            <div style={{
-              fontSize: '13px',
-              opacity: 0.8,
-              marginBottom: '6px',
-              color: '#94a3b8'
-            }}>
+          <div className="p-3 border-b border-slate-600">
+            <div className="text-[13px] text-slate-400/80 mb-1.5">
               {date}
             </div>
             {newsPost.type && (
-              <div style={{
-                fontSize: '12px',
-                fontStyle: 'italic',
-                opacity: 0.8,
-                color: '#64748b',
-                backgroundColor: '#334155',
-                padding: '3px 6px',
-                borderRadius: '3px',
-                display: 'inline-block'
-              }}>
+              <div className="inline-block text-[12px] italic text-slate-400 bg-slate-700 px-1.5 py-0.5 rounded">
                 {newsPost.type}
               </div>
             )}
           </div>
 
           {/* Content */}
-          <div style={{
-            padding: '12px',
-            minHeight: '120px'
-          }}>
+          <div className="p-3 min-h-[120px]">
             {displayHeadline && (
-              <h2 style={{
-                fontWeight: '700',
-                fontSize: '16px',
-                marginBottom: '12px',
-                margin: '0 0 12px 0',
-                lineHeight: '1.3',
-                color: '#f1f5f9',
-                wordWrap: 'break-word',
-                overflowWrap: 'break-word'
-              }}>
+              <h2 className="font-bold text-base sm:text-lg mb-3 leading-snug text-slate-50 break-words">
                 {displayHeadline}
               </h2>
             )}
-            <div style={{
-              fontSize: '13px',
-              whiteSpace: 'pre-line',
-              marginBottom: '12px',
-              margin: '0 0 12px 0',
-              lineHeight: '1.5',
-              color: '#e2e8f0'
-            }}>
+
+            <div className="text-[13px] sm:text-sm whitespace-pre-line mb-3 leading-relaxed text-slate-200">
               {displayContent
                 .split(/(\[.*?\]\(.*?\)|https?:\/\/[^\s]+)/g)
                 .map((part, idx) => {
                   const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
                   const urlMatch = part.match(/https?:\/\/[^\s]+/);
+
                   if (linkMatch) {
                     return (
                       <Link
@@ -449,17 +393,13 @@ function NewsPostPage({
                         href={linkMatch[2]}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{
-                          color: "#60a5fa",
-                          textDecoration: "underline",
-                          textDecorationColor: "#3b82f6",
-                          fontWeight: "500",
-                        }}
+                        className="text-sky-400 underline decoration-blue-500 underline-offset-2 font-medium"
                       >
                         {linkMatch[1]}
                       </Link>
                     );
                   }
+
                   if (urlMatch) {
                     return (
                       <Link
@@ -467,94 +407,55 @@ function NewsPostPage({
                         href={urlMatch[0]}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{
-                          color: "#60a5fa",
-                          textDecoration: "underline",
-                          textDecorationColor: "#3b82f6",
-                          fontWeight: "500",
-                        }}
+                        className="text-sky-400 underline decoration-blue-500 underline-offset-2 font-medium"
                       >
                         {urlMatch[0]}
                       </Link>
                     );
                   }
-                  return part;
+
+                  return (
+                    <span key={idx}>
+                      {part}
+                    </span>
+                  );
                 })}
             </div>
           </div>
 
           {/* AI Disclaimer */}
           {newsPost.is_ai_summary && (
-            <div
-              style={{
-                backgroundColor: "#475569",
-                padding: "10px 16px",
-                fontSize: "12px",
-                textAlign: "center",
-                color: "#cbd5e1",
-              }}
-            >
+            <div className="bg-slate-600 px-4 py-2.5 text-[12px] text-center text-slate-300">
               This content was generated using AI and may contain inaccuracies
             </div>
           )}
 
           {/* Machine Translation Disclaimer */}
           {(newsPost.en_headline || newsPost.en_content) && lang === "en" && (
-            <div
-              style={{
-                backgroundColor: "#475569",
-                padding: "10px 16px",
-                fontSize: "12px",
-                textAlign: "center",
-                color: "#cbd5e1",
-              }}
-            >
+            <div className="bg-slate-600 px-4 py-2.5 text-[12px] text-center text-slate-300">
               This is a machine translation and may contain errors
             </div>
           )}
 
           {/* Images */}
           {newsPost.images && newsPost.images.length > 0 && (
-            <div
-              style={{
-                width: "100%",
-                overflow: "hidden",
-              }}
-            >
+            <div className="w-full overflow-hidden">
               <img
                 src={newsPost.images[0].image}
                 alt="News visual"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "400px",
-                  objectFit: "contain",
-                  display: "block",
-                }}
+                className="w-full h-auto max-h-[400px] object-contain block"
               />
             </div>
           )}
 
           {/* Read More Link */}
           {newsPost.url && (
-            <div
-              style={{
-                backgroundColor: "#475569",
-                padding: "12px 16px",
-                textAlign: "center",
-              }}
-            >
+            <div className="bg-slate-600 px-4 py-3 text-center">
               <Link
                 href={newsPost.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  fontSize: "15px",
-                  textDecoration: "underline",
-                  textDecorationColor: "#60a5fa",
-                  fontWeight: "600",
-                  color: "#60a5fa",
-                }}
+                className="text-[15px] font-semibold text-sky-400 underline decoration-sky-400 underline-offset-2"
               >
                 READ MORE
               </Link>
@@ -563,29 +464,11 @@ function NewsPostPage({
         </div>
 
         {/* About 573 UPDATES */}
-        <div style={{
-          textAlign: 'center',
-          marginTop: '24px',
-          marginBottom: '16px',
-          padding: '12px',
-          backgroundColor: '#334155',
-          borderRadius: '6px',
-          border: '1px solid #475569'
-        }}>
-          <h3 style={{
-            fontSize: '15px',
-            fontWeight: '600',
-            margin: '0 0 6px 0',
-            color: '#f1f5f9'
-          }}>
+        <div className="mt-6 mb-4 p-3 text-center bg-slate-700 rounded-md border border-slate-600">
+          <h3 className="text-[15px] font-semibold mb-1.5 text-slate-50">
             This is a perma-link hosted on 573 UPDATES
           </h3>
-          <p style={{
-            fontSize: '12px',
-            color: '#cbd5e1',
-            margin: 0,
-            lineHeight: '1.4'
-          }}>
+          <p className="text-[12px] text-slate-300 leading-tight">
             A news aggregator for some arcade (and some not-so arcade) games.
             Image data is loaded from external sources, and as such may not
             always be available.
@@ -593,32 +476,10 @@ function NewsPostPage({
         </div>
 
         {/* Navigation Buttons */}
-        <div style={{
-          textAlign: 'center',
-          marginTop: '12px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          alignItems: 'center'
-        }}>
+        <div className="mt-3 flex flex-col items-center gap-2.5 text-center">
           <Link
             href="/"
-            style={{
-              display: 'block',
-              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-              color: 'white',
-              padding: '14px 20px',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              fontSize: '14px',
-              fontWeight: '600',
-              boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
-              border: 'none',
-              transition: 'all 0.2s ease',
-              width: '100%',
-              maxWidth: '280px',
-              textAlign: 'center'
-            }}
+            className="block w-full max-w-xs bg-gradient-to-br from-blue-500 to-blue-700 text-white px-5 py-3.5 rounded-md text-sm font-semibold shadow-md shadow-blue-500/30 no-underline border-0 transition-all duration-200 text-center hover:brightness-110 active:translate-y-px"
           >
             Back to 573 UPDATES
           </Link>
