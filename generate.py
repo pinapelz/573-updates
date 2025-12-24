@@ -165,7 +165,7 @@ def generate_iidx_news_file(eamuse_feed: bool=False):
     return news
 
 def generate_sdvx_news_file():
-    news = generate_news_file("sdvx_news", constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
+    news = generate_news_file("sdvx_news", constants.SOUND_VOLTEX_NABLA_NEWS_SITE)
     attempt_broadcast_notifications(news, "New Information for SOUND VOLTEX","sdvx")
     return news
 

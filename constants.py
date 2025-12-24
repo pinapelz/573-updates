@@ -3,6 +3,7 @@ from enum import Enum
 DAYS_LIMIT=14
 
 SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE ="https://p.eagate.573.jp/game/sdvx/vi/news/index.html"
+SOUND_VOLTEX_NABLA_NEWS_SITE="https://p.eagate.573.jp/game/sdvx/vii/news/index.html"
 IIDX_PINKY_CRUSH_NEWS_SITE="https://p.eagate.573.jp/game/2dx/32/info/index.html"  # legacy should not be used,  eamuse feed is more verbose
 DDR_WORLD_NEWS_SITE="https://p.eagate.573.jp/game/ddr/ddrworld/info/index.html"
 POLARIS_CHORD_NEWS_SITE="https://p.eagate.573.jp/game/polarischord/pc/news/news.html"
