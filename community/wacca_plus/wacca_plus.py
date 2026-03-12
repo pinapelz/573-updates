@@ -6,8 +6,6 @@ import os
 import time
 import openai
 import json
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from summarizer import generate_headline_and_content_from_images
 

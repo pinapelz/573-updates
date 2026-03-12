@@ -156,11 +156,8 @@ def generate_news_file(filename, url, version=None, formatted_name: str = None):
 
 # For e-amusement games you can choose to pull from a specific implementation of the scraper or the generic feed provided
 # by the e-amusement app. Information is different
-def generate_iidx_news_file(eamuse_feed: bool=False):
-    if eamuse_feed:
-        news = generate_news_file("iidx_news", constants.EAMUSE_APP_API_ROUTE, constants.IIDX_EAMUSE_APP_ID)
-    else: # legacy should not be used,  use eamuse app feed above
-        news = generate_news_file("iidx_news", constants.IIDX_PINKY_CRUSH_NEWS_SITE)
+def generate_iidx_news_file():
+    news = generate_news_file("iidx_news", constants.EAMUSE_APP_API_ROUTE, constants.IIDX_EAMUSE_APP_ID)
     attempt_broadcast_notifications(news, "New information for beatmania IIDX", "iidx")
     return news
 
@@ -169,11 +166,8 @@ def generate_sdvx_news_file():
     attempt_broadcast_notifications(news, "New Information for SOUND VOLTEX","sdvx")
     return news
 
-def generate_ddr_news_file(eamuse_feed: bool=False):
-    if eamuse_feed:
-        news = generate_news_file("ddr_news", constants.EAMUSE_APP_FEED, constants.DDR_EAMUSE_APP_ID)
-    else:
-        news = generate_news_file("ddr_news", constants.DDR_WORLD_NEWS_SITE)
+def generate_ddr_news_file():
+    news = generate_news_file("ddr_news", constants.EAMUSE_APP_FEED, constants.DDR_EAMUSE_APP_ID)
     attempt_broadcast_notifications(news, "New information for DanceDanceRevolution", "ddr")
     return news
 
@@ -213,12 +207,12 @@ def generate_gitadora_news_file():
     return news
 
 def generate_chunithm_jp_news_file():
-    news = generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.X_VERSE)
+    news = generate_news_file("chunithm_jp_news", constants.CHUNITHM_JP_NEWS_SITE, constants.CHUNITHM_VERSION.X_VERSE_X)
     attempt_broadcast_notifications(news, "New information for CHUNITHM (Japan ver.)", "chunithm_jp")
     return news
 
 def generate_maimaidx_jp_news_file():
-    news = generate_news_file("maimaidx_jp_news", constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.CIRCLE)
+    news = generate_news_file("maimaidx_jp_news", constants.MAIMAIDX_JP_NEWS_SITE, constants.MAIMAIDX_VERSION.CIRCLE_PLUS)
     attempt_broadcast_notifications(news, "New information for maimai DX (Japan ver.)", "maimaidx_jp")
     return news
 
@@ -286,8 +280,8 @@ if __name__ == "__main__":
         os.makedirs(OUTPUT_DIR)
     sdvx_news_data = generate_sdvx_news_file()
     polaris_news_data = generate_polaris_chord_news_file()
-    iidx_news_data = generate_iidx_news_file(eamuse_feed=True)
-    ddr_news_data = generate_ddr_news_file(eamuse_feed=True)
+    iidx_news_data = generate_iidx_news_file()
+    ddr_news_data = generate_ddr_news_file()
     dance_rush_news_data = generate_dance_rush_news_file()
     dance_around_news_data = generate_dance_around_news_file()
     gitadora_news_data = generate_gitadora_news_file()
@@ -334,14 +328,14 @@ if __name__ == "__main__":
         dance_around_news_data,
         wmmt_news
     )
-    log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
-    log_output("Computing and Attaching Archived IDs for merged feed")
-    for item in news:
-        if 'archive_hash' not in item:
-            hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
-            item['archive_hash'] = hash_value
-    if ARCHIVE_NEWS:
-        save_news_to_db(news)
-    with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
-        json.dump(attach_news_meta_data(news), json_file)
-    log_output("JOB DONE", "TASK")
+    # log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
+    # log_output("Computing and Attaching Archived IDs for merged feed")
+    # for item in news:
+    #     if 'archive_hash' not in item:
+    #         hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
+    #         item['archive_hash'] = hash_value
+    # if ARCHIVE_NEWS:
+    #     save_news_to_db(news)
+    # with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
+    #     json.dump(attach_news_meta_data(news), json_file)
+    # log_output("JOB DONE", "TASK")

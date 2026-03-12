@@ -52,6 +52,7 @@ def parse_music_diver_news_json(data_str: str):
             "headline": post["title"],
             "content": content,
             "url": None,
-            "images": images
+            "images": images,
+            "is_ai_summary": False
         })
     return news_posts

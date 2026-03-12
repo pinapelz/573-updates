@@ -1,8 +1,6 @@
 import os
 import requests
-from dotenv import load_dotenv
 
-load_dotenv()
 
 def fetch_messages(channel_id: str):
     url = f"https://discord.com/api/v9/channels/{channel_id}/messages?limit=50"

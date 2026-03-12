@@ -2,11 +2,8 @@ import re
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from urllib.parse import urljoin
-import sys
-import os
 import pytz
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
-import constants
+from .. import constants
 from bs4 import BeautifulSoup
 
 BASE_URL = "https://wanganmaxi-official.com"
