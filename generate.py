@@ -328,14 +328,14 @@ if __name__ == "__main__":
         dance_around_news_data,
         wmmt_news
     )
-    # log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
-    # log_output("Computing and Attaching Archived IDs for merged feed")
-    # for item in news:
-    #     if 'archive_hash' not in item:
-    #         hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
-    #         item['archive_hash'] = hash_value
-    # if ARCHIVE_NEWS:
-    #     save_news_to_db(news)
-    # with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
-    #     json.dump(attach_news_meta_data(news), json_file)
-    # log_output("JOB DONE", "TASK")
+    log_output("Creating merged news.json file for all news that are within " + str(constants.DAYS_LIMIT) + " days old")
+    log_output("Computing and Attaching Archived IDs for merged feed")
+    for item in news:
+        if 'archive_hash' not in item:
+            hash_value = compute_json_hash(json.dumps(item, sort_keys=True))
+            item['archive_hash'] = hash_value
+    if ARCHIVE_NEWS:
+        save_news_to_db(news)
+    with open(OUTPUT_DIR+'/news.json', 'w') as json_file:
+        json.dump(attach_news_meta_data(news), json_file)
+    log_output("JOB DONE", "TASK")
