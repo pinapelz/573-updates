@@ -78,14 +78,13 @@ class PolarisChordSource(NewsSource):
 class EamuseAppSource(NewsSource):
     def fetch(self, version=None) -> list[dict]:
         from konami.eamuse_app import parse_news_api_route
-        from bemani.iidx import KEY_TERMS_TL
         site_data = download_site_as_html(
             constants.EAMUSE_APP_API_ROUTE + "/?uuid_to=" + version + "&format=json"
         )
         match version:
             case constants.IIDX_EAMUSE_APP_ID:
                 news_posts = sorted(parse_news_api_route(site_data, "IIDX_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
-                return translate.add_translate_text_to_en(news_posts, KEY_TERMS_TL)
+                return translate.add_translate_text_to_en(news_posts)
             case constants.DDR_EAMUSE_APP_ID:
                 news_posts = sorted(parse_news_api_route(site_data, "DDR_EAMUSEMENT", constants.EAMUSE_POST_SITE), key=lambda x: x['timestamp'], reverse=True)
                 return translate.add_translate_text_to_en(news_posts)
