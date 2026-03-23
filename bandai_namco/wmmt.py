@@ -2,8 +2,7 @@ import re
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from urllib.parse import urljoin
-import pytz
-from .. import constants
+import constants
 from bs4 import BeautifulSoup
 
 BASE_URL = "https://wanganmaxi-official.com"
