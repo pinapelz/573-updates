@@ -51,9 +51,9 @@ def _attach_llm_summaries(news_posts: list, game_name: str):
 @registry.register(constants.SOUND_VOLTEX_NABLA_NEWS_SITE)
 class SoundVoltexSource(NewsSource):
     def fetch(self, version=None) -> list[dict]:
-        from bemani.sdvx import parse_exceed_gear_news_site
+        from bemani.sdvx import parse_nabla_news_site
         site_data = download_site_as_html(constants.SOUND_VOLTEX_NABLA_NEWS_SITE)
-        news_posts = sorted(parse_exceed_gear_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
+        news_posts = sorted(parse_nabla_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         return translate.add_translate_text_to_en(news_posts, overrides=[("ボルテ", "SDVX")])
 
 # Can't find a Polaris feed on EAM app so this is here instead
@@ -300,7 +300,7 @@ class WanganMaxiSource(NewsSource):
 @registry.register(constants.WACCA_PLUS_MAGIC_STRING)
 class WaccaPlusSource(NewsSource):
     def fetch(self, version=None) -> list[dict]:
-        from community.wacca_plus.wacca_plus import parse_announcement_messages, check_is_generation_possible
+        from community.wacca_plus import parse_announcement_messages, check_is_generation_possible
         from community.disc import fetch_messages
         if not check_is_generation_possible():
             return []
