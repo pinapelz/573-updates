@@ -2,7 +2,7 @@ from enum import Enum
 
 DAYS_LIMIT=14
 
-SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE ="https://p.eagate.573.jp/game/sdvx/vi/news/index.html"
+SOUND_VOLTEX_NABLA_NEWS_SITE="https://p.eagate.573.jp/game/sdvx/vii/news/index.html"
 POLARIS_CHORD_NEWS_SITE="https://p.eagate.573.jp/game/polarischord/pc/news/news.html"
 POLARIS_CHORD_RECENT_NEWS_LIMIT=15
 

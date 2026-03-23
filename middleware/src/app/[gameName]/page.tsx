@@ -355,6 +355,20 @@ function NewsPostPage({
       : `${mainNewsUrl}/game/${gameName}#${postId}`
     : null;
 
+  const createToggleUrl = () => {
+    const params = new URLSearchParams();
+    params.set('post', postId);
+
+    if (lang === 'en') {
+    } else {
+      params.set('lang', 'en');
+    }
+
+    const baseUrl = gameName === "news" ? "/news" : `/game/${gameName}`;
+    const queryString = params.toString();
+    return queryString ? `${baseUrl}?${queryString}` : baseUrl;
+  };
+
   return (
     <main className="min-h-screen text-white font-sans bg-black">
       <div className="w-full max-w-xl mx-auto px-3 sm:px-4 py-5 box-border">
@@ -477,11 +491,21 @@ function NewsPostPage({
 
         {/* Navigation Buttons */}
         <div className="mt-3 flex flex-col items-center gap-2.5 text-center">
+          {/* Language Toggle Button */}
+          {(newsPost.en_headline || newsPost.en_content) && (
+            <Link
+              href={createToggleUrl()}
+              className="block w-full max-w-xs bg-linear-to-br from-purple-500 to-purple-700 text-white px-5 py-3.5 rounded-md text-sm font-semibold shadow-md shadow-purple-500/30 no-underline border-0 transition-all duration-200 text-center hover:brightness-110 active:translate-y-px"
+            >
+              {lang === "en" ? "日本語で読む" : "Read in English"}
+            </Link>
+          )}
+
           <Link
             href="/"
-            className="block w-full max-w-xs bg-gradient-to-br from-blue-500 to-blue-700 text-white px-5 py-3.5 rounded-md text-sm font-semibold shadow-md shadow-blue-500/30 no-underline border-0 transition-all duration-200 text-center hover:brightness-110 active:translate-y-px"
+            className="block w-full max-w-xs bg-linear-to-br from-blue-500 to-blue-700 text-white px-5 py-3.5 rounded-md text-sm font-semibold shadow-md shadow-blue-500/30 no-underline border-0 transition-all duration-200 text-center hover:brightness-110 active:translate-y-px"
           >
-            Back to 573 UPDATES
+            {lang === "en" ? "Back to 573 UPDATES" : "573 UPDATESに戻る"}
           </Link>
         </div>
       </div>

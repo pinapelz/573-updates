@@ -48,11 +48,11 @@ def _attach_llm_summaries(news_posts: list, game_name: str):
 # BEMANI (Specific feeds because these provide better information)
 # ---------------------------------------------------------------------------
 
-@registry.register(constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
+@registry.register(constants.SOUND_VOLTEX_NABLA_NEWS_SITE)
 class SoundVoltexSource(NewsSource):
     def fetch(self, version=None) -> list[dict]:
         from bemani.sdvx import parse_exceed_gear_news_site
-        site_data = download_site_as_html(constants.SOUND_VOLTEX_EXCEED_GEAR_NEWS_SITE)
+        site_data = download_site_as_html(constants.SOUND_VOLTEX_NABLA_NEWS_SITE)
         news_posts = sorted(parse_exceed_gear_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         return translate.add_translate_text_to_en(news_posts, overrides=[("ボルテ", "SDVX")])
 

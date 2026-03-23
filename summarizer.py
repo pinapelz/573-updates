@@ -90,5 +90,5 @@ def generate_headline_and_content_from_images(img_urls: list[str], game: str, me
     except openai.OpenAIError as e:
         print(f"[ERROR] Function call to OpenAI for summarization failed ERROR -> {e} ")
         database.close()
-        return None, None
+        return f"NEW {game} INFORMATION / 新しい{game}情報", f"NEW {game} INFORMATION AVAILABLE / 新しい{game}情報が利用可能です"
     return headline, content
