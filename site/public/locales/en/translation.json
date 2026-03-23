@@ -39,7 +39,6 @@
       "nesica_maintenance": "NESiCA Maintenance",
       "aime_maintenance": "Aime Maintenance",
       "allnet_warning": "Private Server Warning",
-      "na_service_note": "Official e-amusement service in NA available only at Round1 USA",
       "private_network_note": "Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data",
       "japan_only_note": "This version of the game is only available in Japan",
       "international_note": "You may be on the International version if you are outside of Japan"
@@ -109,10 +108,10 @@
       "online_note": "Online only in Japan and Asia regions. No online service in the US (only old versions running offline-kit)"
     },
     "popn_music": {
-      "online_note": "Online only in Japan and Asia regions. Japan and Asia only. No online service in the US (only old versions running offline-kit)"
+      "online_note": "Online. Select songs may be unavailable in non-Japan region cabs"
     },
     "nostalgia": {
-      "online_note": "Online only in Japan and Asia regions. Japan and Asia only. No online service in the US"
+      "online_note": "Online only in Japan and Asia regions. No online service in the US"
     },
     "polaris_chord": {
       "online_note": "Official e-amusement service only in Japan."
