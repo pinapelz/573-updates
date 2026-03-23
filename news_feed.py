@@ -61,14 +61,13 @@ class SoundVoltexSource(NewsSource):
 class PolarisChordSource(NewsSource):
     def fetch(self, version=None) -> list[dict]:
         from bemani.polaris_chord import parse_polaris_chord_news_site
-        from bemani.iidx import KEY_TERMS_TL
         site_data = download_site_as_html(constants.POLARIS_CHORD_NEWS_SITE)
         news_posts = sorted(
             parse_polaris_chord_news_site(site_data, constants.POLARIS_CHORD_RECENT_NEWS_LIMIT),
             key=lambda x: x['timestamp'],
             reverse=True,
         )
-        return translate.add_translate_text_to_en(news_posts, KEY_TERMS_TL)
+        return translate.add_translate_text_to_en(news_posts, overrides=[])
 
 
 # ---------------------------------------------------------------------------
