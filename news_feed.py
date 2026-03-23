@@ -121,7 +121,7 @@ class ChunithmJPSource(NewsSource):
     def fetch(self, version=None) -> list[dict]:
         from sega.chuni_jp import parse_chuni_jp_news_site, parse_chuni_jp_post_images
         site_data = download_site_as_html(constants.CHUNITHM_JP_NEWS_SITE)
-        if version not in [constants.CHUNITHM_VERSION.VERSE, constants.CHUNITHM_VERSION.X_VERSE]:
+        if version != constants.CHUNITHM_VERSION.X_VERSE_X:
             return []
         news_posts = sorted(parse_chuni_jp_news_site(site_data), key=lambda x: x['timestamp'], reverse=True)
         news_posts = translate.add_translate_text_to_en(news_posts)
