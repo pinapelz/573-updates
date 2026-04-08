@@ -25,6 +25,29 @@ interface NewsFeedProps {
   newsItems: NewsData[];
 }
 
+type Sentinel = { _sentinel: "nothing-new" | "caught-up" };
+
+const VIEWED_KEY = "viewedNewsIds";
+
+const computeNewsId = (news: NewsData): string => {
+  const contentHash =
+    news.content
+      .split("")
+      .reduce(
+        (hash, char) => (hash << 5) + hash + char.charCodeAt(0),
+        5381,
+      ) >>> 0;
+  const headlineHash =
+    (news.headline || "null")
+      .split("")
+      .reduce(
+        (hash, char) => (hash << 5) + hash + char.charCodeAt(0),
+        5381,
+      ) >>> 0;
+  const legacyId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
+  return news.archive_hash || legacyId;
+};
+
 export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
   const { t } = useTranslation();
   const [showEnglish, setShowEnglish] = useState<Record<string, boolean>>({});
@@ -39,6 +62,40 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
   const isMoe = searchParams.has("moe");
   const pfpBaseUrl = import.meta.env.VITE_PFP_BASE_URL;
   const middlewareBase = import.meta.env.VITE_MIDDLEWARE_BASE_URL;
+
+  const [initialViewedIds] = useState<Set<string>>(() => {
+    try {
+      const raw = localStorage.getItem(VIEWED_KEY);
+      if (!raw) return new Set();
+      const parsed = JSON.parse(raw) as Array<{ id: string } | string>;
+      return new Set(parsed.map((e) => (typeof e === "string" ? e : e.id)));
+    } catch {
+      return new Set();
+    }
+  });
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(VIEWED_KEY);
+      const prev: { id: string; timestamp: number }[] = raw
+        ? (JSON.parse(raw) as Array<{ id: string; timestamp?: number } | string>).map(
+            (e) => (typeof e === "string" ? { id: e, timestamp: 0 } : { id: e.id, timestamp: e.timestamp ?? 0 }),
+          )
+        : [];
+      const map = new Map(prev.map((e) => [e.id, e.timestamp]));
+      for (const news of newsItems) {
+        const id = computeNewsId(news);
+        if (!map.has(id)) map.set(id, news.timestamp);
+      }
+      const next = [...map.entries()]
+        .map(([id, timestamp]) => ({ id, timestamp }))
+        .sort((a, b) => b.timestamp - a.timestamp)
+        .slice(0, 100);
+      localStorage.setItem(VIEWED_KEY, JSON.stringify(next));
+    } catch {
+      console.error("Failed to update viewed news items");
+    }
+  }, [newsItems]);
 
   const toggleLanguage = (id: string) =>
     setShowEnglish((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -56,22 +113,7 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
   useEffect(() => {
     const initialImageIndex: Record<string, number> = {};
     newsItems.forEach((news) => {
-      const contentHash =
-        news.content
-          .split("")
-          .reduce(
-            (hash, char) => (hash << 5) + hash + char.charCodeAt(0),
-            5381,
-          ) >>> 0;
-      const headlineHash =
-        (news.headline || "null")
-          .split("")
-          .reduce(
-            (hash, char) => (hash << 5) + hash + char.charCodeAt(0),
-            5381,
-          ) >>> 0;
-      const newsId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
-      initialImageIndex[newsId] = 0;
+      initialImageIndex[computeNewsId(news)] = 0;
     });
     setCurrentImageIndex(initialImageIndex);
   }, [newsItems]);
@@ -88,29 +130,42 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
     }
   }, [newsItems]);
 
+  const unviewed = newsItems
+    .filter((n) => !initialViewedIds.has(computeNewsId(n)))
+    .sort((a, b) => b.timestamp - a.timestamp);
+  const viewed = newsItems.filter((n) => initialViewedIds.has(computeNewsId(n)));
+  const nothingNew = unviewed.length === 0 && newsItems.length > 0;
+
+  const feed: (NewsData | Sentinel)[] = [];
+  if (nothingNew) feed.push({ _sentinel: "nothing-new" });
+  feed.push(...unviewed);
+  if (unviewed.length > 0 && viewed.length > 0) feed.push({ _sentinel: "caught-up" });
+  feed.push(...(nothingNew ? newsItems : viewed));
+
   return (
     <div className="max-w-[600px] w-full mx-auto py-8 space-y-4 font-[Zen_Maru_Gothic]">
-      {newsItems.map((news) => {
+      {feed.map((item) => {
+        if ("_sentinel" in item) {
+          return (
+            <div
+              key={item._sentinel}
+              className={`flex font-bold items-center gap-3 py-24 ${isMoe ? "text-pink-400" : "text-gray-100"}`}
+            >
+              <div className={`flex-1 h-px ${isMoe ? "bg-pink-300" : "bg-gray-700"}`} />
+              <span className="text-sm">
+                {item._sentinel === t("nothing_new") ? t("nothing_new") : t("caught_up")}
+              </span>
+              <div className={`flex-1 h-px ${isMoe ? "bg-pink-300" : "bg-gray-700"}`} />
+            </div>
+          );
+        }
+
+        const news = item;
         const date = new Date(news.timestamp * 1000).toLocaleDateString(
           "ja-JP",
           { year: "numeric", month: "2-digit", day: "2-digit" },
         );
-        const contentHash =
-          news.content
-            .split("")
-            .reduce(
-              (hash, char) => (hash << 5) + hash + char.charCodeAt(0),
-              5381,
-            ) >>> 0;
-        const headlineHash =
-          (news.headline || "null")
-            .split("")
-            .reduce(
-              (hash, char) => (hash << 5) + hash + char.charCodeAt(0),
-              5381,
-            ) >>> 0;
-        const legacyId = `${news.identifier}-${news.timestamp}-${contentHash.toString(16)}-${headlineHash.toString(16)}`;
-        const newsId = news.archive_hash || legacyId;
+        const newsId = computeNewsId(news);
         const isEnglish = showEnglish[newsId];
         const hasTranslation = news.en_headline || news.en_content;
         const displayHeadline =
