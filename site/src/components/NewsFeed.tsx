@@ -144,12 +144,13 @@ export const NewsFeed: React.FC<NewsFeedProps> = ({ newsItems }) => {
 
   return (
     <div className="max-w-[600px] w-full mx-auto py-8 space-y-4 font-[Zen_Maru_Gothic]">
-      {feed.map((item) => {
+      {feed.map((item, idx) => {
         if ("_sentinel" in item) {
+          const isFirstSentinel = idx === 0;
           return (
             <div
               key={item._sentinel}
-              className={`flex font-bold items-center gap-3 py-24 ${isMoe ? "text-pink-400" : "text-gray-100"}`}
+              className={`flex font-bold items-center gap-3 ${isFirstSentinel ? "py-2" : "py-24"} ${isMoe ? "text-pink-400" : "text-gray-100"}`}
             >
               <div className={`flex-1 h-px ${isMoe ? "bg-pink-300" : "bg-gray-700"}`} />
               <span className="text-sm">
