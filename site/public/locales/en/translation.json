@@ -37,11 +37,12 @@
   },
   "gamenotes": {
     "common": {
+      "na_service_note": "Official e-amusement service in limited locations",
       "eamuse_maintenance": "e-amusement Maintenance",
       "nesica_maintenance": "NESiCA Maintenance",
       "aime_maintenance": "Aime Maintenance",
       "allnet_warning": "Private Server Warning",
-      "private_network_note": "Online Cabinets in non-supported regions (CAN/EU/AUS) are on private networks which run older data",
+      "private_network_note": "Online Cabinets in non-supported stores are on private networks which run older data",
       "japan_only_note": "This version of the game is only available in Japan",
       "international_note": "You may be on the International version if you are outside of Japan"
     },
